@@ -1,10 +1,12 @@
 from flask import Flask, request, jsonify
-from qiskit import QuantumCircuit, Aer, execute
+from qiskit import QuantumCircuit, execute
+from qiskit.providers.aer import Aer  # 변경된 import
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
 app = Flask(__name__)
+
 
 @app.route("/simulate", methods=["POST"])
 def simulate():
@@ -19,6 +21,7 @@ def simulate():
         return jsonify({"result": result})
     except Exception as e:
         return jsonify({"error": str(e)}), 400
+
 
 if __name__ == "__main__":
     app.run(debug=True)
