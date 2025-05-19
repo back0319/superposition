@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SlideMenu from "../slide";
 
-function Qubit1() {
+function Qubit2() {
   const [menuOpen, setMenuOpen] = useState(true);
   const navigate = useNavigate();
 
@@ -48,11 +48,11 @@ function Qubit1() {
       >
         <h1>상태벡터</h1>
         <p style={{ fontSize: "1.5rem", maxWidth: 600, textAlign: "center" }}>
-          상태벡터에 대한 설명을 여기에 작성하세요.
+          상태벡터에 대한 설명을 여기에 작성하세요...
         </p>
       </div>
     </div>
   );
 }
 
-export default Qubit1;
+export default Qubit2;
