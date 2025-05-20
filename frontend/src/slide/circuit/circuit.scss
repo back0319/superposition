@@ -1,0 +1,178 @@
+.circuit-grid {
+  display: grid;
+  grid-template-columns: 200px 1fr 240px;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "ops   circ  code"
+    "ops   charts code";
+  width: 100vw;
+  height: 100vh;
+}
+
+/* 1. 왼쪽 세션 패널 */
+.sessions-panel {
+  grid-area: ops;
+  background: #f5f5f5;
+  padding: 1rem;
+}
+.btn-new-session {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.sessions-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.sessions-list li {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-bottom: 1px solid #ddd;
+}
+.session-name {
+  flex: 1;
+  font-weight: 500;
+}
+.session-time {
+  font-size: 0.75rem;
+  color: #666;
+  margin: 0 0.5rem;
+}
+.btn-remove {
+  background: none;
+  border: none;
+  color: #c62828;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* 2. 가운데 회로 캔버스 */
+.circuit-panel {
+  grid-area: circ;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  height: 50vh;
+}
+.canvas-toolbar {
+  display: flex;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid #ddd;
+  font-size: 0.9rem;
+}
+.ops-strip {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  overflow-x: auto;
+  border-bottom: 1px solid #ddd;
+}
+.op-icon {
+  min-width: 32px;
+  height: 32px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.add-btn {
+  margin-left: 1rem;
+  color: #1976d2;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* qubit lines + controls */
+.canvas-body {
+  display: flex;
+  flex: 1;
+}
+.qubit-lines {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 1rem;
+}
+.qubit-line {
+  position: relative;
+  height: 2rem;
+  border-bottom: 1px solid #eee;
+}
+
+.placed-gate {
+  position: absolute;
+  top: 50%;                   /* 선 중앙 */
+  transform: translate(-50%, -50%);
+  width: 32px;                /* GATE_SIZE 와 동일 */
+  height: 32px;
+  background: #fff;
+  border: 2px solid #333;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: grab;
+}
+
+.gate-label {
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* (옵션) 게이트별 색상 구분 */
+.gate-H   { background: #ffd54f; border-color: #ffb300; }
+.gate-X   { background: #ef9a9a; border-color: #c62828; }
+/* ...기타 게이트 스타일... */
+
+/* 3. 우측 QASM 코드 */
+.code-panel {
+  grid-area: code;
+  background: #f4f4f4;
+  border-left: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+}
+.code-header {
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+}
+.code-body {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+/* 4. 하단 차트 영역 */
+.charts-panel {
+  grid-area: charts;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  background: #fff;
+}
+.chart {
+  background: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 1rem;
+  font-weight: bold;
+  text-align: center;
+}

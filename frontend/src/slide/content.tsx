@@ -6,6 +6,7 @@ import axios from "axios";
 
 function Content() {
   const [showConceptButtons, setShowConceptButtons] = useState(false);
+  const [showCircuitButtons, setShowCircuitButtons] = useState(false);
   const navigate = useNavigate();
 
   // 큐비트 버튼 클릭 시 서버에 요청 후 이동
@@ -17,6 +18,15 @@ function Content() {
       alert("서버 요청에 실패했습니다.");
     }
   };
+  const handleCircuitClick = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/circuit");
+      navigate("/circuit");
+    } catch (error) {
+      alert("서버 요청에 실패했습니다.");
+    }
+  };
+  
 
   return (
     <div className="content-container">
@@ -27,14 +37,25 @@ function Content() {
       >
         <span>개념</span>
         {showConceptButtons && (
-          <div style={{ display: "flex", gap: "2rem"}}>
+          <div style={{ display: "flex", gap: "2rem" }}>
             <button className="btn btn-slide" onClick={handleQubitClick}>큐비트</button>
             <button className="btn btn-slide">얽힘</button>
             <button className="btn btn-slide">중첩</button>
           </div>
         )}
       </div>
-      <div className="content-section circuit"><span>회로</span></div>
+      <div
+        className="content-section circuit"
+        onMouseEnter={() => setShowCircuitButtons(true)}
+        onMouseLeave={() => setShowCircuitButtons(false)}
+      >
+        <span>회로</span>
+        {showCircuitButtons && (
+          <div style={{ display: "flex", gap: "2rem" }}>
+            <button className="btn btn-slide" onClick={handleCircuitClick}>기본 회로</button>
+          </div>
+        )}
+      </div>
       <div className="content-section practice"><span>실습</span></div>
     </div>
   );

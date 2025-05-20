@@ -27,5 +27,9 @@ def simulate():
 def qubit_info():
     return jsonify({"info": "큐비트에 대한 설명 등"})
 
+@app.route("/circuit")
+def get_circuit():
+    return jsonify({"info": "회로에 대한 설명 등"})
+
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)
