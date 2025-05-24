@@ -43,3 +43,12 @@
 [2025-05-20 23:26:17] Request: OPTIONS /simulate | Data: 
 [2025-05-20 23:26:17] Request: POST /simulate | Data: {"circuit":"\nOPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[1];\nh q[0];\n"}
 [2025-05-20 23:26:19] Request: GET /circuit | Data: 
+[2025-05-24 22:23:32] Request: OPTIONS /simulate | Data: 
+[2025-05-24 22:23:32] Request: POST /simulate | Data: {"circuit":"\nOPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[1];\nh q[0];\n"}
+[2025-05-24 22:23:34] Request: GET /circuit | Data: 
+[2025-05-25 04:05:04] Request: OPTIONS /convert-qasm | Data: 
+[2025-05-25 04:05:23] Request: OPTIONS /convert-qasm | Data: 
+[2025-05-25 04:05:24] Request: POST /convert-qasm | Data: {"placedGates":[{"qubit":0,"gate":"H","slot":0,"left":56}]}
+[2025-05-25 04:05:26] Request: POST /convert-qasm | Data: {"placedGates":[{"qubit":0,"gate":"H","slot":1,"left":96},{"qubit":0,"gate":"Y","slot":0,"left":56}]}
+[2025-05-25 04:05:28] Request: POST /convert-qasm | Data: {"placedGates":[{"qubit":0,"gate":"H","slot":1,"left":96},{"qubit":0,"gate":"Y","slot":0,"left":56},{"qubit":0,"gate":"X","slot":2,"left":136}]}
+[2025-05-25 04:05:28] Request: POST /convert-qasm | Data: {"placedGates":[{"qubit":0,"gate":"H","slot":1,"left":96},{"qubit":0,"gate":"Y","slot":0,"left":56},{"qubit":0,"gate":"X","slot":2,"left":136},{"qubit":0,"gate":"Z","slot":3,"left":176}]}

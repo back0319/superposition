@@ -31,5 +31,23 @@ def qubit_info():
 def get_circuit():
     return jsonify({"info": "회로에 대한 설명 등"})
 
+@app.route("/convert-qasm", methods=["POST"])
+def convert_qasm():
+    data = request.get_json()
+    placed = data.get("placedGates", [])
+    # header
+    lines = [
+        "OPENQASM 2.0;",
+        'include "qelib1.inc";',
+        "qreg q[3];",
+        "creg c[3];"
+    ]
+    # sort by slot then qubit
+    for pg in sorted(placed, key=lambda x: (x["slot"], x["qubit"])):
+        g = pg["gate"].lower()
+        if g == "cnot": g = "cx"
+        lines.append(f"{g} q[{pg['qubit']}];")
+    return jsonify(qasm="\n".join(lines))
+
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)
