@@ -1,0 +1,354 @@
+/* Quirk-inspired circuit editor styling */
+
+.circuit-canvas {
+  position: relative;
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  background-color: white;
+  padding: 10px 15px;
+  
+  .qubit-wires {
+    position: relative;
+    
+    .qubit-wire {
+      height: 1px;
+      background-color: #c9c9c9;  /* Lighter gray like Quirk */
+      margin: 24px 0;
+      position: relative;
+    }
+  }
+  
+  .circuit-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    
+    .circuit-row {
+      display: flex;
+      
+      .circuit-cell {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        transition: all 0.2s ease;
+        
+        &.cell-hover {
+          background-color: rgba(0, 135, 255, 0.1);  /* Quirk's blue highlight */
+          border-radius: 4px;
+        }
+        
+        &.dragging {
+          opacity: 0.5;
+        }
+        
+        .gate {
+          width: 30px;
+          height: 30px;
+          border-radius: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: bold;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+          position: relative;
+          
+          &.quirk-gate {
+            font-family: 'Arial', sans-serif;
+            transition: all 0.2s ease;
+            
+            &:hover {
+              transform: scale(1.05);
+              z-index: 10;
+            }
+          }
+          
+          &.quirk-param-gate {
+            display: flex;
+            flex-direction: column;
+            padding: 2px;
+            
+            .gate-symbol {
+              font-weight: bold;
+              font-size: 14px;
+              line-height: 1;
+            }
+            
+            .gate-param {
+              font-size: 9px;
+              line-height: 1;
+              margin-top: -1px;
+            }
+          }
+          
+          &.gate-i {
+            background-color: var(--gate-i-color);
+            color: #333;
+          }
+          
+          &.gate-h {
+            background-color: var(--gate-h-color);
+          }
+          
+          &.gate-x {
+            background-color: var(--gate-x-color);
+          }
+          
+          &.gate-y {
+            background-color: var(--gate-y-color);
+          }
+          
+          &.gate-z {
+            background-color: var(--gate-z-color);
+          }
+          
+          &.gate-t {
+            background-color: var(--gate-t-color);
+          }
+          
+          &.gate-tdg {
+            background-color: var(--gate-tdg-color);
+          }
+          
+          &.gate-s {
+            background-color: var(--gate-s-color);
+          }
+          
+          &.gate-sdg {
+            background-color: var(--gate-sdg-color);
+          }
+          
+          &.gate-p {
+            background-color: var(--gate-u-color);
+          }
+          
+          &.gate-rx {
+            background-color: var(--gate-rx-color);
+          }
+          
+          &.gate-ry {
+            background-color: var(--gate-ry-color);
+          }
+          
+          &.gate-rz {
+            background-color: var(--gate-rz-color);
+          }
+          
+          &.gate-sqrt-x {
+            background-color: var(--gate-sqrt-x-color);
+          }
+          
+          &.gate-sqrt-y {
+            background-color: var(--gate-sqrt-y-color);
+          }
+          
+          &.gate-sqrt-z {
+            background-color: var(--gate-sqrt-z-color);
+          }
+          
+          &.gate-barrier {
+            background-color: var(--gate-barrier-color);
+            color: #333;
+            border: 1px dashed #999;
+          }
+        }
+        
+        .gate-control, .quirk-control {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          background-color: #333;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+          z-index: 5;
+        }
+        
+        .gate-target, .quirk-target {
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          border: 2px solid #333;
+          background-color: transparent;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+          z-index: 5;
+          
+          &:before, &:after {
+            content: "";
+            position: absolute;
+            background-color: #333;
+          }
+          
+          &:before {
+            width: 16px;
+            height: 2px;
+            top: calc(50% - 1px);
+          }
+          
+          &:after {
+            width: 2px;
+            height: 16px;
+            left: calc(50% - 1px);
+          }
+        }
+        
+        .connection-line {
+          position: absolute;
+          width: 2px;
+          background-color: #333;
+          top: 0;
+          bottom: 0;
+          left: calc(50% - 1px);
+          opacity: 0;
+          z-index: 1;
+          
+          &.visible {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+  
+  .measurement-area {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    height: 100%;
+    
+    .measurement-cell {
+      height: 48px;
+      display: flex;
+      align-items: center;
+      
+      .measurement-icon {
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Arial', sans-serif;
+      }
+    }
+  }
+}
+
+/* Gate palette Quirk-inspired styling */
+.gate-palette {
+  background-color: #f8f8f8;
+  border-radius: 6px;
+  padding: 10px;
+  
+  .gate-search {
+    margin-bottom: 15px;
+    
+    .search-input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #d0d0d0;
+      border-radius: 4px;
+      font-family: 'Arial', sans-serif;
+      
+      &:focus {
+        outline: none;
+        border-color: #4285F4;
+        box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+      }
+    }
+  }
+  
+  .gate-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 10px;
+    
+    .category-button {
+      padding: 5px 10px;
+      background: #eaeaea;
+      border: none;
+      border-radius: 16px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      
+      &.active {
+        background-color: #4285F4;
+        color: white;
+      }
+      
+      &:hover:not(.active) {
+        background-color: #d0d0d0;
+      }
+    }
+  }
+  
+  .gate-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 8px;
+    
+    .gate-button {
+      width: 100%;
+      aspect-ratio: 1/1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      font-family: 'Arial', sans-serif;
+      font-weight: bold;
+      color: white;
+      cursor: grab;
+      user-select: none;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+  
+  &.palette-drop-zone {
+    background-color: rgba(0, 135, 255, 0.1);
+    border: 2px dashed #4285F4;
+  }
+}
+
+/* Quirk-style tooltip */
+.gate-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.gate:hover .gate-tooltip,
+.gate-button:hover .gate-tooltip {
+  visibility: visible;
+  opacity: 1;
+}

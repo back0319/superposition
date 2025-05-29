@@ -1,0 +1,251 @@
+/* Quirk-inspired gate styling */
+
+:root {
+  /* Basic gate colors - Using Quirk's color scheme */
+  --gate-i-color: #EEEEEE;
+  --gate-h-color: #E67C73;  /* Red for Hadamard */
+  --gate-x-color: #4285F4;  /* Blue for X */
+  --gate-y-color: #9C27B0;  /* Purple for Y */
+  --gate-z-color: #00BCD4;  /* Cyan for Z */
+  --gate-barrier-color: #CCCCCC;
+  
+  /* Phase gate colors */
+  --gate-t-color: #26C6DA;  /* Light Cyan for T */
+  --gate-tdg-color: #80DEEA; /* Lighter Cyan for Tdg */
+  --gate-u-color: #009688;   /* Teal for U gate */
+  
+  /* Sqrt gate colors */
+  --gate-sqrt-x-color: #7986CB; /* Blueish */
+  --gate-sqrt-y-color: #BA68C8; /* Purpleish */
+  --gate-sqrt-z-color: #4DD0E1; /* Light Cyan */
+  
+  /* Rotation gate colors */
+  --gate-rx-color: #FF7043;  /* Orange-red for Rx */
+  --gate-ry-color: #9CCC65;  /* Green for Ry */
+  --gate-rz-color: #42A5F5;  /* Blue for Rz */
+    /* Multi-qubit gate colors */
+  --gate-cnot-color: #4285F4;  /* Blue for CNOT */
+  --gate-cz-color: #00BCD4;    /* Cyan for CZ */
+  --gate-ccnot-color: #3949AB; /* Deep blue for CCNOT */
+  --gate-ccz-color: #0097A7;   /* Deep cyan for CCZ */
+  
+  /* Route gate colors */
+  --gate-route-x-color: #FF9800; /* Orange for Route X */
+  --gate-route-y-color: #4CAF50; /* Green for Route Y */
+  --gate-route-z-color: #9C27B0; /* Purple for Route Z */
+}
+
+/* Base gate styling inspired by Quirk */
+.quirk-gate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-family: 'Arial', sans-serif;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  color: white;
+  position: relative;
+  
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    z-index: 10;
+  }
+  
+  &.quirk-param-gate {
+    display: flex;
+    flex-direction: column;
+    padding: 2px;
+    
+    .gate-symbol {
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 1;
+    }
+    
+    .gate-param {
+      font-size: 9px;
+      line-height: 1;
+      margin-top: -1px;
+    }
+  }
+}
+
+/* Gate-specific styling */
+.gate-h {
+  background-color: var(--gate-h-color);
+}
+
+.gate-i {
+  background-color: var(--gate-i-color);
+  color: #333;
+}
+
+.gate-x {
+  background-color: var(--gate-x-color);
+}
+
+.gate-y {
+  background-color: var(--gate-y-color);
+}
+
+.gate-z {
+  background-color: var(--gate-z-color);
+}
+
+.gate-t {
+  background-color: var(--gate-t-color);
+}
+
+.gate-td {
+  background-color: var(--gate-tdg-color);
+  color: #333;
+}
+
+.gate-u {
+  background: linear-gradient(135deg, #2c3e50, #34495e);
+  color: white;
+  
+  &:hover {
+    background: linear-gradient(135deg, #34495e, #5d6d7e);
+    transform: scale(1.1);
+  }
+  
+  .gate-param {
+    font-size: 0.7em;
+    opacity: 0.9;
+    margin-top: 2px;
+  }
+}
+
+.gate-sqrt-x {
+  background-color: var(--gate-sqrt-x-color);
+}
+
+.gate-sqrt-y {
+  background-color: var(--gate-sqrt-y-color);
+}
+
+.gate-sqrt-z {
+  background-color: var(--gate-sqrt-z-color);
+}
+
+.gate-rx {
+  background-color: var(--gate-rx-color);
+}
+
+.gate-ry {
+  background-color: var(--gate-ry-color);
+}
+
+.gate-rz {
+  background-color: var(--gate-rz-color);
+}
+
+.gate-cnot {
+  background-color: var(--gate-cnot-color);
+}
+
+.gate-cz {
+  background-color: var(--gate-cz-color);
+}
+
+.gate-ccnot {
+  border: 2px solid #8e44ad;
+  background: linear-gradient(135deg, #e8f5e8, #f4f9f4);
+  color: #2c3e50;
+  font-weight: bold;
+  
+  &:hover {
+    border-color: #9b59b6;
+    background: linear-gradient(135deg, #f4f9f4, #ffffff);
+    transform: scale(1.05);
+  }
+}
+
+.gate-ccz {
+  border: 2px solid #8e44ad;
+  background: linear-gradient(135deg, #e8f5e8, #f4f9f4);
+  color: #2c3e50;
+  font-weight: bold;
+  
+  &:hover {
+    border-color: #9b59b6;
+    background: linear-gradient(135deg, #f4f9f4, #ffffff);
+    transform: scale(1.05);
+  }
+}
+
+.gate-barrier {
+  background: transparent;
+  border: 2px dashed #bdc3c7;
+  color: #7f8c8d;
+  font-size: 1.2em;
+  
+  &:hover {
+    border-color: #95a5a6;
+    background: rgba(189, 195, 199, 0.1);
+  }
+}
+
+/* Route gate styling */
+.gate-route-x {
+  background: linear-gradient(135deg, var(--gate-route-x-color), #FFB74D);
+  color: white;
+  font-size: 1.2em;
+  
+  &:hover {
+    background: linear-gradient(135deg, #FFB74D, #FFCC02);
+    transform: scale(1.1);
+  }
+}
+
+.gate-route-y {
+  background: linear-gradient(135deg, var(--gate-route-y-color), #66BB6A);
+  color: white;
+  font-size: 1.2em;
+  
+  &:hover {
+    background: linear-gradient(135deg, #66BB6A, #81C784);
+    transform: scale(1.1);
+  }
+}
+
+.gate-route-z {
+  background: linear-gradient(135deg, var(--gate-route-z-color), #AB47BC);
+  color: white;
+  font-size: 1.2em;
+  
+  &:hover {
+    background: linear-gradient(135deg, #AB47BC, #BA68C8);
+    transform: scale(1.1);
+  }
+}
+
+// Additional route gate animations and effects
+.gate-route-x, .gate-route-y, .gate-route-z {
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: shimmer 2s infinite;
+  }
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}

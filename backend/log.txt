@@ -147,3 +147,58 @@
 [2025-05-29 15:41:51] Request: GET /entangle | Data: 
 [2025-05-29 16:18:09] Request: GET /entangle | Data: 
 [2025-05-29 17:37:51] Request: GET /entangle | Data: 
+[2025-05-30 01:56:37] Request: GET /entangle | Data: 
+[2025-05-30 02:08:52] Request: GET /entangle | Data: 
+[2025-05-30 03:11:07] Request: GET /circuit | Data: 
+[2025-05-30 03:11:07] Request: OPTIONS /convert-qasm | Data: 
+[2025-05-30 03:11:08] Request: OPTIONS /convert-qasm | Data: 
+[2025-05-30 03:11:08] Request: POST /convert-qasm | Data: {"placedGates":[]}
+[2025-05-30 03:11:08] Request: POST /convert-qasm | Data: {"placedGates":[]}
+[2025-05-30 03:11:18] Request: OPTIONS /convert-qasm | Data: 
+[2025-05-30 03:11:18] Request: POST /convert-qasm | Data: {"placedGates":[{"qubit":0,"gate":"X","slot":0,"left":56}]}
+[2025-05-30 03:11:20] Request: POST /convert-qasm | Data: {"placedGates":[{"qubit":0,"gate":"X","slot":0,"left":56},{"qubit":0,"gate":"Y","slot":1,"left":96}]}
+[2025-05-30 03:11:21] Request: POST /convert-qasm | Data: {"placedGates":[{"qubit":0,"gate":"X","slot":0,"left":56},{"qubit":0,"gate":"Y","slot":1,"left":96},{"qubit":0,"gate":"Z","slot":2,"left":136}]}
+[2025-05-30 03:11:22] Request: POST /convert-qasm | Data: {"placedGates":[{"qubit":0,"gate":"X","slot":0,"left":56},{"qubit":0,"gate":"Y","slot":1,"left":96},{"qubit":0,"gate":"Z","slot":2,"left":136},{"qubit":0,"gate":"S","slot":3,"left":176}]}
+[2025-05-30 03:11:23] Request: POST /convert-qasm | Data: {"placedGates":[{"qubit":0,"gate":"X","slot":0,"left":56},{"qubit":0,"gate":"Y","slot":1,"left":96},{"qubit":0,"gate":"Z","slot":2,"left":136},{"qubit":0,"gate":"S","slot":3,"left":176},{"qubit":0,"gate":"T","slot":4,"left":216}]}
+[2025-05-30 03:11:24] Request: OPTIONS /convert-qasm | Data: 
+[2025-05-30 03:11:24] Request: POST /convert-qasm | Data: {"placedGates":[{"qubit":0,"gate":"X","slot":0,"left":56},{"qubit":0,"gate":"Y","slot":1,"left":96},{"qubit":0,"gate":"Z","slot":2,"left":136},{"qubit":0,"gate":"S","slot":3,"left":176},{"qubit":0,"gate":"T","slot":4,"left":216},{"qubit":0,"gate":"CNOT","slot":5,"left":256}]}
+[2025-05-30 03:11:27] Request: POST /convert-qasm | Data: {"placedGates":[{"qubit":0,"gate":"X","slot":0,"left":56},{"qubit":0,"gate":"Y","slot":1,"left":96},{"qubit":0,"gate":"Z","slot":2,"left":136},{"qubit":0,"gate":"S","slot":3,"left":176},{"qubit":0,"gate":"T","slot":4,"left":216},{"qubit":0,"gate":"CNOT","slot":5,"left":256},{"qubit":0,"gate":"H","slot":6,"left":296}]}
+[2025-05-30 03:12:02] Request: GET /entangle | Data: 
+[2025-05-30 03:35:47] Request: GET /entangle | Data: 
+[2025-05-30 04:45:53] Request: GET /entangle | Data: 
+[2025-05-30 04:54:24] Request: GET /entangle | Data: 
+[2025-05-30 05:27:09] Request: GET /entangle | Data: 
+[2025-05-30 06:05:42] Request: GET /entangle | Data: 
+[2025-05-30 06:37:43] Request: GET /qubit-info | Data: 
+[2025-05-30 06:37:44] Request: GET /qubit-info | Data: 
+[2025-05-30 06:37:44] Request: GET /qubit-info | Data: 
+[2025-05-30 06:37:44] Request: GET /qubit-info | Data: 
+[2025-05-30 06:37:45] Request: GET /entangle | Data: 
+[2025-05-30 06:37:48] Request: GET /qubit-info | Data: 
+[2025-05-30 06:37:48] Request: GET /qubit-info | Data: 
+[2025-05-30 06:37:48] Request: GET /qubit-info | Data: 
+[2025-05-30 06:37:48] Request: GET /qubit-info | Data: 
+[2025-05-30 06:37:58] Request: GET /qubit-info | Data: 
+[2025-05-30 06:38:26] Request: GET /circuit | Data: 
+[2025-05-30 06:38:27] Request: OPTIONS /convert-qasm | Data: 
+[2025-05-30 06:38:27] Request: OPTIONS /convert-qasm | Data: 
+[2025-05-30 06:38:27] Request: POST /convert-qasm | Data: {"placedGates":[]}
+[2025-05-30 06:38:27] Request: POST /convert-qasm | Data: {"placedGates":[]}
+[2025-05-30 06:43:57] Request: GET /qubit-info | Data: 
+[2025-05-30 06:43:58] Request: GET /qubit-info | Data: 
+[2025-05-30 06:43:58] Request: GET /qubit-info | Data: 
+[2025-05-30 06:43:59] Request: GET /qubit-info | Data: 
+[2025-05-30 06:43:59] Request: GET /qubit-info | Data: 
+[2025-05-30 06:43:59] Request: GET /qubit-info | Data: 
+[2025-05-30 06:47:04] Request: GET /qubit-info | Data: 
+[2025-05-30 06:47:45] Request: GET /qubit-info | Data: 
+[2025-05-30 06:48:08] Request: GET /circuit | Data: 
+[2025-05-30 06:48:44] Request: OPTIONS /simulate | Data: 
+[2025-05-30 06:48:44] Request: POST /simulate | Data: {"qasm":"OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[3];\ncreg c[3];\n// Unsupported gate: RouteX at position (0, 1)\n// Unsupported gate: RouteX at position (0, 2)\n// Unsupported gate: RouteZ at position (0, 3)\n\n// Auto-added measurements\nmeasure q[0] -> c[0];\nmeasure q[1] -> c[1];\nmeasure q[2] -> c[2];\n"}
+[2025-05-30 06:48:44] Request: POST /simulate | Data: {"qasm":"OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[3];\ncreg c[3];\n// Unsupported gate: RouteX at position (0, 1)\n// Unsupported gate: RouteX at position (0, 2)\n// Unsupported gate: RouteZ at position (0, 3)\n\n// Auto-added measurements\nmeasure q[0] -> c[0];\nmeasure q[1] -> c[1];\nmeasure q[2] -> c[2];\n"}
+[2025-05-30 06:48:46] Request: POST /simulate | Data: {"qasm":"OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[3];\ncreg c[3];\n// Unsupported gate: RouteX at position (0, 1)\n// Unsupported gate: RouteX at position (0, 2)\n// Unsupported gate: RouteZ at position (0, 3)\n\n// Auto-added measurements\nmeasure q[0] -> c[0];\nmeasure q[1] -> c[1];\nmeasure q[2] -> c[2];\n"}
+[2025-05-30 06:48:46] Request: POST /simulate | Data: {"qasm":"OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[3];\ncreg c[3];\n// Unsupported gate: RouteX at position (0, 1)\n// Unsupported gate: RouteX at position (0, 2)\n// Unsupported gate: RouteZ at position (0, 3)\n\n// Auto-added measurements\nmeasure q[0] -> c[0];\nmeasure q[1] -> c[1];\nmeasure q[2] -> c[2];\n"}
+[2025-05-30 06:48:47] Request: POST /simulate | Data: {"qasm":"OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[3];\ncreg c[3];\n// Unsupported gate: RouteX at position (0, 1)\n// Unsupported gate: RouteX at position (0, 2)\n// Unsupported gate: RouteZ at position (0, 3)\n\n// Auto-added measurements\nmeasure q[0] -> c[0];\nmeasure q[1] -> c[1];\nmeasure q[2] -> c[2];\n"}
+[2025-05-30 06:48:47] Request: POST /simulate | Data: {"qasm":"OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[3];\ncreg c[3];\n// Unsupported gate: RouteX at position (0, 1)\n// Unsupported gate: RouteX at position (0, 2)\n// Unsupported gate: RouteZ at position (0, 3)\n\n// Auto-added measurements\nmeasure q[0] -> c[0];\nmeasure q[1] -> c[1];\nmeasure q[2] -> c[2];\n"}
+[2025-05-30 06:48:47] Request: POST /simulate | Data: {"qasm":"OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[3];\ncreg c[3];\n// Unsupported gate: RouteX at position (0, 1)\n// Unsupported gate: RouteX at position (0, 2)\n// Unsupported gate: RouteZ at position (0, 3)\n\n// Auto-added measurements\nmeasure q[0] -> c[0];\nmeasure q[1] -> c[1];\nmeasure q[2] -> c[2];\n"}
+[2025-05-30 06:49:13] Request: GET /qubit | Data: 

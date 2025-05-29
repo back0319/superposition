@@ -1,0 +1,170 @@
+/* Styling for multi-qubit gates (CNOT, CZ, CCNOT, CCZ) based on thequantumlaend.de */
+
+/* Control points styling */
+.gate-control {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: var(--gate-control-color);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  position: relative;
+  
+  /* Create 3D effect with pseudo-elements */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, 
+                  rgba(255,255,255,0.3) 0%, 
+                  transparent 50%);
+    pointer-events: none;
+  }
+  
+  /* Special styling for control points in double-controlled gates (CCNOT, CCZ) */
+  &.double-controlled {
+    border: 2px solid rgba(0, 0, 0, 0.8);
+    width: 16px;
+    height: 16px;
+    background-color: rgba(0, 0, 0, 0.8);
+    
+    /* Subtle highlight to distinguish it from regular control points */
+    &::after {
+      content: '';
+      position: absolute;
+      top: -3px;
+      left: -3px;
+      right: -3px;
+      bottom: -3px;
+      border-radius: 50%;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      pointer-events: none;
+      opacity: 0.5;
+    }
+  }
+}
+
+/* Target point styling */
+.gate-target {
+  width: 28px;
+  height: 28px;
+  border: 2px solid #000;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  
+  /* Common styling for all target points */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  
+  /* X-target (for CNOT, CCNOT) with plus symbol */
+  &.x-target {
+    background-color: #fff;
+    
+    &::after {
+      content: "+";
+      font-size: 22px;
+      font-weight: bold;
+      color: #000;
+      line-height: 1;
+    }
+  }
+  
+  /* Z-target (for CZ, CCZ) with Z label */
+  &.z-target {
+    background-color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    color: #000;
+  }
+  
+  /* Controlled rotation gate targets */
+  &.rotation-target {
+    background-color: #fff;
+    padding: 0 2px;
+    color: #000;
+    font-size: 14px;
+    
+    /* Subscript (x, y, z) styling */
+    sub {
+      font-size: 10px;
+      margin-left: 1px;
+      font-weight: normal;
+      position: relative;
+      bottom: -2px;
+    }
+    
+    /* Superscript (angle) styling */
+    sup {
+      font-size: 10px;
+      line-height: 1;
+      position: relative;
+      top: -5px;
+      font-weight: normal;
+      margin-left: 1px;
+    }
+    
+    /* Gate-specific colors for controlled rotation gates */
+    &.gate-crx {
+      color: var(--gate-rx-color);
+      border-color: var(--gate-rx-border-color);
+    }
+
+    &.gate-cry {
+      color: var(--gate-ry-color);
+      border-color: var(--gate-ry-border-color);
+    }
+
+    &.gate-crz {
+      color: var(--gate-rz-color);
+      border-color: var(--gate-rz-border-color);
+    }
+    
+    /* Visualization for controlled rotation gates */
+    .rotation-visualization {
+      position: absolute;
+      top: -15px;
+      right: -8px; 
+      width: 15px;
+      height: 15px;
+      pointer-events: none;
+      opacity: 1;
+      
+      canvas {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+}
+
+/* Connection line styling */
+.qubit-connection {
+  position: absolute;
+  background-color: #000;
+  width: 2px;
+  z-index: 0;
+}
+
+/* Double-control gate indicator */
+.double-control-indicator {
+  position: absolute;
+  font-size: 10px;
+  color: rgba(0, 0, 0, 0.7);
+  font-weight: bold;
+}

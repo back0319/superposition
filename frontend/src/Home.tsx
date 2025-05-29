@@ -168,20 +168,21 @@ function Home() {
       console.error("서버 요청에 실패했습니다.", err);
     }
   };
-
   const handleEtmClick = async () => {
     try {
       await axios.get("http://localhost:5000/entangle");
       navigate("/entangle");
     } catch (err) {
       console.error("서버 요청에 실패했습니다.", err);
+      // 서버 요청이 실패해도 페이지로 이동
+      navigate("/entangle");
     }
   };
 
   // 큐비트 버튼 클릭 → qubit 페이지
   const handleQubitClick = async () => {
     try {
-      await axios.get("http://localhost:5000/qubit-info");
+      await axios.get("http://localhost:5000/qubit");
       navigate("/qubit");
     } catch (err) {
       console.error("서버 요청에 실패했습니다.", err);

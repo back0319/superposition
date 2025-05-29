@@ -39,7 +39,7 @@ def sp1_route():
 def superposition():
     return jsonify({"info": "중첩 원리에 대한 설명 등"})
 
-@app.route("/qubit-info")
+@app.route("/qubit")
 def qubit_info():
     return jsonify({"info": "큐비트에 대한 설명 등"})
 

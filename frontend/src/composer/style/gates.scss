@@ -1,0 +1,219 @@
+/* Gate styles based on Quirk's implementation */
+
+/* Set color variables for gates */
+:root {
+  /* Basic gate colors - Using Quirk's color scheme */
+  --gate-i-color: #EEEEEE;
+  --gate-h-color: #E67C73;  /* Red for Hadamard */
+  --gate-x-color: #4285F4;  /* Blue for X */
+  --gate-y-color: #9C27B0;  /* Purple for Y */
+  --gate-z-color: #00BCD4;  /* Cyan for Z */
+  --gate-barrier-color: #CCCCCC;
+  
+  /* Phase gate colors */
+  --gate-t-color: #26C6DA;  /* Light Cyan for T */
+  --gate-tdg-color: #80DEEA; /* Lighter Cyan for Tdg */
+  --gate-u-color: #009688;   /* Teal for U gate */
+  
+  /* Sqrt gate colors */
+  --gate-sqrt-x-color: #7986CB; /* Blueish */
+  --gate-sqrt-y-color: #BA68C8; /* Purpleish */
+  --gate-sqrt-z-color: #4DD0E1; /* Light Cyan */
+  
+  /* Rotation gate colors */
+  --gate-rx-color: #FF7043;  /* Orange-red for Rx */
+  --gate-ry-color: #9CCC65;  /* Green for Ry */
+  --gate-rz-color: #42A5F5;  /* Blue for Rz */
+  
+  /* Multi-qubit gate colors */
+  --gate-cnot-color: #4285F4;
+  --gate-cz-color: #08bdba;
+  --gate-ch-color: #fa4d56;
+  --gate-swap-color: #8a3ffc;
+  
+  /* Measurement gate colors */
+  --gate-measure-color: #f1c21b;
+  --gate-reset-color: #002d9c;
+  
+  /* Control point colors */
+  --gate-control-color: #161616;
+  --gate-control-filled-color: #161616;
+}
+
+/* Gate styling classes */
+.gate {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.1s, box-shadow 0.1s;
+  
+  /* Basic gates */
+  &.gate-i { background-color: var(--gate-i-color); }
+  &.gate-h { background-color: var(--gate-h-color); }
+  &.gate-x { background-color: var(--gate-x-color); }
+  &.gate-y { background-color: var(--gate-y-color); }
+  &.gate-z { background-color: var(--gate-z-color); }
+  
+  /* Phase gates */
+  &.gate-p { background-color: var(--gate-p-color); }
+  &.gate-t { background-color: var(--gate-t-color); }
+  &.gate-tdg { background-color: var(--gate-tdg-color); color: #333; }
+  &.gate-s { background-color: var(--gate-s-color); }
+  &.gate-sdg { background-color: var(--gate-sdg-color); color: #333; }
+  
+  /* Sqrt gates */
+  &.gate-sqrt-x { background-color: var(--gate-sqrt-x-color); }
+  &.gate-sqrt-y { background-color: var(--gate-sqrt-y-color); }
+  &.gate-sqrt-xdg { background-color: var(--gate-sqrt-xdg-color); color: #333; }
+  &.gate-sqrt-ydg { background-color: var(--gate-sqrt-ydg-color); color: #333; }
+  
+  /* Rotation gates */
+  &.gate-rx { background-color: var(--gate-rx-color); }
+  &.gate-ry { background-color: var(--gate-ry-color); }
+  &.gate-rz { background-color: var(--gate-rz-color); }
+  
+  /* Multi-qubit gates */
+  &.gate-cx { background-color: var(--gate-cx-color); }
+  &.gate-cz { background-color: var(--gate-cz-color); }
+  &.gate-ch { background-color: var(--gate-ch-color); }
+  &.gate-swap { background-color: var(--gate-swap-color); }
+  
+  /* Measurement gates */
+  &.gate-measure { 
+    background-color: var(--gate-measure-color); 
+    color: #333;
+  }
+  &.gate-reset { 
+    background-color: var(--gate-reset-color);
+  }
+  
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* Parameterized gate styles */
+.gate-rx, .gate-ry, .gate-rz, .gate-p {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  line-height: 1.1;
+  padding: 2px 0;
+  
+  &:after {
+    content: attr(data-param);
+    font-size: 9px;
+    margin-top: -2px;
+  }
+}
+
+/* Control and target styling for multi-qubit gates */
+.gate-control {
+  width: 12px;
+  height: 12px;
+  background-color: var(--gate-control-filled-color);
+  border-radius: 50%;
+  position: relative;
+}
+
+.gate-target {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--gate-control-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  position: relative;
+}
+
+.connection-line {
+  position: absolute;
+  width: 2px;
+  background-color: var(--gate-control-color);
+  z-index: 1;
+}
+
+/* SWAP gate specific styling */
+.gate-swap {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Dialog styling for multi-qubit gates */
+.gate-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.gate-dialog-content {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 450px;
+  width: 100%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.gate-dialog-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.gate-visualization {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.qubit-wire {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.qubit-label {
+  width: 50px;
+  font-weight: 500;
+}
+
+.qubit-line {
+  flex: 1;
+  height: 2px;
+  background-color: #161616;
+  position: relative;
+}
+
+.control-dot, .target-element {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
