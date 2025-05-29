@@ -158,12 +158,11 @@ function Home() {
     } catch (err) {
       console.error("서버 요청에 실패했습니다.", err);
     }
-  };
-  // 중첩 버튼 클릭 → sp1 페이지(중첩 원리)로 이동
+  };  // 중첩 버튼 클릭 → superposition 페이지로 이동
   const handleSpClick = async () => {
     try {
       await axios.get("http://localhost:5000/superposition");
-      navigate("/sp1");
+      navigate("/superposition");
     } catch (err) {
       console.error("서버 요청에 실패했습니다.", err);
     }

@@ -3,65 +3,48 @@ import { useNavigate } from "react-router-dom";
 import SlideMenu from "../slide";
 import 'katex/dist/katex.min.css';
 import { BlockMath } from 'react-katex';
-import './qubit.scss';
+import './superposition.scss';
 
-// Import 2D components
-import QubitDefinitionDemo from './components/QubitDefinitionDemo';
-import StateVectorDemo from './components/StateVectorDemo';
-import BlochSphereDemo from './components/BlochSphereDemo';
+// Import components
+import SuperpositionIntroDemo from './components/SuperpositionIntroDemo';
+import SuperpositionMeasurementDemo from './components/SuperpositionMeasurementDemo';
 
 const menu = [  
   { title: "얽힘", details: ["얽힘이란", "벨 상태", "얽힘 측정"] },
-  { title: "중첩", details: ["중첩 원리", "하드라마드 게이트"] },
+  { title: "중첩", details: ["중첩의 정의", "중첩 상태의 측정과 붕괴"] },
   { title: "큐비트", details: ["정의", "상태벡터", "블로흐 구"] }
 ];
 
-// 섹션별 그래픽 데이터 정의 - 타입 정의 추가
-interface SectionGraphic {
-  id: string;
-  title: string;
-  image: string;
-  fallbackImage: string;
-  formula: string;
-}
-
-const sectionGraphics: SectionGraphic[] = [
+// 섹션별 그래픽 데이터 정의
+const sectionGraphics = [
   {
     id: "definition",
-    title: "큐비트의 정의",
-    image: "/images/qubit-definition.png",
-    fallbackImage: "https://upload.wikimedia.org/wikipedia/commons/6/6b/Bloch_sphere.svg",
-    formula: "\\left|\\psi\\right\\rangle = \\alpha\\left|0\\right\\rangle + \\beta\\left|1\\right\\rangle"
+    title: "중첩의 정의",
+    image: "/images/superposition-intro.png",
+    fallbackImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Superposition_of_quantum_states.png/800px-Superposition_of_quantum_states.png",
+    formula: "|\\psi\\rangle = \\alpha|0\\rangle + \\beta|1\\rangle"
   },
   {
-    id: "state-vector",
-    title: "상태 벡터",
-    image: "/images/state-vector.png",
-    fallbackImage: "https://upload.wikimedia.org/wikipedia/commons/f/f3/Qubit_Representations.png",
-    formula: "\\begin{pmatrix} \\alpha \\\\ \\beta \\end{pmatrix}, \\text{where } |\\alpha|^2 + |\\beta|^2 = 1"
-  },
-  {
-    id: "bloch-sphere",
-    title: "블로흐 구",
-    image: "/images/bloch-sphere.png",
-    fallbackImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Bloch_Sphere.svg/1200px-Bloch_Sphere.svg.png",
-    formula: "\\left|\\psi\\right\\rangle = \\cos\\frac{\\theta}{2}\\left|0\\right\\rangle + e^{i\\phi}\\sin\\frac{\\theta}{2}\\left|1\\right\\rangle"
+    id: "measurement",
+    title: "중첩 상태의 측정과 붕괴",
+    image: "/images/superposition-measurement.png",
+    fallbackImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Quantum_measurement.svg/800px-Quantum_measurement.svg.png",
+    formula: "P(|0\\rangle) = |\\alpha|^2, \\quad P(|1\\rangle) = |\\beta|^2"
   }
 ];
 
-function Qubit() {
-  const navigate = useNavigate();  const [activeSection, setActiveSection] = useState(0);
-  const [scrollProgress, setScrollProgress] = useState(0); // 스크롤 진행 상태 추가
-  const [showScrollGuide, setShowScrollGuide] = useState(true); // 스크롤 가이드 표시 여부
-  const [scrollGuideFading, setScrollGuideFading] = useState(false); // 스크롤 가이드 페이드 아웃 상태
+function Superposition() {
+  const navigate = useNavigate();
+  const [activeSection, setActiveSection] = useState(0);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const textContainerRef = useRef<HTMLDivElement>(null);
-  const sectionRefs = useRef<Array<HTMLElement | null>>([null, null, null]);
-  // 섹션의 상대적 위치 정보를 저장하는 상태
+  const sectionRefs = useRef<Array<HTMLElement | null>>([null, null]);
   const [sectionPositions, setSectionPositions] = useState<number[]>([]);
+
   const pageMap: Record<string, string[]> = {
     "큐비트": ["/qubit"],
     "얽힘": ["/entangle"],
-    "중첩": ["/sp1"]
+    "중첩": ["/superposition"]
   };
 
   const handleSlideChange = (title: string, detailIdx: number) => {
@@ -98,15 +81,11 @@ function Qubit() {
       const scrollHeight = container.scrollHeight;
       const clientHeight = container.clientHeight;
       const scrollable = scrollHeight - clientHeight;
-        // 스크롤 진행도 상태 업데이트
+      
+      // 스크롤 진행도 상태 업데이트
       if (scrollable > 0) {
         const progress = (scrollTop / scrollable) * 100;
         setScrollProgress(progress);
-        
-        // 스크롤이 발생하면 가이드 숨기기
-        if (scrollTop > 10 && showScrollGuide) {
-          setShowScrollGuide(false);
-        }
       }
       
       // 현재 스크롤 위치 확인
@@ -136,24 +115,19 @@ function Qubit() {
         // 현재 섹션이 화면 중앙에서 얼마나 떨어져 있는지 계산
         const distanceFromCenter = Math.abs(sectionCenter - screenCenter);
         const maxDistance = containerHeight * 0.7; // 최대 거리 (이 이상이면 opacity 최소값 적용)
-          
+        
         // 거리에 따른 투명도 계산 (중앙에 가까울수록 1에 가까움, 멀수록 0.3에 가까움)
         let opacity = 1 - (distanceFromCenter / maxDistance) * 0.7; // 0.3 ~ 1 범위의 투명도
         opacity = Math.max(0.3, Math.min(1, opacity)); // 0.3에서 1 사이로 제한
-          
-        // 중앙에 있는지 여부 (거리가 컨테이너 높이의 25% 이내인 경우 - 영역을 더 넓힘)
+        
+        // 중앙에 있는지 여부 (거리가 컨테이너 높이의 25% 이내인 경우)
         const isInCenter = distanceFromCenter < (containerHeight * 0.25);
         
         // 섹션에 중앙 위치 클래스 추가/제거
         if (isInCenter) {
           section.classList.add('in-center');
-          
-          // 중앙 섹션일 때는 CSS 클래스를 통해 스타일이 적용되므로
-          // 추가적인 인라인 스타일링은 필요하지 않음
         } else {
           section.classList.remove('in-center');
-          
-          // 중앙에서 벗어났을 때 원래 상태로 복원 (CSS 트랜지션이 알아서 처리)
         }
 
         // 텍스트 투명도 적용 (중앙이 아닐 경우만 인라인 스타일 적용)
@@ -196,7 +170,7 @@ function Qubit() {
           }
         }
       });
-
+      
       if (currentSection !== activeSection) {
         // 섹션이 변경되면 그래픽 요소에 애니메이션 효과를 위한 클래스 추가/제거
         setActiveSection(currentSection);
@@ -210,7 +184,7 @@ function Qubit() {
             item.classList.remove('active');
           }
         });
-          
+        
         // 그래픽 컨테이너 애니메이션 효과 추가
         const graphicsContent = document.querySelector('.graphics-content');
         if (graphicsContent) {
@@ -248,12 +222,13 @@ function Qubit() {
         }
       }
     };
-
+    
     // 스로틀링 적용: 스크롤 이벤트가 너무 자주 발생하지 않도록 최적화
     let ticking = false;
     let lastScrollTime = 0;
     const scrollThreshold = 5; // 5ms 이내의 스크롤은 무시 (성능 최적화 & 더 매끄러운 스크롤)
-      const throttledScroll = () => {
+    
+    const throttledScroll = () => {
       const now = Date.now();
       
       // 스크롤 진행도 즉시 업데이트 (더 매끄러운 프로그레스 바를 위해)
@@ -267,14 +242,6 @@ function Qubit() {
       if (scrollable > 0) {
         const progress = (scrollTop / scrollable) * 100;
         setScrollProgress(progress);
-          // 스크롤이 시작되면 가이드 숨기기 (페이드 아웃 효과와 함께)
-        if (scrollTop > 10 && showScrollGuide && !scrollGuideFading) {
-          setScrollGuideFading(true);
-          setTimeout(() => {
-            setShowScrollGuide(false);
-            setScrollGuideFading(false);
-          }, 500); // CSS transition 시간과 일치
-        }
       }
       
       // 다른 스크롤 처리는 throttle 적용
@@ -305,7 +272,7 @@ function Qubit() {
         container.removeEventListener('scrollend', handleScroll);
       }
     };
-  }, [activeSection, showScrollGuide, scrollGuideFading]); 
+  }, [activeSection]); 
   
   // 섹션 위치 계산을 위한 useEffect
   useEffect(() => {
@@ -331,7 +298,7 @@ function Qubit() {
   return (
     <div className="slide-container">
       <SlideMenu
-        current="큐비트"
+        current="중첩"
         detailIdx={0}
         onChange={handleSlideChange}
         sectionRefs={sectionRefs}
@@ -339,7 +306,7 @@ function Qubit() {
         sectionPositions={sectionPositions}
       />
       
-      {/* 프로그레스 바 */}
+      {/* 프로그레스 바 업데이트 - 스크롤 진행에 따라 채워지도록 수정 */}
       <div className="progress-container">
         <div className="progress-bar">
           <div 
@@ -370,162 +337,66 @@ function Qubit() {
       </div>
       
       {/* 가로 분할 레이아웃 */}
-      <div className="split-layout">        {/* 왼쪽 텍스트 섹션 */}
-        <div className="text-section" ref={textContainerRef}>          {showScrollGuide && (
-            <div className={`scroll-guide ${scrollGuideFading ? 'fade-out' : ''}`}>
-              <div className="scroll-guide-icon">↓</div>
-              <div>스크롤하여 큐비트에 대해 알아보기</div>
-            </div>
-          )}
-
-          {/* 섹션 1: 큐비트의 정의 */}
+      <div className="split-layout">
+        {/* 왼쪽 텍스트 섹션 */}
+        <div className="text-section" ref={textContainerRef}>
+          <div className="scroll-guide">
+            <div className="scroll-guide-icon">↓</div>
+            <div>스크롤하여 양자 중첩에 대해 알아보기</div>
+          </div>
+          
+          {/* 섹션 1: 중첩의 정의 */}
           <section className={`content-section ${activeSection === 0 ? 'active-section' : ''}`} ref={el => { sectionRefs.current[0] = el; }}>
-            <h2>큐비트의 정의</h2>
+            <h2>중첩의 정의</h2>
             <div className="section-content">
-              <p>일반 컴퓨터가 0과 1로만 정보를 저장하는 <strong>비트(bit)</strong>를 사용한다면, 양자 컴퓨터는 <strong>큐비트(qubit)</strong>라는 특별한 정보 단위를 사용해요!</p>
+              <p>일상 세계에서 한 물체는 한 번에 한 위치에만 존재할 수 있습니다. 그런데 양자 세계에서는 놀랍게도 하나의 입자가 <strong>여러 다른 상태를 동시에 가질 수 있어요</strong>. 이런 신기한 현상을 <strong>양자 중첩(Quantum Superposition)</strong>이라고 합니다! 🔮</p>
               
-              <p>💡 <strong>큐비트란?</strong></p>
+              <p>중첩 상태에 있는 큐비트는 0과 1 둘 다 아닌, 그 사이의 무한한 가능성을 가집니다. 마치 동전이 앞면도 뒷면도 아닌 공중에 떠 있는 상태와 비슷해요!</p>
+              
+              <p>✨ <strong>중첩의 핵심 개념:</strong></p>
               <ul style={{ textAlign: 'left', marginLeft: '2rem', marginBottom: '1rem' }}>
-                <li>양자 세계의 가장 기본 정보 단위로 양자 컴퓨터의 '0'과 '1'이에요</li>
-                <li>일반 비트와 달리 0과 1을 <strong>동시에</strong> 가질 수 있어요 (양자 중첩 상태)</li>
-                <li>여러 큐비트가 <strong>얽혀서</strong> 훨씬 많은 정보를 담을 수 있어요</li>
+                <li>하나의 입자가 여러 상태를 <strong>동시에</strong> 가질 수 있어요</li>
+                <li>중첩된 큐비트는 <strong>0과 1 사이의 모든 가능성</strong>을 가져요</li>
+                <li>수학적으로는 <strong>|ψ⟩ = α|0⟩ + β|1⟩</strong> 형태로 표현돼요</li>
+                <li>여기서 α와 β는 <strong>확률 진폭</strong>이라 불리는 복소수예요</li>
               </ul>
               
-              <p>📚 <strong>수학적으로는?</strong></p>
-              <p>큐비트는 수학적으로 이렇게 표현해요:</p>
-              <p>여기서:</p>
-              <ul style={{ textAlign: 'left', marginLeft: '2rem', marginBottom: '1rem' }}>
-                <li>|ψ⟩ (사이): 큐비트의 양자 상태</li>
-                <li>α (알파): 0 상태의 확률 진폭</li>
-                <li>β (베타): 1 상태의 확률 진폭</li>
-                <li>|α|² + |β|² = 1: 확률의 합은 항상 1 (100%)</li>
-              </ul>
+              <p>🧙‍♂️ <strong>중첩의 마법 같은 힘:</strong></p>
+              <p>중첩 덕분에 양자 컴퓨터는 여러 계산을 동시에 처리할 수 있어요! 일반 컴퓨터가 하나씩 순차적으로 계산하는 동안, 양자 컴퓨터는 모든 가능성을 한 번에 탐색할 수 있답니다. 이것이 바로 양자 컴퓨터가 특정 문제를 기존 컴퓨터보다 훨씬 빠르게 해결할 수 있는 비밀이에요! 🚀</p>
               
-              <p>⚛️ <strong>큐비트의 특별한 점:</strong></p>
-              <p>큐비트가 관측되기 전까지는 0과 1이 <strong>"중첩"</strong>되어 있어요. 마치 동전을 공중에 던졌을 때 앞면과 뒷면이 동시에 존재하는 것처럼요! 하지만 측정(관측)하는 순간 하나의 값만 나타납니다.</p>
-              
-              <p>🔬 <strong>어떻게 만들어요?</strong></p>
-              <p>실제 큐비트는 다양한 물리 시스템으로 구현할 수 있어요:</p>
-              <ul style={{ textAlign: 'left', marginLeft: '2rem', marginBottom: '1rem' }}>
-                <li>🔄 전자의 스핀</li>
-                <li>⚡ 초전도체의 양자 상태</li>
-                <li>🧠 이온의 에너지 레벨</li>
-                <li>💎 다이아몬드의 결점</li>
-              </ul>
-              
-              <p>이렇게 신비한 특성을 가진 큐비트 덕분에 양자 컴퓨터는 특정 문제에서 일반 컴퓨터보다 훨씬 빠르게 계산할 수 있는 가능성을 가지고 있어요! 🚀</p>
+              <p>🔬 <strong>중첩의 역사:</strong></p>
+              <p>중첩 원리는 1920년대에 처음 발견되었어요. 특히 유명한 <strong>슈뢰딩어의 고양이</strong> 사고실험은 양자 중첩의 이상함을 설명하기 위해 만들어졌답니다. 이 실험에서 고양이는 이론적으로 살아있는 상태와 죽은 상태의 중첩 상태에 놓이게 됩니다! 🐱</p>
             </div>
           </section>
-
-          {/* 섹션 2: 상태 벡터 */}
+          
+          {/* 섹션 2: 중첩 상태의 측정과 붕괴 */}
           <section className={`content-section ${activeSection === 1 ? 'active-section' : ''}`} ref={el => { sectionRefs.current[1] = el; }}>
-            <h2>상태 벡터</h2>
+            <h2>중첩 상태의 측정과 붕괴</h2>
             <div className="section-content">
-              <p>큐비트의 상태를 수학적으로 표현하는 방법 중 가장 기본적인 것은 <strong>상태 벡터</strong>에요! 이것은 큐비트의 모든 정보를 담은 수학적인 표현이랍니다.</p>
+              <p>양자 중첩은 우리가 관찰하기 전까지만 유지돼요. 중첩 상태에 있는 큐비트를 <strong>측정(measurement)</strong>하는 순간, 중첩은 사라지고 큐비트는 0 또는 1 중 하나의 명확한 상태로 <strong>붕괴(collapse)</strong>합니다! 🔍</p>
               
-              <p>📏 <strong>상태 벡터란?</strong></p>
-              <p>상태 벡터는 2차원 복소수 공간에서 큐비트의 상태를 나타내는 벡터에요:</p>
+              <p>이런 현상을 <strong>파동함수 붕괴</strong>라고 불러요. 마치 주사위를 던져 공중에 있을 때는 모든 면이 가능하지만, 바닥에 닿는 순간 한 면만 나오는 것처럼요!</p>
               
-              <p>여기서 α와 β는 복소수이고, 확률 보존 법칙에 따라 |α|² + |β|² = 1을 만족해요.</p>
-              
-              <p>🎲 <strong>측정 확률:</strong></p>
+              <p>🎯 <strong>측정 결과의 확률:</strong></p>
               <ul style={{ textAlign: 'left', marginLeft: '2rem', marginBottom: '1rem' }}>
-                <li>|α|²: 측정 시 |0⟩ 상태를 얻을 확률</li>
-                <li>|β|²: 측정 시 |1⟩ 상태를 얻을 확률</li>
+                <li>큐비트가 <strong>|0⟩ 상태로 측정될 확률</strong>: |α|² (알파의 제곱)</li>
+                <li>큐비트가 <strong>|1⟩ 상태로 측정될 확률</strong>: |β|² (베타의 제곱)</li>
+                <li>언제나 |α|² + |β|² = 1 (총 확률은 항상 100%)</li>
               </ul>
               
-              <p>📊 <strong>특별한 상태 벡터들:</strong></p>
-              <div className="state-vectors">
-                <div className="state-vector">
-                  <div className="state-name">|0⟩ 상태</div>
-                  <div className="vector-formula">
-                    <div style={{ borderLeft: '1px solid white', borderRight: '1px solid white', padding: '0 5px' }}>
-                      <div>1</div>
-                      <div>0</div>
-                    </div>
-                  </div>
-                </div>
-                <div className="state-vector">
-                  <div className="state-name">|1⟩ 상태</div>
-                  <div className="vector-formula">
-                    <div style={{ borderLeft: '1px solid white', borderRight: '1px solid white', padding: '0 5px' }}>
-                      <div>0</div>
-                      <div>1</div>
-                    </div>
-                  </div>
-                </div>
-                <div className="state-vector">
-                  <div className="state-name">|+⟩ 상태</div>
-                  <div className="vector-formula">
-                    <div style={{ borderLeft: '1px solid white', borderRight: '1px solid white', padding: '0 5px' }}>
-                      <div>1/√2</div>
-                      <div>1/√2</div>
-                    </div>
-                  </div>
-                </div>
-                <div className="state-vector">
-                  <div className="state-name">|-⟩ 상태</div>
-                  <div className="vector-formula">
-                    <div style={{ borderLeft: '1px solid white', borderRight: '1px solid white', padding: '0 5px' }}>
-                      <div>1/√2</div>
-                      <div>-1/√2</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              <p>🔄 <strong>큐비트 변환:</strong></p>
-              <p>큐비트의 상태를 변화시킬 때는 <strong>유니타리 연산자(Unitary operators)</strong>라는 특별한 행렬을 사용해요. 이는 양자 게이트에 해당하는 수학적 표현이에요.</p>
-              
-              <p>예를 들어, X 게이트(NOT 연산)는 |0⟩을 |1⟩으로, |1⟩을 |0⟩으로 바꾸는 행렬이에요:</p>
-              
-              
-              <p>🧩 <strong>여러 큐비트의 상태 벡터</strong></p>
-              <p>n개의 큐비트 시스템은 2^n 차원의 상태 벡터가 필요해요. 3개 큐비트는 8차원 벡터로 표현됩니다!</p>
-              
-              <p>이렇게 높은 차원의 상태 공간을 다룰 수 있는 것이 양자 컴퓨터의 큰 장점이에요. 고전 컴퓨터에서는 n개의 비트로 단 하나의 상태만 표현할 수 있지만, n개의 큐비트는 동시에 2^n개의 상태를 표현할 수 있답니다! 💪</p>
-            </div>
-          </section>
-
-          {/* 섹션 3: 블로흐 구 */}
-          <section className={`content-section ${activeSection === 2 ? 'active-section' : ''}`} ref={el => { sectionRefs.current[2] = el; }}>
-            <h2>블로흐 구</h2>
-            <div className="section-content">
-              <p><strong>블로흐 구(Bloch sphere)</strong>는 큐비트 상태를 시각적으로 표현하는 가장 직관적인 방법이에요. 복잡한 수학 대신 3D 공간에서 큐비트를 볼 수 있답니다!</p>
-              
-              <p>🌐 <strong>블로흐 구란?</strong></p>
-              <p>블로흐 구는 반지름이 1인 3차원 구(sphere)로, 큐비트의 모든 가능한 순수 상태가 이 구의 표면 위의 한 점으로 표현돼요.</p>
+              <p>🧩 <strong>양자 측정의 특별한 성질:</strong></p>
               <ul style={{ textAlign: 'left', marginLeft: '2rem', marginBottom: '1rem' }}>
-                <li><strong>북극(|0⟩)</strong>: 큐비트가 100% |0⟩ 상태</li>
-                <li><strong>남극(|1⟩)</strong>: 큐비트가 100% |1⟩ 상태</li>
-                <li><strong>적도상의 점</strong>: |0⟩과 |1⟩의 50:50 중첩 상태</li>
-                <li><strong>그 외 표면의 점</strong>: |0⟩과 |1⟩의 다양한 확률 비율 조합</li>
+                <li><strong>불가역성</strong>: 한 번 붕괴된 상태는 되돌릴 수 없어요</li>
+                <li><strong>확률적 본질</strong>: 결과를 완벽히 예측할 수 없어요</li>
+                <li><strong>관찰자 효과</strong>: 측정 행위 자체가 시스템을 변화시켜요</li>
+                <li><strong>양자 얽힘과의 관계</strong>: 얽힌 입자 하나를 측정하면 다른 입자의 상태도 즉시 결정돼요</li>
               </ul>
               
-              <p>📐 <strong>수학적 표현:</strong></p>
-              <p>블로흐 구 상의 모든 점은 두 각도로 표현할 수 있어요:</p>
-              <p>여기서:</p>
-              <ul style={{ textAlign: 'left', marginLeft: '2rem', marginBottom: '1rem' }}>
-                <li><strong>θ (세타, 0 ≤ θ ≤ π)</strong>: 북극(θ=0)에서 남극(θ=π)까지의 각도</li>
-                <li><strong>φ (파이, 0 ≤ φ &lt; 2π)</strong>: 적도 평면에서의 회전 각도</li>
-              </ul>
+              <p>🔮 <strong>측정 방향의 중요성:</strong></p>
+              <p>큐비트를 어떤 방향(기저)으로 측정하느냐에 따라 다른 결과를 얻을 수 있어요. 표준 기저(Z-기저)로 측정하면 |0⟩ 또는 |1⟩을 얻고, X-기저로 측정하면 |+⟩ 또는 |-⟩를 얻게 됩니다. 이것이 양자 암호학의 핵심 아이디어가 되었어요! 🔐</p>
               
-              <p>🎮 <strong>양자 게이트와 블로흐 구:</strong></p>
-              <p>양자 게이트는 블로흐 구에서 큐비트를 회전시키는 연산으로 표현할 수 있어요:</p>
-              <ul style={{ textAlign: 'left', marginLeft: '2rem', marginBottom: '1rem' }}>
-                <li><strong>X 게이트</strong>: x축을 중심으로 π 회전 (|0⟩ ↔ |1⟩)</li>
-                <li><strong>Y 게이트</strong>: y축을 중심으로 π 회전</li>
-                <li><strong>Z 게이트</strong>: z축을 중심으로 π 회전 (위상 반전)</li>
-                <li><strong>H 게이트</strong>: |0⟩을 적도 상의 |+⟩로, |1⟩을 |-⟩로 변환</li>
-              </ul>
-              
-              <p>🔒 <strong>블로흐 구의 한계:</strong></p>
-              <p>블로흐 구는 <strong>단일 큐비트</strong>만 표현할 수 있어요. 여러 큐비트의 얽힘 상태는 블로흐 구로 표현할 수 없답니다! 이는 얽힌 상태가 개별 큐비트로 분리할 수 없는 특별한 상태이기 때문이에요.</p>
-              
-              <p>🔬 <strong>실험에서의 활용:</strong></p>
-              <p>과학자들은 블로흐 구를 이용해 큐비트 조작을 계획하고 실행 결과를 분석해요. 양자 상태 톡모그래피(quantum state tomography)라는 기술을 통해 실제 큐비트의 블로흐 구 좌표를 측정할 수도 있답니다!</p>
-              
-              <p>블로흐 구는 추상적인 양자역학 개념을 직관적으로 이해할 수 있게 도와주는 강력한 도구에요. 복잡한 수식 대신 구 위의 점으로 생각하면 큐비트의 동작을 더 쉽게 상상할 수 있답니다! 🧠✨</p>
+              <p>💡 <strong>양자 중첩과 측정의 응용:</strong></p>
+              <p>중첩과 측정의 특성은 <strong>양자 난수 생성기</strong>, <strong>양자 암호화</strong>, <strong>양자 컴퓨팅 알고리즘</strong> 등 다양한 혁신적 기술의 기반이 되고 있어요. 미래 기술의 열쇠를 쥐고 있는 중요한 개념이랍니다!</p>
             </div>
           </section>
         </div>
@@ -536,11 +407,10 @@ function Qubit() {
             <h2 className="graphics-title">{sectionGraphics[activeSection].title}</h2>
             <div className="graphics-content animated">
               {/* 섹션별 2D 인터랙티브 컴포넌트 렌더링 */}
-              {activeSection === 0 && <QubitDefinitionDemo />}
-              {activeSection === 1 && <StateVectorDemo />}
-              {activeSection === 2 && <BlochSphereDemo />}
+              {activeSection === 0 && <SuperpositionIntroDemo />}
+              {activeSection === 1 && <SuperpositionMeasurementDemo />}
               
-              {/* 폴백 이미지 및 수식 */}
+              {/* 폴백 이미지 및 수식 (컴포넌트 아래에 표시) */}
               <div className="fallback-content">
                 <img 
                   src={sectionGraphics[activeSection].image} 
@@ -549,7 +419,11 @@ function Qubit() {
                   onError={(e) => {
                     e.currentTarget.src = sectionGraphics[activeSection].fallbackImage;
                   }}
+                  style={{ display: 'none' }} // 기본적으로 숨김
                 />
+                <div className="formula-display">
+                  <BlockMath math={sectionGraphics[activeSection].formula} />
+                </div>
               </div>
             </div>
             <div className="graphics-indicators">
@@ -573,4 +447,4 @@ function Qubit() {
   );
 }
 
-export default Qubit;
+export default Superposition;

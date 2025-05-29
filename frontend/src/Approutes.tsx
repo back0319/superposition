@@ -5,7 +5,7 @@ import Concept from "./slide/concept/concept"; // concept 컴포넌트 임포트
 import Etm1 from "./slide/entanglement/entangle";
 import Qubit from "./slide/qubit/qubit";
 import Circuit from "./composer/pages/CircuitEditor";
-import Sp1 from "./slide/sp/sp1"; // sp1 컴포넌트 임포트 (중첩 원리)
+import Sp1 from "./slide/superposition/superposition"; // sp1 컴포넌트 임포트 (중첩 원리)
 
 function AppRoutes() {
   return (
@@ -17,6 +17,7 @@ function AppRoutes() {
       <Route path="/qubit" element={<Qubit />} /> {/* qubit1 경로 추가 */}      
       <Route path="/circuit" element={<Circuit />} /> {/* circuit 경로 추가 */}
       <Route path="/sp1" element={<Sp1 />} /> {/* sp1 경로 추가 (중첩 원리) */}
+      <Route path="/superposition" element={<Sp1 />} /> {/* superposition 경로도 추가 */}
       {/* 다른 경로들 추가 가능 */}
     </Routes>
   );

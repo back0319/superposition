@@ -369,9 +369,8 @@
     // Scroll guide
     .scroll-guide {
       position: absolute;
-      top:0%;
+      top: 100px;
       left: 50%;
-      height : 10vh;
       transform: translateX(-50%);
       text-align: center;
       color: white;
@@ -770,43 +769,4 @@
       }
     }
   }
-}
-
-// Qubit-specific styles
-.scroll-guide {
-  // Make the scroll guide smaller and more compact
-  padding: 0.3rem 0.8rem !important; // Reduce padding for smaller height
-  font-size: 0.85rem !important; // Smaller font size
-  border-radius: 1rem !important; // Smaller border radius
-  bottom: 20px !important; // Adjust position
-  
-  // Add smooth fade-out transition
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-  
-  &.fade-out {
-    opacity: 0;
-    transform: translateX(-50%) translateY(10px);
-  }
-}
-
-.scroll-guide-icon {
-  font-size: 1.4rem !important; // Smaller icon
-  margin-bottom: 0.3rem !important; // Less margin
-}
-
-// Animation for the scroll guide
-@keyframes scrollGuide {
-  0%, 100% {
-    transform: translateX(-50%) translateY(0);
-    opacity: 0.8;
-  }
-  50% {
-    transform: translateX(-50%) translateY(-5px);
-    opacity: 1;
-  }
-}
-
-// Override the default animation with a more subtle one
-.scroll-guide {
-  animation: scrollGuide 3s ease-in-out infinite !important;
 }
