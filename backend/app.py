@@ -23,6 +23,22 @@ def simulate():
     # 여기에 시뮬레이션 코드 작성
     return jsonify({"result": "ok"})
 
+@app.route("/concept")
+def get_concept():
+    return jsonify({"info": "회로에 대한 설명 등"})
+
+@app.route("/entangle")
+def entangle():
+    return jsonify({"info": "얽힘에 대한 설명 등"})
+
+@app.route("/sp1")
+def sp1_route():
+    return jsonify({"info": "중첩 원리에 대한 설명 등"})
+
+@app.route("/superposition")
+def superposition():
+    return jsonify({"info": "중첩 원리에 대한 설명 등"})
+
 @app.route("/qubit-info")
 def qubit_info():
     return jsonify({"info": "큐비트에 대한 설명 등"})

@@ -1,16 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import SlideMenu from "../slide";
 
 function Qubit() {
-  const [menuOpen, setMenuOpen] = useState(true);
   const navigate = useNavigate();
 
   // 페이지 매핑
   const pageMap: Record<string, string[]> = {
-    "큐비트": ["/qubit", "/qubit1", "/qubit2"],
     "얽힘": ["/entangle", "/entangle1"],
-    "중첩": ["/superpose", "/superpose1"]
+    "중첩": ["/superpose", "/superpose1"],
+    "큐비트": ["/qubit", "/qubit1", "/qubit2"]
   };
 
   const handleSlideChange = (title: string, detailIdx: number) => {
@@ -30,15 +29,15 @@ function Qubit() {
     >
       <SlideMenu
         current="큐비트"
-        detailIdx={0}
-        onOpenChange={setMenuOpen}
+        detailIdx={3}
         onChange={handleSlideChange}
       />
+
       <div
         style={{
           position: "absolute",
           top: "30%",
-          left: menuOpen ? "60%" : "50%",
+          left: "60%", // 고정 위치로 변경
           transform: "translate(-50%, -50%)",
           width: "60vw",
           display: "flex",

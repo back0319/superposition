@@ -52,3 +52,98 @@
 [2025-05-25 04:05:26] Request: POST /convert-qasm | Data: {"placedGates":[{"qubit":0,"gate":"H","slot":1,"left":96},{"qubit":0,"gate":"Y","slot":0,"left":56}]}
 [2025-05-25 04:05:28] Request: POST /convert-qasm | Data: {"placedGates":[{"qubit":0,"gate":"H","slot":1,"left":96},{"qubit":0,"gate":"Y","slot":0,"left":56},{"qubit":0,"gate":"X","slot":2,"left":136}]}
 [2025-05-25 04:05:28] Request: POST /convert-qasm | Data: {"placedGates":[{"qubit":0,"gate":"H","slot":1,"left":96},{"qubit":0,"gate":"Y","slot":0,"left":56},{"qubit":0,"gate":"X","slot":2,"left":136},{"qubit":0,"gate":"Z","slot":3,"left":176}]}
+[2025-05-25 04:09:45] Request: GET /qubit-info | Data: 
+[2025-05-25 14:58:26] Request: OPTIONS /simulate | Data: 
+[2025-05-25 14:58:26] Request: POST /simulate | Data: {"circuit":"\nOPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[1];\nh q[0];\n"}
+[2025-05-25 14:58:27] Request: GET /qubit-info | Data: 
+[2025-05-25 15:02:31] Request: GET /concept | Data: 
+[2025-05-25 15:02:31] Request: GET /concept | Data: 
+[2025-05-25 15:02:32] Request: OPTIONS /convert-qasm | Data: 
+[2025-05-25 15:02:32] Request: OPTIONS /convert-qasm | Data: 
+[2025-05-25 15:02:32] Request: POST /convert-qasm | Data: {"placedGates":[]}
+[2025-05-25 15:02:32] Request: POST /convert-qasm | Data: {"placedGates":[]}
+[2025-05-25 15:02:36] Request: GET /concept | Data: 
+[2025-05-25 15:02:37] Request: POST /convert-qasm | Data: {"placedGates":[]}
+[2025-05-25 15:02:37] Request: POST /convert-qasm | Data: {"placedGates":[]}
+[2025-05-25 15:04:15] Request: GET /concept | Data: 
+[2025-05-25 15:05:04] Request: GET /concept | Data: 
+[2025-05-25 15:11:29] Request: OPTIONS /simulate | Data: 
+[2025-05-25 15:11:29] Request: POST /simulate | Data: {"circuit":"\nOPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[1];\nh q[0];\n"}
+[2025-05-25 15:11:31] Request: GET /concept | Data: 
+[2025-05-25 15:13:23] Request: OPTIONS /simulate | Data: 
+[2025-05-25 15:13:23] Request: POST /simulate | Data: {"circuit":"\nOPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[1];\nh q[0];\n"}
+[2025-05-25 15:13:25] Request: GET /concept | Data: 
+[2025-05-25 17:10:02] Request: GET /qubit-info | Data: 
+[2025-05-25 17:10:25] Request: GET /qubit-info | Data: 
+[2025-05-25 17:13:16] Request: GET /qubit-info | Data: 
+[2025-05-25 17:23:00] Request: GET /entangle | Data: 
+[2025-05-29 02:28:13] Request: GET /circuit | Data: 
+[2025-05-29 02:28:13] Request: OPTIONS /convert-qasm | Data: 
+[2025-05-29 02:28:13] Request: OPTIONS /convert-qasm | Data: 
+[2025-05-29 02:28:13] Request: POST /convert-qasm | Data: {"placedGates":[]}
+[2025-05-29 02:28:14] Request: POST /convert-qasm | Data: {"placedGates":[]}
+[2025-05-29 02:28:28] Request: GET /concept | Data: 
+[2025-05-29 02:53:41] Request: GET /circuit | Data: 
+[2025-05-29 02:53:41] Request: GET /circuit | Data: 
+[2025-05-29 02:53:41] Request: OPTIONS /convert-qasm | Data: 
+[2025-05-29 02:53:41] Request: OPTIONS /convert-qasm | Data: 
+[2025-05-29 02:53:41] Request: POST /convert-qasm | Data: {"placedGates":[]}
+[2025-05-29 02:53:41] Request: POST /convert-qasm | Data: {"placedGates":[]}
+[2025-05-29 02:53:45] Request: GET /concept | Data: 
+[2025-05-29 03:14:01] Request: GET /concept | Data: 
+[2025-05-29 03:14:04] Request: GET /entangle | Data: 
+[2025-05-29 03:14:08] Request: GET /entangle | Data: 
+[2025-05-29 03:14:10] Request: GET /qubit-info | Data: 
+[2025-05-29 13:03:00] Request: GET /entangle | Data: 
+[2025-05-29 13:03:00] Request: GET /qubit-info | Data: 
+[2025-05-29 13:05:25] Request: GET /entangle | Data: 
+[2025-05-29 13:05:46] Request: GET /entangle | Data: 
+[2025-05-29 13:05:47] Request: GET /entangle | Data: 
+[2025-05-29 13:05:47] Request: GET /entangle | Data: 
+[2025-05-29 13:05:47] Request: GET /entangle | Data: 
+[2025-05-29 13:05:47] Request: GET /entangle | Data: 
+[2025-05-29 13:42:44] Request: GET /superposition | Data: 
+[2025-05-29 13:43:06] Request: GET /superposition | Data: 
+[2025-05-29 13:43:06] Request: GET /superposition | Data: 
+[2025-05-29 13:43:06] Request: GET /superposition | Data: 
+[2025-05-29 13:43:06] Request: GET /superposition | Data: 
+[2025-05-29 13:43:53] Request: GET /superposition | Data: 
+[2025-05-29 13:50:15] Request: GET /superposition | Data: 
+[2025-05-29 13:50:17] Request: GET /entangle | Data: 
+[2025-05-29 13:50:19] Request: GET /qubit-info | Data: 
+[2025-05-29 13:50:37] Request: GET /superposition | Data: 
+[2025-05-29 13:50:37] Request: GET /superposition | Data: 
+[2025-05-29 13:50:37] Request: GET /superposition | Data: 
+[2025-05-29 13:54:34] Request: GET /entangle | Data: 
+[2025-05-29 13:54:34] Request: GET /entangle | Data: 
+[2025-05-29 13:54:34] Request: GET /qubit-info | Data: 
+[2025-05-29 13:54:34] Request: GET /superposition | Data: 
+[2025-05-29 13:54:34] Request: GET /superposition | Data: 
+[2025-05-29 13:54:34] Request: GET /superposition | Data: 
+[2025-05-29 13:54:34] Request: GET /superposition | Data: 
+[2025-05-29 13:54:34] Request: GET /superposition | Data: 
+[2025-05-29 13:54:34] Request: GET /superposition | Data: 
+[2025-05-29 13:54:34] Request: GET /superposition | Data: 
+[2025-05-29 13:54:34] Request: GET /superposition | Data: 
+[2025-05-29 13:54:34] Request: GET /superposition | Data: 
+[2025-05-29 13:54:34] Request: GET /superposition | Data: 
+[2025-05-29 13:54:34] Request: GET /superposition | Data: 
+[2025-05-29 13:54:34] Request: GET /superposition | Data: 
+[2025-05-29 13:54:34] Request: GET /superposition | Data: 
+[2025-05-29 13:54:35] Request: GET /superposition | Data: 
+[2025-05-29 13:54:35] Request: GET /superposition | Data: 
+[2025-05-29 13:54:35] Request: GET /superposition | Data: 
+[2025-05-29 13:54:35] Request: GET /superposition | Data: 
+[2025-05-29 13:54:35] Request: GET /superposition | Data: 
+[2025-05-29 13:55:05] Request: GET /superposition | Data: 
+[2025-05-29 13:56:11] Request: GET /superposition | Data: 
+[2025-05-29 14:38:57] Request: GET /qubit-info | Data: 
+[2025-05-29 14:39:02] Request: GET /superposition | Data: 
+[2025-05-29 14:48:32] Request: GET /superposition | Data: 
+[2025-05-29 14:55:27] Request: GET /entangle | Data: 
+[2025-05-29 14:58:50] Request: GET /entangle | Data: 
+[2025-05-29 15:03:17] Request: GET /entangle | Data: 
+[2025-05-29 15:04:14] Request: GET /entangle | Data: 
+[2025-05-29 15:41:51] Request: GET /entangle | Data: 
+[2025-05-29 16:18:09] Request: GET /entangle | Data: 
+[2025-05-29 17:37:51] Request: GET /entangle | Data: 

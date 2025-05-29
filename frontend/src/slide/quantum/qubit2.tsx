@@ -7,9 +7,9 @@ function Qubit2() {
   const navigate = useNavigate();
 
   const pageMap: Record<string, string[]> = {
-    "큐비트": ["/qubit", "/qubit1", "/qubit2"],
     "얽힘": ["/entangle", "/entangle1"],
-    "중첩": ["/superpose", "/superpose1"]
+    "중첩": ["/superpose", "/superpose1"],
+    "큐비트": ["/qubit", "/qubit1", "/qubit2"]
   };
 
   const handleSlideChange = (title: string, detailIdx: number) => {
@@ -30,7 +30,6 @@ function Qubit2() {
       <SlideMenu
         current="큐비트"
         detailIdx={1}
-        onOpenChange={setMenuOpen}
         onChange={handleSlideChange}
       />
       <div

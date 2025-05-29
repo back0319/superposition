@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import SlideMenu from "../slide";
 
-function Qubit1() {
-  const [menuOpen, setMenuOpen] = useState(true);
+function Qubit() {
   const navigate = useNavigate();
 
+  // 페이지 매핑
   const pageMap: Record<string, string[]> = {
     "얽힘": ["/entangle", "/entangle1"],
     "중첩": ["/superpose", "/superpose1"],
@@ -28,15 +28,16 @@ function Qubit1() {
       }}
     >
       <SlideMenu
-        current="큐비트"
-        detailIdx={1}
+        current="개념"
+        detailIdx={0}
         onChange={handleSlideChange}
       />
+
       <div
         style={{
           position: "absolute",
           top: "30%",
-          left: menuOpen ? "60%" : "50%",
+          left: "60%", // 고정 위치로 변경
           transform: "translate(-50%, -50%)",
           width: "60vw",
           display: "flex",
@@ -45,13 +46,16 @@ function Qubit1() {
           transition: "left 0.4s cubic-bezier(0.77,0,0.175,1)"
         }}
       >
-        <h1>상태벡터</h1>
+        <h1>양자란?</h1>
         <p style={{ fontSize: "1.5rem", maxWidth: 600, textAlign: "center" }}>
-          상태벡터에 대한 설명을 여기에 작성하세요.
+           더 이상 나눌 수 없는 에너지의 최소량의 단위입니다.
+        </p>
+        <p style={{ fontSize: "1.5rem", maxWidth: 600, textAlign: "center" }}>
+           전자, 광자가 대표적인 예시입니다.
         </p>
       </div>
     </div>
   );
 }
 
-export default Qubit1;
+export default Qubit;
