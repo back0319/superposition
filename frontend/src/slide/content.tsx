@@ -3,46 +3,43 @@ import "../component/layout/content.scss";
 import "../component/button.scss";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { getApiUrl, API_ENDPOINTS } from "../config/api";
 
 function Content() {
   const [showConceptButtons, setShowConceptButtons] = useState(false);
   const [showCircuitButtons, setShowCircuitButtons] = useState(false);
   const navigate = useNavigate();
-
   // 양자 버튼 클릭 → concept 페이지
   const handleConceptClick = async () => {
     try {
-      await axios.get("http://localhost:5000/concept");
+      await axios.get(getApiUrl(API_ENDPOINTS.CONCEPT));
       navigate("/concept");
     } catch {
       alert("서버 요청에 실패했습니다.");
     }
   };
-
   // 중첩 버튼 클릭 → entangle 페이지
   const handleEtmClick = async () => {
     try {
-      await axios.get("http://localhost:5000/entangle");
+      await axios.get(getApiUrl(API_ENDPOINTS.ENTANGLE));
       navigate("/entangle");
     } catch {
       alert("서버 요청에 실패했습니다.");
     }
   };
-
   // 큐비트 버튼 클릭 → qubit 페이지
   const handleQubitClick = async () => {
     try {
-      await axios.get("http://localhost:5000/qubit-info");
+      await axios.get(getApiUrl(API_ENDPOINTS.QUBIT_INFO));
       navigate("/qubit");
     } catch {
       alert("서버 요청에 실패했습니다.");
     }
   };
-
   // 회로 버튼 클릭 → circuit 페이지
   const handleCircuitClick = async () => {
     try {
-      await axios.get("http://localhost:5000/circuit");
+      await axios.get(getApiUrl(API_ENDPOINTS.CIRCUIT));
       navigate("/circuit");
     } catch {
       alert("서버 요청에 실패했습니다.");

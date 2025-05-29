@@ -4,6 +4,7 @@ import "./component/button.scss";
 import "./component/layout/home.scss";
 import { useNavigate, Link } from "react-router-dom";
 import "./Approutes";
+import { getApiUrl, API_ENDPOINTS } from "./config/api";
 
 function Home() {
   const [result, setResult] = useState<any>(null);
@@ -131,10 +132,9 @@ function Home() {
       }
     }, 300); // 지연 시간 증가
   };
-
   const goToCircuit = async () => {
     try {
-      await axios.get("http://localhost:5000/circuit");
+      await axios.get(getApiUrl(API_ENDPOINTS.CIRCUIT));
       navigate("/circuit");
     } catch (err) {
       console.error("서버 요청에 실패했습니다.", err);
@@ -143,17 +143,16 @@ function Home() {
 
   const goToContent = async () => {
     try {
-      await axios.get("http://localhost:5000/concept");
+      await axios.get(getApiUrl(API_ENDPOINTS.CONCEPT));
       navigate("/content");
     } catch (err) {
       console.error("서버 요청에 실패했습니다.", err);
     }
   };
-
   // 양자 버튼 클릭 → concept 페이지
   const handleConceptClick = async () => {
     try {
-      await axios.get("http://localhost:5000/concept");
+      await axios.get(getApiUrl(API_ENDPOINTS.CONCEPT));
       navigate("/concept");
     } catch (err) {
       console.error("서버 요청에 실패했습니다.", err);
@@ -161,7 +160,7 @@ function Home() {
   };  // 중첩 버튼 클릭 → superposition 페이지로 이동
   const handleSpClick = async () => {
     try {
-      await axios.get("http://localhost:5000/superposition");
+      await axios.get(getApiUrl(API_ENDPOINTS.SUPERPOSITION));
       navigate("/superposition");
     } catch (err) {
       console.error("서버 요청에 실패했습니다.", err);
@@ -169,7 +168,7 @@ function Home() {
   };
   const handleEtmClick = async () => {
     try {
-      await axios.get("http://localhost:5000/entangle");
+      await axios.get(getApiUrl(API_ENDPOINTS.ENTANGLE));
       navigate("/entangle");
     } catch (err) {
       console.error("서버 요청에 실패했습니다.", err);
@@ -177,11 +176,10 @@ function Home() {
       navigate("/entangle");
     }
   };
-
   // 큐비트 버튼 클릭 → qubit 페이지
   const handleQubitClick = async () => {
     try {
-      await axios.get("http://localhost:5000/qubit");
+      await axios.get(getApiUrl(API_ENDPOINTS.QUBIT));
       navigate("/qubit");
     } catch (err) {
       console.error("서버 요청에 실패했습니다.", err);
@@ -191,12 +189,12 @@ function Home() {
   // 회로 버튼 클릭 → circuit 페이지
   const handleCircuitClick = async () => {
     try {
-      await axios.get("http://localhost:5000/circuit");
+      await axios.get(getApiUrl(API_ENDPOINTS.CIRCUIT));
       navigate("/circuit");
     } catch (err) {
       console.error("서버 요청에 실패했습니다.", err);
     }
-  };  return (
+  };return (
     <div className="home-container">
       <main className={`home-content ${isAnyMenuExpanded ? 'content-shifted' : ''}`}>
         <div className="logo-center">SuperPosition</div>

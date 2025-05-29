@@ -2,6 +2,22 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Environment Setup
+
+Before running the application, you need to set up environment variables:
+
+1. Copy the example environment file:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Update the `.env` file with your API configuration:
+   ```
+   REACT_APP_API_BASE_URL=http://localhost:5000
+   ```
+
+   For production, change this to your production API URL.
+
 ## Available Scripts
 
 In the project directory, you can run:

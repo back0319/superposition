@@ -18,6 +18,7 @@ import "../../component/layout/circuit.scss";
 import "../style/quirk-gates.scss"; // Import Quirk-inspired gate styles
 import "../style/quirk-circuit.scss"; // Import Quirk-inspired circuit layout
 import "../style/quirk-layout.scss"; // Import Quirk-inspired layout
+import { getApiUrl, API_ENDPOINTS } from "../../config/api";
 
 // Import test functions for development/debugging
 import "../utils/quirkGateTest";
@@ -112,11 +113,10 @@ function CircuitEditor() {
     setGateDialog(null);
   };
 
-  const cancelGateDialog = () => setGateDialog(null);
-  const runSimulation = async () => {
+  const cancelGateDialog = () => setGateDialog(null);  const runSimulation = async () => {
     try {
       // state에 저장된 qasm 사용
-      const res = await axios.post("http://localhost:5000/simulate", { qasm });
+      const res = await axios.post(getApiUrl(API_ENDPOINTS.SIMULATE), { qasm });
       setResult(res.data.counts || res.data);
       
       // Handle state vector data if available
