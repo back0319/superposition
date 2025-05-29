@@ -4,7 +4,7 @@ import Content from "./slide/content";
 import Qubit from "./slide/quantum/qubit";
 import Qubit1 from "./slide/quantum/qubit1"; // qubit1 컴포넌트 임포트
 import Qubit2 from "./slide/quantum/qubit2"; // qubit1 컴포넌트 임포트
-import Circuit from "./slide/circuit/circuit";
+import Circuit from "./composer/pages/CircuitEditor";
 
 function AppRoutes() {
   return (

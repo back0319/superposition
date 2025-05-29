@@ -19,40 +19,29 @@ function Qubit() {
   };
 
   return (
-    <div
-      style={{
-        width: "100vw",
-        height: "100vh",
-        background: "#222",
-        color: "#fff",
-        position: "relative"
-      }}
-    >
-      <SlideMenu
-        current="큐비트"
-        detailIdx={0}
-        onOpenChange={setMenuOpen}
-        onChange={handleSlideChange}
-      />
-      <div
-        style={{
-          position: "absolute",
-          top: "30%",
-          left: menuOpen ? "60%" : "50%",
-          transform: "translate(-50%, -50%)",
-          width: "60vw",
+    <SlideMenu
+      current="큐비트"
+      detailIdx={0}
+      onChange={handleSlideChange}
+      bodyLeft={
+        <div style={{
+          width: "100%",
+          height: "100%",
+          background: "#222",
+          color: "#fff",
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
-          transition: "left 0.4s cubic-bezier(0.77,0,0.175,1)"
-        }}
-      >
-        <h1>큐비트란?</h1>
-        <p style={{ fontSize: "1.5rem", maxWidth: 600, textAlign: "center" }}>
-          전통 컴퓨터에서는 <span style={{ color: "orange" }}>Bit</span>를 사용하지만, 양자 컴퓨터에서는 <span style={{ color: "orange" }}>Qu</span>antum <span style={{ color: "orange" }}>Bit</span>의 약자인 <span style={{ color: "orange" }}>Qubit</span>를 사용합니다.
-        </p>
-      </div>
-    </div>
+          justifyContent: "center",
+          alignItems: "center"
+        }}>
+          <h1>큐비트란?</h1>
+          <p style={{ fontSize: "1.5rem", maxWidth: 600, textAlign: "center" }}>
+            전통 컴퓨터에서는 <span style={{ color: "orange" }}>Bit</span>를 사용하지만, 양자 컴퓨터에서는 <span style={{ color: "orange" }}>Quantum Bit</span>의 약자인 <span style={{ color: "orange" }}>Qubit</span>를 사용합니다.
+          </p>
+        </div>
+      }
+      bodyRight={null}
+    />
   );
 }
 

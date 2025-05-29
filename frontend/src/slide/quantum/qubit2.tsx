@@ -27,12 +27,7 @@ function Qubit2() {
         position: "relative"
       }}
     >
-      <SlideMenu
-        current="큐비트"
-        detailIdx={1}
-        onOpenChange={setMenuOpen}
-        onChange={handleSlideChange}
-      />
+
       <div
         style={{
           position: "absolute",

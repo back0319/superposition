@@ -18,40 +18,31 @@ function Qubit1() {
   };
 
   return (
-    <div
-      style={{
-        width: "100vw",
-        height: "100vh",
-        background: "#222",
-        color: "#fff",
-        position: "relative"
-      }}
-    >
-      <SlideMenu
-        current="큐비트"
-        detailIdx={1}
-        onOpenChange={setMenuOpen}
-        onChange={handleSlideChange}
-      />
-      <div
-        style={{
-          position: "absolute",
-          top: "30%",
-          left: menuOpen ? "60%" : "50%",
-          transform: "translate(-50%, -50%)",
-          width: "60vw",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          transition: "left 0.4s cubic-bezier(0.77,0,0.175,1)"
-        }}
-      >
-        <h1>상태벡터</h1>
-        <p style={{ fontSize: "1.5rem", maxWidth: 600, textAlign: "center" }}>
-          상태벡터에 대한 설명을 여기에 작성하세요.
-        </p>
-      </div>
-    </div>
+    <SlideMenu
+      current="큐비트"
+      detailIdx={1}
+      onChange={handleSlideChange}
+      bodyLeft={
+        <div
+          style={{
+            width: "100vw",
+            height: "100vh",
+            background: "#222",
+            color: "#fff",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
+          <h1>상태벡터</h1>
+          <p style={{ fontSize: "1.5rem", maxWidth: 600, textAlign: "center" }}>
+            큐비트의 상태를 나타내는 벡터입니다. 양자 컴퓨터의 핵심 개념 중 하나입니다.
+          </p>
+        </div>
+      }
+      bodyRight={null}
+    />
   );
 }
 

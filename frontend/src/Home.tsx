@@ -8,26 +8,9 @@ function Home() {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const simulateQuantum = async () => {
-    const qasmCode = `
-OPENQASM 2.0;
-include "qelib1.inc";
-qreg q[1];
-h q[0];
-`;
-
-    try {
-      const response = await axios.post("http://localhost:5000/simulate", {
-        circuit: qasmCode,
-      });
-      setResult(response.data.result);
-      setError(null);
-      navigate("/content");
-    } catch (err: any) {
-      setError(err.response?.data?.error || "Error occurred");
-      setResult(null);
-      navigate("/content");
-    }
+  // 바로 Content 로 이동만 합니다.
+  const simulateQuantum = () => {
+    navigate("/content");
   };
 
   return (

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import './tailwind.css'; // Import Tailwind first
+import './index.css';    // Then import your custom styles
 import Home from './Home';
 import reportWebVitals from './reportWebVitals';
 import App from './App';

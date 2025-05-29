@@ -1,171 +1,1494 @@
+/* IBM Quantum Composer 스타일 */
+@import '../../composer/style/parameters.scss';
+@import '../../composer/style/rotation-gates.scss';
+@import '../../composer/style/multi-qubit-gates.scss';
+
+/* 변수 정의 */
+:root {
+  --primary-color: #0f62fe;
+  --primary-color-rgb: 15, 98, 254;
+  --secondary-color: #0043ce;
+  --accent-color: #e0f7fa;
+  --background-color: #f4f4f4;
+  --panel-bg: #ffffff;
+  --border-color: #dfe3e6;
+  --text-color: #161616;
+  --header-height: 60px;
+  --footer-height: 50px;
+  --gate-h-color: #fa4d56;
+  --gate-x-color: #4589ff;
+  --gate-y-color: #a56eff;
+  --gate-z-color: #08bdba;
+  --gate-t-color: #3ddbd9;
+  --gate-s-color: #33b1ff;
+  --gate-control-color: #161616;
+    /* Rotation gate colors */  --gate-rx-color: #e64a19; /* Orange-red for X-axis */
+  --gate-rx-border-color: #d24315; /* Darker orange-red for border */
+  --gate-ry-color: #7b1fa2; /* Purple for Y-axis */
+  --gate-ry-border-color: #5e1982; /* Darker purple for border */
+  --gate-rz-color: #0288d1; /* Blue for Z-axis */
+  --gate-rz-border-color: #0277bd; /* Darker blue for border */
+  
+  /* Controlled rotation gate colors */
+  --gate-crx-color: #f57c00; /* Orange for controlled X-rotation */
+  --gate-crx-border-color: #e65100; /* Darker orange for border */
+  --gate-cry-color: #9c27b0; /* Purple for controlled Y-rotation */
+  --gate-cry-border-color: #7b1fa2; /* Darker purple for border */
+  --gate-crz-color: #1e88e5; /* Blue for controlled Z-rotation */
+  --gate-crz-border-color: #1565c0; /* Darker blue for border */
+}
+
+/* 기본 에디터 레이아웃 */
 .quantum-composer {
   display: flex;
+  flex-direction: column;
   height: 100vh;
   width: 100vw;
-  font-family: Arial, sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-/* ─── 좌측 사이드바 ─── */
-.composer-sidebar {
-  width: 200px;
-  background: #f7f7f7;
-  border-right: 1px solid #ddd;
-  display: flex;
-  flex-direction: column;
-}
-.files-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  border-bottom: 1px solid #ddd;
-}
-.btn-new {
-  background: #1976d2;
-  color: #fff;
-  border: none;
-  padding: 0.3rem 0.6rem;
-  border-radius: 4px;
-  cursor: pointer;
-}
-.files-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  flex: 1;
-  overflow-y: auto;
-}
-.files-list li {
-  padding: 0.75rem 1rem;
-  display: flex;
-  justify-content: space-between;
-  cursor: pointer;
-}
-.files-list li.active {
-  background: #e3f2fd;
-}
-.created {
-  font-size: 0.75rem;
-  color: #666;
-}
-
-/* ─── 우측 메인 ─── */
-.composer-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
+/* 헤더 */
 .composer-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 1rem;
-  background: #fafafa;
-  border-bottom: 1px solid #ddd;
-}
-.tabs button {
-  background: none;
-  border: none;
-  margin-right: 0.5rem;
-  padding: 0.5rem;
-  cursor: pointer;
-}
-.tabs button.active {
-  border-bottom: 2px solid #1976d2;
-  font-weight: bold;
-}
-.btn-run {
-  background: #1976d2;
-  color: #fff;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
+  justify-content: space-between;
+  height: var(--header-height);
+  padding: 0 20px;
+  background-color: var(--panel-bg);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  .view-controls {
+    display: flex;
+    gap: 10px;
+    
+    .view-button {
+      padding: 6px 12px;
+      background: transparent;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+      
+      &.active {
+        background-color: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+      }
+      
+      &:hover:not(.active) {
+        background-color: #f0f0f0;
+      }
+    }
+  }
 }
 
-/* 작업 영역 그리드 */
-.composer-workspace {
-  flex: 1;
+/* 메인 레이아웃 */
+.composer-layout {
   display: grid;
-  grid-template-columns: 200px 1fr 240px;
-  grid-template-rows: auto 1fr;
-  grid-template-areas:
-    "ops  ops    ops"
-    "ops  canvas code";
+  grid-template-columns: 250px 1fr 300px;
+  flex-grow: 1;
   overflow: hidden;
 }
 
-.operations-panel {
-  grid-area: ops;
-  background: #e3e6f0;
-  padding: 1rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  overflow-y: auto;
-}
-.op-btn {
-  width: 32px;
-  height: 32px;
-  border: none;
-  background: #fff;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.canvas-panel {
-  grid-area: canvas;
-  display: flex;
-  position: relative;
-  background: #fff;
-}
-.circuit-area {
-  flex: 1;
-  padding: 1rem;
-  /* 여기에 Circut 컴포넌트 스타일 적용 */
-}
-.measure-panel {
+/* 게이트 팔레트 패널 */
+.gate-palette-panel {
+  background-color: var(--panel-bg);
+  border-right: 1px solid var(--border-color);
+  padding: 15px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 1rem;
+  overflow-y: auto;
+  
+  .panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    
+    h2 {
+      font-size: 1.2rem;
+      margin: 0;
+    }
+    
+    .panel-controls {
+      display: flex;
+      gap: 5px;
+    }
+  }
+  
+  .icon-button {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    
+    &:hover {
+      background-color: #f0f0f0;
+    }
+  }
+  
+  .search-bar {
+    display: flex;
+    margin-bottom: 15px;
+    
+    input {
+      flex-grow: 1;
+      padding: 8px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 14px;
+      
+      &:focus {
+        border-color: var(--primary-color);
+        outline: none;
+      }
+    }
+    
+    .view-options {
+      display: flex;
+      margin-left: 5px;
+      gap: 5px;
+    }
+  }
+  
+  .qubit-control {
+    margin-top: 15px;
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+    
+    select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      
+      &:focus {
+        border-color: var(--primary-color);
+        outline: none;
+      }
+    }
+  }
 }
-.measure-btn {
-  width: 24px;
-  height: 24px;
-  border: none;
-  background: #eee;
-  border-radius: 50%;
+
+/* 게이트 팔레트 */
+.gate-palette {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  transition: all 0.3s ease;
+  
+  &.palette-drop-zone {
+    background-color: rgba(var(--primary-color-rgb), 0.1);
+    border: 2px dashed var(--primary-color);
+    border-radius: 8px;
+  }
+  
+  .gate-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    
+    .category-button {
+      padding: 5px 10px;
+      background: transparent;
+      border: 1px solid var(--border-color);
+      border-radius: 15px;
+      font-size: 12px;
+      white-space: nowrap;
+      cursor: pointer;
+      
+      &.active {
+        background-color: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+      }
+      
+      &:hover:not(.active) {
+        background-color: #f0f0f0;
+      }
+    }
+  }
+  
+  .gate-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    
+    .gate-button {
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      color: white;
+      font-weight: bold;
+      cursor: grab;
+      user-select: none;
+      transition: transform 0.15s ease;
+      
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+      }
+      
+      &.dragging {
+        opacity: 0.5;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+      }
+      
+      &.gate-h { background-color: var(--gate-h-color); }
+      &.gate-x { background-color: var(--gate-x-color); }
+      &.gate-y { background-color: var(--gate-y-color); }
+      &.gate-z { background-color: var(--gate-z-color); }
+      &.gate-t { background-color: var(--gate-t-color); }
+      &.gate-s { background-color: var(--gate-s-color); }
+      &.gate-cx { background-color: var(--gate-x-color); }
+      &.gate-p { background-color: #0072c3; }
+      &.gate-rx { background-color: #ff7eb6; }
+      &.gate-ry { background-color: #d12771; }
+      &.gate-rz { background-color: #8a3ffc; }
+      &.gate-reset { background-color: #6f6f6f; }
+      &.gate-if { background-color: #8a3800; }
+    }
+  }
+  
+  .palette-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    
+    .palette-button {
+      padding: 8px 12px;
+      background-color: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+      
+      &:hover {
+        background-color: #f0f0f0;
+      }
+      
+      &.save-button {
+        color: var(--primary-color);
+      }
+    }
+  }
+}
+
+/* 메인 콘텐츠 영역 */
+.main-content-area {
+  background-color: var(--panel-bg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  
+  .tabs-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border-color);
+    
+    .tab {
+      padding: 12px 24px;
+      background: transparent;
+      border: none;
+      border-bottom: 3px solid transparent;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      
+      &.active {
+        border-bottom-color: var(--primary-color);
+        color: var(--primary-color);
+      }
+      
+      &:hover:not(.active) {
+        background-color: #f0f0f0;
+      }
+    }
+  }
+  
+  .tab-content {
+    flex-grow: 1;
+    overflow: auto;
+    padding: 20px;
+  }
+}
+
+/* 회로 에디터 */
+.circuit-editor {
+  display: flex;
+  
+  .qubit-labels {
+    display: flex;
+    flex-direction: column;
+    margin-right: 15px;
+    
+    .qubit-label {
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 14px;
+      padding-right: 10px;
+    }
+  }
+}
+
+/* 회로 캔버스 */
+.circuit-canvas {
+  position: relative;
+  flex-grow: 1;
+  
+  .qubit-wires {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    pointer-events: none;
+    
+    .qubit-wire {
+      flex-grow: 1;
+      border-bottom: 1px solid #d0d0d0;
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+  
+  .circuit-grid {
+    position: relative;
+    z-index: 1;
+    
+    .circuit-row {
+      display: flex;
+      height: 48px;
+      
+      .circuit-cell {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        
+        &.cell-hover {
+          background-color: var(--accent-color);
+        }
+        
+        &.dragging {
+          opacity: 0.4;
+        }
+        
+        .gate {
+          width: 36px;
+          height: 36px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 4px;
+          color: white;
+          font-weight: bold;
+          
+          &.gate-h { background-color: var(--gate-h-color); }
+          &.gate-x { background-color: var(--gate-x-color); }
+          &.gate-y { background-color: var(--gate-y-color); }
+          &.gate-z { background-color: var(--gate-z-color); }
+          &.gate-t { background-color: var(--gate-t-color); }
+          &.gate-s { background-color: var(--gate-s-color); }
+        }
+        
+        .gate-control {
+          width: 12px;
+          height: 12px;
+          background-color: var(--gate-control-color);
+          border-radius: 50%;
+        }
+        
+        .gate-target {
+          width: 24px;
+          height: 24px;
+          border: 2px solid var(--gate-control-color);
+          border-radius: 50%;
+          position: relative;
+          
+          &:before, &:after {
+            content: '';
+            position: absolute;
+            background-color: var(--gate-control-color);
+          }
+          
+          &:before {
+            width: 2px;
+            height: 18px;
+            top: 1px;
+            left: 9px;
+          }
+          
+          &:after {
+            width: 18px;
+            height: 2px;
+            left: 1px;
+            top: 9px;
+          }
+        }
+      }
+    }
+  }
+  
+  .measurement-area {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    height: 100%;
+    
+    .measurement-cell {
+      height: 48px;
+      display: flex;
+      align-items: center;
+      
+      .measurement-icon {
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'IBM Plex Mono', monospace;
+      }
+    }
+  }
+}
+
+/* 시각화 패널 */
+.visualization-panel {
+  .visualization-tabs {
+    display: flex;
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+    
+    .viz-tab {
+      padding: 8px 16px;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      font-size: 14px;
+      cursor: pointer;
+      
+      &.active {
+        border-bottom-color: var(--primary-color);
+        color: var(--primary-color);
+      }
+      
+      &:hover:not(.active) {
+        background-color: #f0f0f0;
+      }
+    }
+  }
+  
+  .visualization-content {
+    height: 300px;
+  }
+}
+
+/* QASM 코드 패널 */
+.qasm-panel {
+  background-color: var(--panel-bg);
+  border-left: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  
+  .panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
+    
+    h2 {
+      font-size: 1.2rem;
+      margin: 0;
+    }
+    
+    .panel-controls {
+      display: flex;
+      gap: 5px;
+    }
+  }
+  
+  .code-container {
+    flex-grow: 1;
+    overflow: auto;
+    padding: 15px;
+  }
+  
+  .code-editor {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    margin: 0;
+    
+    .code-line {
+      display: flex;
+      line-height: 1.5;
+      
+      .line-number {
+        color: #6f6f6f;
+        width: 24px;
+        text-align: right;
+        margin-right: 16px;
+        user-select: none;
+      }
+      
+      code {
+        flex-grow: 1;
+        
+        &.code-keyword {
+          color: #0f62fe;
+        }
+        
+        &.code-include {
+          color: #42be65;
+        }
+        
+        &.code-register {
+          color: #8a3ffc;
+        }
+      }
+    }
+  }
+}
+
+/* 푸터 영역 */
+.composer-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: var(--footer-height);
+  padding: 0 20px;
+  background-color: var(--panel-bg);
+  border-top: 1px solid var(--border-color);
+  
+  .run-button {
+    padding: 8px 24px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    
+    &:hover {
+      background-color: var(--secondary-color);
+    }
+  }
+  
+  .footer-controls {
+    display: flex;
+    gap: 10px;
+    
+    button {
+      padding: 8px 16px;
+      background-color: transparent;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      cursor: pointer;
+      
+      &:hover {
+        background-color: #f0f0f0;
+      }
+    }
+  }
+}
+
+/* 통계/차트 영역 */
+.stats-panel {
+  grid-area: stats;
+  display: flex;
+  gap: 1rem;
+}
+
+.probabilities,
+.qsphere {
+  flex: 1;
+  background-color: #fff;
+  overflow: auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* 게이트 */
+.gate {
+  width: 4rem;
+  height: 4rem;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  transition: background-color 0.2s;
+}
+
+.gate-hover {
+  background-color: #e0f7fa;
+}
+
+/* 게이트 그리드 셀 */
+.grid-cell {
+  width: 4rem;
+  height: 4rem;
+  border: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+}
+
+/* 양자비트 라인 */
+.qubit-row {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+/* 버튼 스타일 */
+.btn-primary {
+  background-color: #3b82f6; /* blue-500 */
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
   cursor: pointer;
 }
 
-.code-panel {
-  grid-area: code;
-  background: #f4f4f4;
-  border-left: 1px solid #ddd;
-  padding: 1rem;
-  font-family: monospace;
-  font-size: 0.9rem;
-}
-.code-header {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-.code-body {
-  max-height: calc(100% - 1.2rem);
-  overflow-y: auto;
+.btn-primary:hover {
+  background-color: #2563eb; /* blue-600 */
 }
 
-/* ─── 하단 차트 ─── */
-.composer-footer {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  border-top: 1px solid #ddd;
+/* 결과 차트 영역 */
+.result-chart {
+  width: 100%;
+  max-width: 36rem;
 }
-.chart {
-  padding: 1rem;
-  border-right: 1px solid #ddd;
+
+/* 대화상자 */
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
 }
-.chart:last-child {
-  border-right: none;
+
+.dialog-content {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 28rem;
+  width: 100%;
+}
+
+.dialog-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  
+  .btn-secondary {
+    padding: 8px 16px;
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    
+    &:hover {
+      background-color: #e0e0e0;
+    }
+  }
+  
+  .btn-primary {
+    padding: 8px 16px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    
+    &:hover {
+      background-color: var(--secondary-color);
+    }
+    
+    &:disabled {
+      background-color: #a0a0a0;
+      cursor: not-allowed;
+    }
+  }
+}
+
+/* 통계/차트 영역 */
+.stats-panel {
+  grid-area: stats;
+  display: flex;
+  gap: 1rem;
+}
+
+.probabilities,
+.qsphere {
+  flex: 1;
+  background-color: #fff;
+  overflow: auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Improved gate styling for better readability */
+.quirk-gate {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
+  border: 2px solid #495057 !important;
+  color: #212529 !important;
+  font-weight: 700 !important;
+  text-shadow: none !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+  min-height: 32px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 4px !important;
+  font-size: 12px !important;
+}
+
+/* Specific gate type colors for better distinction */
+.gate-h { 
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%) !important; 
+  border-color: #1976d2 !important; 
+  color: #1976d2 !important;
+}
+
+.gate-x { 
+  background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%) !important; 
+  border-color: #d32f2f !important; 
+  color: #d32f2f !important;
+}
+
+.gate-y { 
+  background: linear-gradient(135deg, #fff3e0 0%, #ffcc80 100%) !important; 
+  border-color: #f57c00 !important; 
+  color: #f57c00 !important;
+}
+
+.gate-z { 
+  background: linear-gradient(135deg, #f3e5f5 0%, #ce93d8 100%) !important; 
+  border-color: #7b1fa2 !important; 
+  color: #7b1fa2 !important;
+}
+
+.gate-t { 
+  background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%) !important; 
+  border-color: #388e3c !important; 
+  color: #388e3c !important;
+}
+
+.gate-tdg { 
+  background: linear-gradient(135deg, #fff8e1 0%, #fff176 100%) !important; 
+  border-color: #fbc02d !important; 
+  color: #f57f17 !important;
+}
+
+.gate-i { 
+  background: linear-gradient(135deg, #fafafa 0%, #e0e0e0 100%) !important; 
+  border-color: #616161 !important; 
+  color: #424242 !important;
+}
+
+/* Rotation gates */
+.gate-rx { 
+  background: linear-gradient(135deg, #ffebee 0%, #ef9a9a 100%) !important; 
+  border-color: #c62828 !important; 
+  color: #c62828 !important;
+}
+
+.gate-ry { 
+  background: linear-gradient(135deg, #fff3e0 0%, #ffb74d 100%) !important; 
+  border-color: #ef6c00 !important; 
+  color: #ef6c00 !important;
+}
+
+.gate-rz { 
+  background: linear-gradient(135deg, #f3e5f5 0%, #ba68c8 100%) !important; 
+  border-color: #8e24aa !important; 
+  color: #8e24aa !important;
+}
+
+.gate-u { 
+  background: linear-gradient(135deg, #e1f5fe 0%, #81d4fa 100%) !important; 
+  border-color: #0277bd !important; 
+  color: #0277bd !important;
+}
+
+/* Control and target styling */
+.quirk-control {
+  background: radial-gradient(circle, #212529 0%, #212529 60%, transparent 60%) !important;
+  border: 2px solid #212529 !important;
+  width: 20px !important;
+  height: 20px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: white !important;
+  font-size: 14px !important;
+  font-weight: bold !important;
+}
+
+.quirk-target {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
+  border: 3px solid #212529 !important;
+  border-radius: 50% !important;
+  width: 32px !important;
+  height: 32px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #212529 !important;
+  font-size: 18px !important;
+  font-weight: bold !important;
+}
+
+/* Parameterized gates */
+.quirk-param-gate {
+  flex-direction: column !important;
+  padding: 4px !important;
+  min-height: 40px !important;
+  
+  .gate-symbol {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    margin-bottom: 2px !important;
+  }
+  
+  .gate-param {
+    font-size: 8px !important;
+    color: #495057 !important;
+    margin-top: 1px !important;
+  }
+  
+  .gate-params {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+}
+
+/* Route gates */
+.gate-route-x { 
+  background: linear-gradient(135deg, #fff3e0 0%, #ffcc80 100%) !important; 
+  border-color: #f57c00 !important; 
+  color: #f57c00 !important;
+}
+
+.gate-route-y { 
+  background: linear-gradient(135deg, #e8f5e8 0%, #a5d6a7 100%) !important; 
+  border-color: #2e7d32 !important; 
+  color: #2e7d32 !important;
+}
+
+.gate-route-z { 
+  background: linear-gradient(135deg, #f3e5f5 0%, #ce93d8 100%) !important; 
+  border-color: #7b1fa2 !important; 
+  color: #7b1fa2 !important;
+}
+
+/* Barrier gate */
+.gate-barrier { 
+  background: linear-gradient(135deg, #fafafa 0%, #e0e0e0 100%) !important; 
+  border-color: #616161 !important; 
+  border-style: dashed !important;
+  color: #616161 !important;
+}
+
+/* SWAP gate */
+.gate-swap {
+  background: linear-gradient(135deg, #e1f5fe 0%, #81d4fa 100%) !important;
+  border: 2px solid #0277bd !important;
+  border-radius: 4px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #0277bd !important;
+  font-size: 16px !important;
+  font-weight: bold !important;
+}
+
+/* Gate palette improvements */
+.gate-button {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
+  border: 2px solid #495057 !important;
+  color: #212529 !important;
+  font-weight: 600 !important;
+  text-shadow: none !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+  transition: all 0.2s ease !important;
+  border-radius: 4px !important;
+  min-height: 32px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 11px !important;
+  
+  &:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+    border-color: #007bff !important;
+  }
+}
+
+/* Override specific gate button colors */
+.gate-button.blue { background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%) !important; border-color: #1976d2 !important; color: #1976d2 !important; }
+.gate-button.red { background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%) !important; border-color: #d32f2f !important; color: #d32f2f !important; }
+.gate-button.orange { background: linear-gradient(135deg, #fff3e0 0%, #ffcc80 100%) !important; border-color: #f57c00 !important; color: #f57c00 !important; }
+.gate-button.purple { background: linear-gradient(135deg, #f3e5f5 0%, #ce93d8 100%) !important; border-color: #7b1fa2 !important; color: #7b1fa2 !important; }
+.gate-button.green { background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%) !important; border-color: #388e3c !important; color: #388e3c !important; }
+.gate-button.yellow { background: linear-gradient(135deg, #fff8e1 0%, #fff176 100%) !important; border-color: #fbc02d !important; color: #f57f17 !important; }
+.gate-button.gray { background: linear-gradient(135deg, #fafafa 0%, #e0e0e0 100%) !important; border-color: #616161 !important; color: #424242 !important; }
+
+/* Gate styling based on Quirk implementation */
+.gate-box {
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  border: 2px solid #333;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  
+  /* Basic gates */
+  &.gate-h { background-color: var(--gate-h-color); color: white; }
+  &.gate-x { background-color: var(--gate-x-color); color: white; }
+  &.gate-y { background-color: var(--gate-y-color); color: white; }
+  &.gate-z { background-color: var(--gate-z-color); color: white; }
+  &.gate-t { background-color: var(--gate-t-color); }
+  &.gate-s { background-color: var(--gate-s-color); color: white; }
+  
+  /* Rotation gates */
+  &.gate-rotation {
+    background-color: #ff8f00;
+    color: white;
+    
+    sub {
+      font-size: 10px;
+      margin-left: 1px;
+      font-weight: normal;
+    }
+    
+    sup {
+      font-size: 10px;
+      line-height: 1;
+      position: relative;
+      top: -5px;
+      font-weight: normal;
+    }
+  }
+  
+  &.gate-rx { background-color: #e64a19; color: white; }
+  &.gate-ry { background-color: #7b1fa2; color: white; }
+  &.gate-rz { background-color: #0288d1; color: white; }
+  
+  /* Phase gates */
+  &.gate-phase {
+    background-color: #9c27b0;
+    color: white;
+    
+    sup {
+      font-size: 10px;
+      line-height: 1;
+      position: relative;
+      top: -5px;
+      font-weight: normal;
+    }
+  }
+  
+  /* Universal gates */
+  &.gate-universal {
+    background-color: #d32f2f;
+    color: white;
+  }
+  
+  /* SWAP gate */
+  &.gate-swap {
+    background-color: #ffc107;
+    font-size: 24px;
+  }
+  
+  &.gate-iswap {
+    background-color: #ff9800;
+    font-size: 24px;
+    
+    &::before {
+      content: "i";
+      font-size: 12px;
+      position: absolute;
+      top: 4px;
+      left: 4px;
+    }
+  }
+  
+  /* Measurement gate */
+  &.gate-measure {
+    background-color: #4caf50;
+    color: white;
+  }
+}
+
+.gate-control {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #000;
+  margin: 0 auto;
+}
+
+.gate-target {
+  width: 28px;
+  height: 28px;
+  border: 2px solid #000;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  position: relative;
+  font-weight: bold;
+  
+  /* For X-target (CNOT) */
+  &.x-target:before, &.x-target:after {
+    content: "";
+    position: absolute;
+    background-color: black;
+  }
+  
+  &.x-target:before {
+    width: 2px;
+    height: 20px;
+    top: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  &.x-target:after {
+    width: 20px;
+    height: 2px;
+    left: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  /* For Z-target (CZ) */
+  &.z-target {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  /* For SWAP target */
+  &.swap-target {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  /* For rotation targets */
+  &.rotation-target, &.phase-target {
+    font-size: 14px;
+    
+    sub {
+      font-size: 10px;
+      font-weight: normal;
+    }
+    
+    sup {
+      font-size: 10px;
+      position: relative;
+      top: -5px;
+      font-weight: normal;
+    }
+  }
+}
+
+.circuit-canvas {
+  position: relative; /* For the canvas overlay */
+}
+
+/* 게이트 배치 과정 중 시각적 피드백 */
+.circuit-cell {
+  &.placing-control-point {
+    position: relative;
+    
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 14px;
+      height: 14px;
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+    }
+  }
+  
+  &.placing-target-point {
+    position: relative;
+    
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 26px;
+      height: 26px;
+      border: 2px dashed #000;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+    }
+    
+    &.x-type::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 20px;
+      height: 20px;
+      background-image: linear-gradient(to bottom right, transparent 45%, #000 45%, #000 55%, transparent 55%),
+                        linear-gradient(to bottom left, transparent 45%, #000 45%, #000 55%, transparent 55%);
+      transform: translate(-50%, -50%);
+      z-index: 3;
+      opacity: 0.5;
+    }
+    
+    &.z-type::before {
+      content: "Z";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-weight: bold;
+      font-size: 16px;
+      z-index: 3;
+      opacity: 0.5;
+    }
+  }
+  
+  &.placing-connecting-line {
+    position: relative;
+    
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      height: 2px;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+  }
+}
+
+/* 게이트 배치 가이드 스타일 */
+.circuit-cell {
+  position: relative;
+  
+  /* 게이트 배치 중 시각적 가이드 */
+  .gate-placement-guide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 2;
+    
+    &.step-1 {
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 14px;
+        height: 14px;
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 50%;
+        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+      }
+    }
+    
+    &.step-2 {
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 14px;
+        height: 14px;
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 50%;
+        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+      }
+    }
+    
+    &.step-3 {
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 26px;
+        height: 26px;
+        border: 2px dashed rgba(0, 0, 0, 0.3);
+        border-radius: 50%;
+      }
+    }
+  }
+  
+  /* 게이트 배치 중 컨트롤 포인트 */
+  &.placing-control-point {
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 14px;
+      height: 14px;
+      background-color: rgba(0, 0, 0, 0.7);
+      border-radius: 50%;
+      z-index: 3;
+      pointer-events: none;
+    }
+  }
+  
+  /* 게이트 배치 중 타겟 포인트 */
+  &.placing-target-point {
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 26px;
+      height: 26px;
+      border: 2px solid rgba(0, 0, 0, 0.7);
+      border-radius: 50%;
+      z-index: 3;
+      pointer-events: none;
+    }
+    
+    &.x-type::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      background-image: linear-gradient(to bottom right, transparent 45%, rgba(0, 0, 0, 0.7) 45%, rgba(0, 0, 0, 0.7) 55%, transparent 55%),
+                        linear-gradient(to bottom left, transparent 45%, rgba(0, 0, 0, 0.7) 45%, rgba(0, 0, 0, 0.7) 55%, transparent 55%);
+      z-index: 4;
+      pointer-events: none;
+    }
+    
+    &.z-type::before {
+      content: 'Z';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-weight: bold;
+      font-size: 16px;
+      color: rgba(0, 0, 0, 0.7);
+      z-index: 4;
+      pointer-events: none;
+    }
+  }
+  
+  /* 게이트 배치 중 연결선 */
+  &.placing-connecting-line {
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 2;
+      pointer-events: none;
+    }
+  }
+}
+
+/* 게이트 배치 과정 시각적 피드백 */
+.circuit-cell {
+  &.cell-placing-control {
+    cursor: pointer;
+    &:hover {
+      &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 16px;
+        height: 16px;
+        background-color: rgba(0, 0, 0, 0.6);
+        border-radius: 50%;
+        z-index: 10;
+        pointer-events: none;
+      }
+    }
+  }
+  
+  &.cell-placing-control2 {
+    cursor: pointer;
+    &:hover {
+      &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 16px;
+        height: 16px;
+        background-color: rgba(0, 0, 0, 0.6);
+        border-radius: 50%;
+        z-index: 10;
+        pointer-events: none;
+      }
+    }
+  }
+  
+  &.cell-placing-target {
+    cursor: pointer;
+    &:hover {
+      &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 30px;
+        height: 30px;
+        border: 2px solid rgba(0, 0, 0, 0.6);
+        border-radius: 50%;
+        z-index: 10;
+        pointer-events: none;
+      }
+      
+      &.x-gate::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(45deg);
+        width: 20px;
+        height: 2px;
+        background-color: rgba(0, 0, 0, 0.6);
+        z-index: 11;
+        pointer-events: none;
+      }
+      
+      &.x-gate::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(-45deg);
+        width: 20px;
+        height: 2px;
+        background-color: rgba(0, 0, 0, 0.6);
+        z-index: 11;
+        pointer-events: none;
+      }
+      
+      &.z-gate::before {
+        content: "Z";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: rgba(0, 0, 0, 0.6);
+        font-weight: bold;
+        font-size: 16px;
+        z-index: 11;
+        pointer-events: none;
+      }
+    }
+  }
+  
+  /* 배치 과정 중 연결선 시각화 */
+  &.placing-connecting-line {
+    position: relative;
+    
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: rgba(0, 0, 0, 0.4);
+      z-index: 5;
+      pointer-events: none;
+    }
+  }
 }

@@ -1,0 +1,265 @@
+/* Styling for rotation gates (Rx, Ry, Rz) based on Quirk implementation */
+
+/* Rotation gate base styling */
+.gate-rotation {
+  position: relative;
+  padding: 2px;
+  
+  /* Ensure text is properly centered */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Font styling */
+  font-weight: 600;
+  
+  /* Subscript (x, y, z) styling */
+  sub {
+    font-size: 10px;
+    margin-left: 1px;
+    font-weight: normal;
+    position: relative;
+    bottom: -2px;
+  }
+  
+  /* Superscript (angle) styling */
+  sup {
+    font-size: 10px;
+    line-height: 1;
+    position: relative;
+    top: -5px;
+    font-weight: normal;
+    margin-left: 1px;
+  }
+  
+  /* 3D effect with gradient background */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.25) 0%, transparent 50%, rgba(0,0,0,0.1) 100%);
+    border-radius: 4px;
+    z-index: 0;
+    pointer-events: none;
+  }
+}
+
+/* Gate-specific colors using CSS variables */
+.gate-rx {
+  background-color: var(--gate-rx-color);
+  color: white;
+  border-color: var(--gate-rx-border-color, #d24315);
+}
+
+.gate-ry {
+  background-color: var(--gate-ry-color);
+  color: white;
+  border-color: var(--gate-ry-border-color, #5e1982);
+}
+
+.gate-rz {
+  background-color: var(--gate-rz-color);
+  color: white;
+  border-color: var(--gate-rz-border-color, #0277bd);
+}
+
+/* Visual feedback during placement */
+.placing-rotation-x {
+  background-color: rgba(230, 74, 25, 0.15);
+  box-shadow: 0 0 0 1px var(--gate-rx-color);
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background-color: rgba(230, 74, 25, 0.25);
+  }
+  
+  &::after {
+    content: 'Rx';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--gate-rx-color);
+    font-weight: bold;
+    font-size: 14px;
+    pointer-events: none;
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.7);
+  }
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 4px;
+    background: linear-gradient(135deg, rgba(230, 74, 25, 0.2) 0%, transparent 50%, rgba(230, 74, 25, 0.1) 100%);
+    pointer-events: none;
+  }
+}
+
+.placing-rotation-y {
+  background-color: rgba(123, 31, 162, 0.15);
+  box-shadow: 0 0 0 1px var(--gate-ry-color);
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background-color: rgba(123, 31, 162, 0.25);
+  }
+  
+  &::after {
+    content: 'Ry';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--gate-ry-color);
+    font-weight: bold;
+    font-size: 14px;
+    pointer-events: none;
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.7);
+  }
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 4px;
+    background: linear-gradient(135deg, rgba(123, 31, 162, 0.2) 0%, transparent 50%, rgba(123, 31, 162, 0.1) 100%);
+    pointer-events: none;
+  }
+}
+
+.placing-rotation-z {
+  background-color: rgba(2, 136, 209, 0.15);
+  box-shadow: 0 0 0 1px var(--gate-rz-color);
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background-color: rgba(2, 136, 209, 0.25);
+  }
+  
+  &::after {
+    content: 'Rz';
+    position: absolute;    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--gate-rz-color);
+    font-weight: bold;
+    font-size: 14px;
+    pointer-events: none;
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.7);
+  }
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 4px;
+    background: linear-gradient(135deg, rgba(2, 136, 209, 0.2) 0%, transparent 50%, rgba(2, 136, 209, 0.1) 100%);
+    pointer-events: none;
+  }
+}
+
+/* Hover effect for rotation gates */
+.gate-rotation {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+  }
+}
+
+/* Controlled rotation gate styling */
+.gate-target.rotation-target {
+  background: linear-gradient(135deg, rgba(255,255,255,0.25) 0%, transparent 50%, rgba(0,0,0,0.1) 100%);
+  border-radius: 4px;
+  
+  /* Font styling */
+  font-weight: 600;
+  
+  /* Subscript (x, y, z) styling */
+  sub {
+    font-size: 10px;
+    margin-left: 1px;
+    font-weight: normal;
+    position: relative;
+    bottom: -2px;
+  }
+  
+  /* Superscript (angle) styling */
+  sup {
+    font-size: 10px;
+    line-height: 1;
+    position: relative;
+    top: -5px;
+    font-weight: normal;
+    margin-left: 1px;
+  }
+  
+  /* Visualization for controlled rotation gates */
+  .rotation-visualization {
+    position: absolute;
+    top: -15px;
+    right: -8px; 
+    width: 15px;
+    height: 15px;
+    pointer-events: none;
+    opacity: 1;
+  }
+}
+
+/* Gate-specific colors for controlled rotation gates */
+.gate-target.rotation-target.gate-crx {
+  color: var(--gate-rx-color);
+}
+
+.gate-target.rotation-target.gate-cry {
+  color: var(--gate-ry-color);
+}
+
+.gate-target.rotation-target.gate-crz {
+  color: var(--gate-rz-color);
+}
+
+/* Quirk-style circle visualization for rotation angles */
+.rotation-visualization {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out, transform 0.2s ease-out;
+  
+  canvas.rotation-angle-visualization {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* Show visualization when hovering or when in active mode */
+.gate-rotation:hover .rotation-visualization {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-5px);
+}
+
+/* Always show visualization for active gates */
+.gate-rotation.active .rotation-visualization {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-5px);
+}
