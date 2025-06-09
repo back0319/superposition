@@ -212,3 +212,23 @@
 [2025-05-30 07:46:46] Request: GET /qubit | Data: 
 [2025-05-30 07:49:22] Request: GET /circuit | Data: 
 [2025-05-30 08:00:03] Request: GET /qubit | Data: 
+[2025-06-04 02:23:51] Request: GET /circuit | Data: 
+[2025-06-04 02:28:05] Request: OPTIONS /simulate | Data: 
+[2025-06-04 02:28:05] Request: POST /simulate | Data: {"qasm":"OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[3];\ncreg c[3];\nrx(pi/2) q[0];\nx q[0];\ny q[0];\n\n// Auto-added measurements\nmeasure q[0] -> c[0];\nmeasure q[1] -> c[1];\nmeasure q[2] -> c[2];\n"}
+[2025-06-04 02:37:08] Request: OPTIONS /simulate | Data: 
+[2025-06-04 02:37:08] Request: POST /simulate | Data: {"qasm":"OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[3];\ncreg c[3];\n// Unsupported gate: if at position (0, 1)\n// Unsupported gate: |0> at position (0, 3)\ny q[0];\nt q[1];\ny q[1];\nx q[1];\n// Unsupported gate: S at position (1, 5)\nry(pi/2) q[1];\nry(pi/2) q[1];\nt q[1];\nh q[0];\n// Unsupported gate: |0> at position (0, 6)\nrz(pi/2) q[0];\nt q[0];\n// Unsupported gate: P at position (0, 7)\nrx(pi/2) q[1];\n\n// Auto-added measurements\nmeasure q[0] -> c[0];\nmeasure q[1] -> c[1];\nmeasure q[2] -> c[2];\n"}
+[2025-06-04 02:37:10] Request: POST /simulate | Data: {"qasm":"OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[3];\ncreg c[3];\n// Unsupported gate: if at position (0, 1)\n// Unsupported gate: |0> at position (0, 3)\ny q[0];\nt q[1];\ny q[1];\nx q[1];\n// Unsupported gate: S at position (1, 5)\nry(pi/2) q[1];\nry(pi/2) q[1];\nt q[1];\nh q[0];\n// Unsupported gate: |0> at position (0, 6)\nrz(pi/2) q[0];\nt q[0];\n// Unsupported gate: P at position (0, 7)\nrx(pi/2) q[1];\n\n// Auto-added measurements\nmeasure q[0] -> c[0];\nmeasure q[1] -> c[1];\nmeasure q[2] -> c[2];\n"}
+[2025-06-04 03:00:19] Request: OPTIONS /simulate | Data: 
+[2025-06-04 03:00:19] Request: POST /simulate | Data: {"qasm":"OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[3];\ncreg c[3];\nx q[0];\ny q[0];\nz q[0];\nu(pi/2, 0, 0) q[0];\n\n// Auto-added measurements\nmeasure q[0] -> c[0];\nmeasure q[1] -> c[1];\nmeasure q[2] -> c[2];\n"}
+[2025-06-04 03:05:55] Request: OPTIONS /simulate | Data: 
+[2025-06-04 03:05:55] Request: POST /simulate | Data: {"qasm":"OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[3];\ncreg c[3];\nx q[0];\n\n// Auto-added measurements\nmeasure q[0] -> c[0];\nmeasure q[1] -> c[1];\nmeasure q[2] -> c[2];\n"}
+[2025-06-04 03:46:29] Request: OPTIONS /simulate | Data: 
+[2025-06-04 03:46:29] Request: POST /simulate | Data: {"qasm":"OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[3];\ncreg c[3];\nh q[0];\nx q[0];\n\n// Auto-added measurements\nmeasure q[0] -> c[0];\nmeasure q[1] -> c[1];\nmeasure q[2] -> c[2];\n"}
+[2025-06-04 09:30:27] Request: OPTIONS /simulate | Data: 
+[2025-06-04 09:30:27] Request: POST /simulate | Data: {"qasm":"OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[3];\ncreg c[3];\nrz(pi/2) q[0];\nrx(pi/2) q[0];\ncx q[2], q[1];\nu(pi/2, 0, 0) q[0];\nt q[1];\nx q[1];\n\n// Auto-added measurements\nmeasure q[0] -> c[0];\nmeasure q[1] -> c[1];\nmeasure q[2] -> c[2];\n"}
+[2025-06-04 10:24:54] Request: OPTIONS /simulate | Data: 
+[2025-06-04 10:24:54] Request: POST /simulate | Data: {"qasm":"OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[3];\ncreg c[3];\nrz(pi/2) q[0];\nrx(pi/2) q[0];\ncx q[2], q[1];\nu(pi/2, 0, 0) q[0];\nt q[1];\nx q[1];\n\n// Auto-added measurements\nmeasure q[0] -> c[0];\nmeasure q[1] -> c[1];\nmeasure q[2] -> c[2];\n"}
+[2025-06-04 10:26:30] Request: GET /qubit | Data: 
+[2025-06-04 10:27:54] Request: GET /circuit | Data: 
+[2025-06-04 10:28:51] Request: OPTIONS /simulate | Data: 
+[2025-06-04 10:28:52] Request: POST /simulate | Data: {"qasm":"OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[3];\ncreg c[3];\nh q[0];\nrz(pi/2) q[1];\nu(pi/2, 0, 0) q[0];\n\n// Auto-added measurements\nmeasure q[0] -> c[0];\nmeasure q[1] -> c[1];\nmeasure q[2] -> c[2];\n"}

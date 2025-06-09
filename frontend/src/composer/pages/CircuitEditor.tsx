@@ -14,10 +14,14 @@ import { generateQASM } from "../utils/qasmGenerator";
 import { saveCircuit, loadCircuit } from "../utils/circuitStorage";
 import { getGateById } from "../utils/gateDefinitions";
 import { GatePlacement } from "../types";
-import "../../component/layout/circuit.scss";
-import "../style/quirk-gates.scss"; // Import Quirk-inspired gate styles
-import "../style/quirk-circuit.scss"; // Import Quirk-inspired circuit layout
-import "../style/quirk-layout.scss"; // Import Quirk-inspired layout
+
+// Import styles in the correct order for proper CSS cascading
+import "../style/ibm-quantum-circuit.scss";      // IBM Quantum Composer circuit layout styling
+import "../style/ibm-quantum-gates.scss";        // IBM Quantum Composer gate styling
+import "../style/ibm-quantum-layout.scss";       // IBM Quantum Composer overall layout styling
+import "../style/gate-parameter-dialog.scss";    // Parameter dialog styles
+import "../style/multi-qubit-gates.scss";        // Multi-qubit gate styles
+import "../style/rotation-gates.scss";           // Rotation gate styles
 import { getApiUrl, API_ENDPOINTS } from "../../config/api";
 
 // Import test functions for development/debugging

@@ -1,17 +1,87 @@
 /* Gate Parameter Dialog styling */
+
+:root {
+  /* Colors from IBM Quantum Composer */
+  --primary-color: #0F62FE;
+  --primary-color-rgb: 15, 98, 254;
+  --border-color: #E0E0E0;
+  
+  /* Gate type colors */
+  --gate-rx-color: var(--primary-color); /* Blue for Rx */
+  --gate-ry-color: #42BE65; /* Green for Ry */
+  --gate-rz-color: #8A3FFC; /* Purple for Rz */
+}
+
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .parameter-dialog {
-  max-width: 400px;
+  max-width: 480px;
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 0;
+  overflow: hidden;
+  animation: slideUp 0.3s ease;
+  
+  .dialog-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #e0e0e0;
+    
+    h2 {
+      margin: 0 0 8px 0;
+      font-size: 18px;
+      font-weight: 600;
+      color: #161616;
+    }
+    
+    .gate-description {
+      color: #525252;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+  }
   
   .parameters-container {
-    margin: 20px 0;
+    padding: 24px;
+    max-height: 60vh;
+    overflow-y: auto;
   }
   
   .parameter-row {
     display: flex;
     flex-direction: column;
-    margin-bottom: 15px;
-    padding: 10px;
-    border-radius: 4px;
+    margin-bottom: 24px;
+    padding: 16px;
+    border-radius: 8px;
     border: 1px solid var(--border-color);
     transition: all 0.2s ease;
     
@@ -22,22 +92,25 @@
     &.active {
       border-color: var(--primary-color);
       background-color: rgba(var(--primary-color-rgb), 0.05);
+      box-shadow: 0 2px 8px rgba(var(--primary-color-rgb), 0.1);
     }
     
     .parameter-label {
-      font-size: 14px;
+      font-size: 16px;
       font-weight: 500;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
+      color: #161616;
     }
     
     .parameter-controls {
       display: flex;
       align-items: center;
       justify-content: center;
+      margin-bottom: 16px;
       
       .angle-cycle-btn {
-        width: 32px;
-        height: 32px;
+        width: 40px;
+        height: 40px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -47,84 +120,162 @@
         cursor: pointer;
         transition: all 0.2s ease;
         
+        .arrow-icon {
+          font-size: 12px;
+        }
+        
         &:hover {
           background-color: #f0f0f0;
         }
         
         &:active {
           background-color: #e0e0e0;
+          transform: translateY(1px);
         }
       }
       
       .angle-display {
-        min-width: 80px;
-        padding: 6px 8px;
-        margin: 0 10px;
+        min-width: 100px;
+        padding: 8px 12px;
+        margin: 0 12px;
         text-align: center;
         border: 1px solid var(--border-color);
         border-radius: 4px;
         font-family: 'IBM Plex Mono', monospace;
-        font-size: 14px;
-        background-color: white;
+        font-size: 16px;
+        background-color: #f8f9fa;
+        font-weight: 500;
+        color: #161616;
+      }
+    }
+    
+    .angle-input-container {
+      margin-bottom: 16px;
+      
+      input[type="range"] {
+        width: 100%;
+        height: 6px;
+        -webkit-appearance: none;
+        appearance: none;
+        background: #e0e0e0;
+        border-radius: 3px;
+        outline: none;
+        
+        &::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          background: var(--primary-color, #0F62FE);
+          cursor: pointer;
+          border: 2px solid white;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        
+        &::-moz-range-thumb {
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          background: var(--primary-color, #0F62FE);
+          cursor: pointer;
+          border: 2px solid white;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
       }
     }
   }
-  
-  /* Common fractional values presets */
-  .angle-presets {
+    /* Common fractional values presets */
+  .preset-buttons {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     margin-top: 16px;
     
-    .preset-btn {
-      padding: 4px 8px;
-      font-size: 12px;
+    button {
+      padding: 6px 10px;
+      font-size: 13px;
       border: 1px solid var(--border-color);
-      border-radius: 12px;
+      border-radius: 16px;
       background-color: white;
       cursor: pointer;
+      font-family: 'IBM Plex Mono', monospace;
+      transition: all 0.2s ease;
       
       &:hover {
         background-color: #f0f0f0;
       }
       
+      &:active {
+        transform: translateY(1px);
+      }
+      
       &.active {
-        background-color: var(--primary-color);
+        background-color: var(--primary-color, #0F62FE);
         color: white;
-        border-color: var(--primary-color);
+        border-color: var(--primary-color, #0F62FE);
+      }
+    }
+  }
+
+  /* Visual representation of the angle */
+  .angle-visualization {
+    display: flex;
+    justify-content: center;
+    margin: 16px 0;
+    
+    canvas {
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      background-color: white;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    }
+  }
+  
+  .dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 16px 24px;
+    border-top: 1px solid #e0e0e0;
+    gap: 12px;
+    
+    button {
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      
+      &.btn-cancel {
+        background-color: transparent;
+        color: #161616;
+        border: 1px solid #8d8d8d;
+        
+        &:hover {
+          background-color: #f4f4f4;
+        }
+      }
+      
+      &.btn-apply {
+        background-color: var(--primary-color, #0F62FE);
+        color: white;
+        border: none;
+        
+        &:hover {
+          background-color: #0353E9;
+          box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        &:active {
+          transform: translateY(1px);
+        }
       }
     }
   }
   
-  /* Visual representation of the angle (similar to Quirk) */
+  /* Keep the original angle-visual for backward compatibility */
   .angle-visual {
-    width: 100px;
-    height: 100px;
-    margin: 20px auto;
-    position: relative;
-    border: 1px solid var(--border-color);
-    border-radius: 50%;
-    
-    .angle-line {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      height: 2px;
-      width: 45px;
-      background-color: var(--primary-color);
-      transform-origin: left center;
-    }
-    
-    .angle-center {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background-color: var(--primary-color);
-      transform: translate(-50%, -50%);
-    }
+    display: none; /* Hide in favor of our new visualization */
   }
 }

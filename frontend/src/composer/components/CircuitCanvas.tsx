@@ -1,9 +1,16 @@
 import { FC, useRef, useEffect, useState } from "react";
 import { useDrop, useDrag } from "react-dnd/dist/hooks";
-import "../../component/layout/circuit.scss";
 import useCircuitPlacement from "./CircuitPlacement";
 import { isMultiQubitGate } from "./MultiQubitGateHandler";
 import GateParameterDialog from "./GateParameterDialog";
+
+// Import styles in the correct order for proper CSS cascading
+import "../../component/layout/circuit.scss";       // Base circuit styles
+import "../style/quirk-circuit.scss";               // IBM Quantum Composer-inspired circuit layout
+import "../style/quirk-gates.scss";                 // IBM Quantum Composer-inspired gate styles
+import "../style/gate-parameter-dialog.scss";       // Parameter dialog styles
+import "../style/multi-qubit-gates.scss";           // Multi-qubit gate styles
+import "../style/rotation-gates.scss";              // Rotation gate styles
 
 type DropItem = { type: string };
 type DragItem = { type: string, x: number, y: number };

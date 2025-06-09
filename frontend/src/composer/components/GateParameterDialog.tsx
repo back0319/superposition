@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../style/gate-parameter-dialog.scss';
 
 interface GateParameterDialogProps {
@@ -139,11 +139,118 @@ const GateParameterDialog: React.FC<GateParameterDialogProps> = ({
     if (gateType.includes('rz') || gateType === 'crz') return 'var(--gate-rz-color)';
     return '#ff8f00';
   };
+  // Helper to draw angle visualization
+  const AngleVisualizer = ({ value, paramName }: { value: number, paramName: string }) => {
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    
+    useEffect(() => {
+      if (canvasRef.current) {
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+        
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const radius = Math.min(centerX, centerY) - 10;
+        
+        // Draw circle
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+        ctx.strokeStyle = '#e0e0e0';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        
+        // Draw x-axis
+        ctx.beginPath();
+        ctx.moveTo(centerX - radius, centerY);
+        ctx.lineTo(centerX + radius, centerY);
+        ctx.strokeStyle = '#a0a0a0';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        
+        // Draw y-axis
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY - radius);
+        ctx.lineTo(centerX, centerY + radius);
+        ctx.stroke();
+        
+        // Get the gate color
+        const gateType = gateName.toLowerCase();
+        let color = '#0F62FE';
+        if (gateType.includes('rx') || gateType === 'crx') color = 'var(--gate-rx-color)';
+        if (gateType.includes('ry') || gateType === 'cry') color = 'var(--gate-ry-color)';
+        if (gateType.includes('rz') || gateType === 'crz') color = 'var(--gate-rz-color)';
+        
+        // Draw angle
+        const startAngle = 0;
+        const endAngle = value;
+        
+        // Draw angle arc
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius / 2, -startAngle, -endAngle, value > 0);
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        
+        // Draw radius line to indicate angle
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.lineTo(
+          centerX + radius * Math.cos(-endAngle),
+          centerY + radius * Math.sin(-endAngle)
+        );
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = color;
+        ctx.stroke();
+        
+        // Add arrow at the end of the line
+        const arrowLength = 10;
+        const arrowAngle = 0.5;
+        const angle = -endAngle;
+        const x = centerX + radius * Math.cos(angle);
+        const y = centerY + radius * Math.sin(angle);
+        
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(
+          x - arrowLength * Math.cos(angle - arrowAngle),
+          y - arrowLength * Math.sin(angle - arrowAngle)
+        );
+        ctx.lineTo(
+          x - arrowLength * Math.cos(angle + arrowAngle),
+          y - arrowLength * Math.sin(angle + arrowAngle)
+        );
+        ctx.closePath();
+        ctx.fillStyle = color;
+        ctx.fill();
+        
+        // Draw center dot
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, 4, 0, 2 * Math.PI);
+        ctx.fillStyle = color;
+        ctx.fill();
+      }
+    }, [value]);
+    
+    return (
+      <div className="angle-visualization">
+        <canvas ref={canvasRef} width={140} height={140} />
+      </div>
+    );
+  };
 
   return (
     <div className="dialog-overlay">
       <div className="dialog-content parameter-dialog" style={{ borderTop: `4px solid ${getGateColor()}` }}>
-        <div className="dialog-title">{getDialogTitle()}</div>
+        <div className="dialog-header">
+          <h2>{getDialogTitle()}</h2>
+          <div className="gate-description">
+            Set the {Object.keys(currentParams).map(p => getParamLabel(p).split(' ')[0]).join(', ')} parameters for the {gateName.toUpperCase()} gate
+          </div>
+        </div>
         
         <div className="parameters-container">
           {Object.entries(currentParams).map(([paramName, value]) => (
@@ -160,8 +267,9 @@ const GateParameterDialog: React.FC<GateParameterDialogProps> = ({
                     e.stopPropagation();
                     handleCycleAngle(paramName, 'down');
                   }}
+                  title="Cycle angle down"
                 >
-                  ▼
+                  <span className="arrow-icon">▼</span>
                 </button>
                 <div className="angle-display">
                   {formatAngleDisplay(value)}
@@ -172,19 +280,49 @@ const GateParameterDialog: React.FC<GateParameterDialogProps> = ({
                     e.stopPropagation();
                     handleCycleAngle(paramName, 'up');
                   }}
+                  title="Cycle angle up"
                 >
-                  ▲
+                  <span className="arrow-icon">▲</span>
                 </button>
+              </div>
+              
+              <div className="angle-input-container">
+                <input 
+                  type="range" 
+                  min="0" 
+                  max={(2 * Math.PI).toString()} 
+                  step="0.01"
+                  value={value.toString()} 
+                  onChange={(e) => handleParamChange(paramName, parseFloat(e.target.value))}
+                />
+              </div>
+              
+              {/* Visualization is only shown for the active parameter */}
+              {activeParam === paramName && <AngleVisualizer value={value} paramName={paramName} />}
+              
+              {/* Common angle presets */}
+              <div className="preset-buttons">
+                {COMMON_ANGLES.slice(0, 8).map((angle) => (
+                  <button
+                    key={angle.display}
+                    className={Math.abs(value - angle.value) < 1e-10 ? 'active' : ''}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleParamChange(paramName, angle.value);
+                    }}
+                  >
+                    {angle.display}
+                  </button>
+                ))}
               </div>
             </div>
           ))}
         </div>
         
         <div className="dialog-footer">
-          <button className="btn-secondary" onClick={onClose}>Cancel</button>
+          <button className="btn-cancel" onClick={onClose}>Cancel</button>
           <button 
-            className="btn-primary" 
-            onClick={() => {
+            className="btn-apply"            onClick={() => {
               onSave(currentParams);
               onClose();
             }}

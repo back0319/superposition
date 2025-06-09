@@ -1,0 +1,486 @@
+/* IBM Quantum Composer-inspired circuit editor styling */
+/* Global box-sizing reset for consistent sizing */
+.circuit-editor * {
+  box-sizing: border-box;
+}
+
+/* Gate box styling to match IBM Quantum Composer */
+.gate-box {
+  width: 80px;
+  height: 80px;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  box-shadow: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  font-family: 'IBM Plex Sans', sans-serif;
+  color: white;
+  cursor: grab;
+  box-sizing: border-box;
+  
+  /* Gate types based on IBM Quantum Composer */
+  &.gate-h {
+    background-color: #33B1FF;
+  }
+  
+  &.gate-x {
+    background-color: #0F62FE;
+  }
+  
+  &.gate-y {
+    background-color: #6929C4;
+  }
+  
+  &.gate-z {
+    background-color: #1192E8;
+  }
+  
+  &.gate-s, &.gate-sdg {
+    background-color: #1192E8;
+  }
+  
+  &.gate-t, &.gate-tdg {
+    background-color: #1192E8;
+  }
+  
+  &.gate-rotation {
+    background-color: #0F62FE;
+    &.gate-rx {
+      background-color: #0F62FE;
+    }
+    &.gate-ry {
+      background-color: #6929C4;
+    }
+    &.gate-rz {
+      background-color: #1192E8;
+    }
+  }
+  
+  &.gate-phase, &.gate-universal {
+    background-color: #0F62FE;
+  }
+  
+  &.gate-swap {
+    background-color: #8A3FFC;
+  }
+  
+  &.gate-measure {
+    background-color: #393939;
+  }
+}
+
+.circuit-editor {
+  position: relative;
+  display: flex;
+  background-color: white;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Qubit labels panel - IBM style */
+.qubit-labels {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 60px;
+  z-index: 2;
+  background-color: #f4f4f4;
+  border-right: 1px solid #e0e0e0;
+    .qubit-label {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 14px;
+    color: #525252;
+    border-bottom: 1px solid #e0e0e0;
+    font-weight: 500;
+  }
+}
+
+/* Circuit canvas - IBM style */
+.circuit-canvas {
+  position: relative;
+  border: none;
+  border-radius: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  background-color: white;
+  padding: 0;
+  margin-left: 60px; /* Space for qubit labels */
+  box-shadow: none;
+  flex: 1;  background-image: 
+    linear-gradient(to right, rgba(224, 224, 224, 0.3) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(224, 224, 224, 0.3) 1px, transparent 1px);
+  background-size: 80px 80px;
+  
+  /* Qubit wires - IBM style */
+  .qubit-wires {
+    position: relative;
+      .qubit-wire {
+      height: 1px;
+      background-color: #e0e0e0;  /* IBM style wire color - lighter */
+      margin: 80px 0; /* Increased spacing for IBM-like look */
+      position: relative;
+    }
+  }
+  
+  /* Circuit grid - IBM style */
+  .circuit-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;      .circuit-row {
+      display: flex;
+      height: 80px;
+      align-items: center;
+      border-bottom: none;.circuit-cell {
+        width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        transition: background-color 0.15s ease;
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+        
+        /* Cell hover effect - IBM style */
+        &.cell-hover {
+          background-color: rgba(15, 98, 254, 0.08); /* IBM blue highlight */
+        }
+        
+        /* Cell when gate is being dragged */
+        &.dragging {
+          opacity: 0.7;
+        }
+        
+        /* Cell styling for different states */
+        &.placing-control {
+          background-color: rgba(66, 190, 101, 0.2); /* IBM green highlight */
+        }
+        
+        &.placing-target {
+          background-color: rgba(15, 98, 254, 0.2); /* IBM blue highlight */
+        }        /* Gate styling within circuit */
+        .gate {
+          width: 80px;
+          height: 80px;
+          border-radius: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 500;
+          box-shadow: none; /* IBM uses flat design */
+          position: absolute;
+          top: 0;
+          left: 0;
+          margin: 0;
+          padding: 0;
+          font-family: 'IBM Plex Sans', sans-serif;
+          color: white;
+          cursor: grab;
+          box-sizing: border-box;
+          
+          &:hover {
+            transform: none;
+            opacity: 0.9;
+            z-index: 10;
+          }
+            /* Parameter gates */          &.quirk-param-gate {
+            display: flex;
+            flex-direction: column;
+            width: 80px;
+            height: 80px;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            
+            .gate-symbol {
+              font-weight: 500;
+              font-size: 14px;
+              line-height: 1;
+            }
+            
+            .gate-param {
+              font-size: 10px;
+              line-height: 1;
+              margin-top: 2px;
+              font-family: 'IBM Plex Mono', monospace;
+              opacity: 0.9;
+            }
+          }
+          
+          /* Rotation angle visualization */          .rotation-angle-visualization {
+            position: absolute;
+            right: -4px;
+            bottom: -4px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+          }
+        }
+      }
+    }
+  }
+  
+  /* Multi-qubit gate connections - IBM style */
+  .gate-connection {
+    position: absolute;
+    background-color: #000000;
+    width: 2px;
+    z-index: 1;
+  }
+  
+  /* Control points for multi-qubit gates */
+  .control-point {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #000000;
+    position: absolute;
+    z-index: 5;
+  }
+  
+  .target-point {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #000000;
+    background-color: transparent;
+    position: absolute;
+    z-index: 5;
+  }
+  
+  /* Swap gate crosshair */
+  .swap-crosshair {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    
+    &:before, &:after {
+      content: '';
+      position: absolute;
+      background-color: #000000;
+    }
+    
+    &:before {
+      width: 18px;
+      height: 2px;
+      top: 8px;
+      left: 0;
+    }
+    
+    &:after {
+      height: 18px;
+      width: 2px;
+      left: 8px;
+      top: 0;
+    }
+  }
+}
+
+/* Drop area indicators */
+.drop-area {
+  position: absolute;
+  z-index: 10;
+  border: 2px dashed #0F62FE;
+  background-color: rgba(15, 98, 254, 0.05);
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+/* IBM Quantum Composer style measurement - optional for later */
+.measurement-gate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  
+  .measurement-symbol {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    
+    &:before {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 14px;
+      border: 2px solid currentColor;
+      border-bottom: none;
+      border-radius: 14px 14px 0 0;
+    }
+    
+    &:after {
+      content: '';
+      position: absolute;
+      top: 14px;
+      left: 9px;
+      width: 2px;
+      height: 6px;
+      background-color: currentColor;
+    }
+  }
+}
+
+/* Circuit context menu */
+.circuit-context-menu {
+  position: absolute;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  z-index: 100;
+  overflow: hidden;
+  
+  .context-menu-item {
+    padding: 8px 16px;
+    cursor: pointer;
+    
+    &:hover {
+      background-color: #f4f4f4;
+    }
+  }
+}
+
+/* Circuit background grid for visual alignment */
+.circuit-background-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  
+  .grid-line {
+    position: absolute;
+    background-color: #f9f9f9;
+    
+    &.vertical {
+      width: 1px;
+      height: 100%;
+    }
+    
+    &.horizontal {
+      width: 100%;
+      height: 1px;
+    }
+  }
+}
+
+/* Tooltip for gates */
+.circuit-tooltip {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  pointer-events: none;
+  z-index: 1000;
+  font-family: 'IBM Plex Sans', sans-serif;
+  max-width: 200px;
+  white-space: nowrap;
+}
+
+/* Placeholder for gate empty drop positions */
+.gate-placeholder {
+  width: 80px;
+  height: 80px;
+  border-radius: 0;
+  border: 1px dashed #c6c6c6;
+  position: absolute;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Multiple qubit gate selection interface */
+.multi-qubit-selection {
+  .selection-instruction {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #0F62FE;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    white-space: nowrap;
+    z-index: 10;
+  }
+}
+
+/* IBM Quantum Composer-style animating gates */
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.pulse-animation {
+  animation: pulse 2s infinite ease-in-out;
+}
+
+/* IBM-style feedback for invalid operations */
+.invalid-operation {
+  position: relative;
+  
+  &::before {
+    content: '⚠️';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: #da1e28;
+    color: white;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    z-index: 20;
+  }
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px solid #da1e28;
+    border-radius: 3px;
+    z-index: 10;
+  }
+}
+
+/* IBM Quantum style circuit step numbers */
+.circuit-step-numbers {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+    .step-number {
+    width: 80px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: #6f6f6f;
+    border-top: 1px solid #e0e0e0;
+  }
+}

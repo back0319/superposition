@@ -1,0 +1,235 @@
+/* IBM Quantum Composer-inspired rotation gate styling */
+
+/* Base rotation gate styling */
+.rotation-gate {
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+  }
+}
+
+/* Specific rotation gate styles */
+.gate-rx {
+  background-color: var(--gate-rx-color);
+  
+  &::after {
+    border-color: rgba(255, 255, 255, 0.7);
+  }
+}
+
+.gate-ry {
+  background-color: var(--gate-ry-color);
+  
+  &::after {
+    border-color: rgba(255, 255, 255, 0.7);
+  }
+}
+
+.gate-rz {
+  background-color: var(--gate-rz-color);
+  
+  &::after {
+    border-color: rgba(255, 255, 255, 0.7);
+  }
+}
+
+/* Gate parameter display */
+.gate-param {
+  font-size: 10px;
+  font-family: 'IBM Plex Mono', monospace;
+  opacity: 0.9;
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Rotation angle visualization */
+.angle-visualization {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  margin: 0 auto;
+  
+  .angle-circle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #000;
+  }
+  
+  .angle-indicator {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 1px;
+    height: 8px;
+    background-color: #000;
+    transform-origin: bottom center;
+  }
+}
+
+/* Rotation gate parameter dialog specific elements */
+.rotation-parameter-dialog {
+  .angle-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0;
+    
+    button {
+      background-color: #f4f4f4;
+      border: 1px solid #e0e0e0;
+      border-radius: 16px;
+      padding: 6px 12px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      
+      &:hover {
+        background-color: #e0e0e0;
+      }
+      
+      &.active {
+        background-color: #0F62FE;
+        color: white;
+        border-color: #0F62FE;
+      }
+    }
+  }
+  
+  .angle-visualization {
+    margin: 24px auto;
+    width: 100px;
+    height: 100px;
+    
+    canvas {
+      width: 100px;
+      height: 100px;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+    }
+  }
+}
+
+/* IBM Quantum style for rotation gate angle canvas */
+canvas.rotation-angle-visualization {
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  width: 24px;
+  height: 24px;
+}
+
+/* U gate parameters */
+.u-gate-params {
+  font-size: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  align-items: center;
+  margin-top: 2px;
+  
+  .param-row {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    
+    .param-label {
+      font-weight: 500;
+    }
+    
+    .param-value {
+      font-family: 'IBM Plex Mono', monospace;
+    }
+  }
+}
+
+/* Phase angle display */
+.phase-display {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  margin-top: 2px;
+  text-align: center;
+}
+
+/* Angle input with IBM-style UI */
+.angle-input-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  
+  input[type="range"] {
+    flex: 1;
+    height: 6px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: #e0e0e0;
+    border-radius: 3px;
+    
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background-color: #0F62FE;
+      cursor: pointer;
+    }
+    
+    &::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background-color: #0F62FE;
+      cursor: pointer;
+      border: none;
+    }
+  }
+  
+  .angle-value {
+    width: 80px;
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.875rem;
+  }
+}
+
+/* Common angle values in IBM style */
+.common-angles {
+  margin-top: 12px;
+  
+  .common-angles-label {
+    font-size: 0.75rem;
+    color: #525252;
+    margin-bottom: 8px;
+  }
+  
+  .angle-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    
+    button {
+      padding: 4px 8px;
+      background-color: #f4f4f4;
+      border: 1px solid #e0e0e0;
+      border-radius: 16px;
+      font-size: 0.75rem;
+      font-family: 'IBM Plex Mono', monospace;
+      cursor: pointer;
+      
+      &:hover {
+        background-color: #e0e0e0;
+      }
+    }
+  }
+}

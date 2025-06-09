@@ -1,50 +1,62 @@
-/* Quirk-inspired circuit editor styling */
+/* IBM Quantum Composer-inspired circuit editor styling */
 
 .circuit-canvas {
   position: relative;
-  border: 1px solid #d0d0d0;
-  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+  border-radius: 0;
   overflow-x: auto;
   overflow-y: hidden;
   background-color: white;
-  padding: 10px 15px;
-  
-  .qubit-wires {
+  padding: 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    .qubit-wires {
     position: relative;
+    padding-left: 60px; /* Space for qubit labels */
     
     .qubit-wire {
       height: 1px;
-      background-color: #c9c9c9;  /* Lighter gray like Quirk */
-      margin: 24px 0;
+      background-color: #cccccc;  /* IBM style wire color */
+      margin: 40px 0; /* Increased spacing for IBM-like look */
       position: relative;
     }
+    
+    .qubit-label {
+      position: absolute;
+      left: -50px;
+      transform: translateY(-50%);
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 14px;
+      color: #525252;
+      display: flex;
+      align-items: center;
+    }
   }
-  
-  .circuit-grid {
+    .circuit-grid {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     
     .circuit-row {
-      display: flex;
-      
-      .circuit-cell {
-        width: 48px;
-        height: 48px;
+      display: flex;        .circuit-cell {
+        width: 80px;
+        height: 80px;
         display: flex;
         align-items: center;
         justify-content: center;
         position: relative;
-        transition: all 0.2s ease;
+        transition: background-color 0.15s ease;
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
         
         &.cell-hover {
-          background-color: rgba(0, 135, 255, 0.1);  /* Quirk's blue highlight */
-          border-radius: 4px;
+          background-color: rgba(15, 98, 254, 0.08); /* IBM blue highlight */
+          border-radius: 0;
         }
         
         &.dragging {
-          opacity: 0.5;
+          opacity: 0.7;
         }
         
         .gate {

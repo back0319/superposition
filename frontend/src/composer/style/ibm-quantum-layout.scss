@@ -1,0 +1,613 @@
+/* IBM Quantum Composer-inspired circuit editor layout styling */
+
+.quantum-composer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  background-color: #ffffff;
+  font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #161616;
+  overflow: hidden;
+}
+
+.composer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: #161616;
+  color: white;
+  height: 48px;
+  
+  h1 {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 500;
+  }
+  
+  .view-controls {
+    display: flex;
+    gap: 8px;
+    
+    .view-button {
+      background-color: transparent;
+      color: #f4f4f4;
+      border: 1px solid #525252;
+      padding: 4px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: background-color 0.2s;
+      
+      &:hover {
+        background-color: #0F62FE;
+      }
+      
+      &.active {
+        background-color: #0F62FE;
+      }
+    }
+  }
+}
+
+.composer-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  
+  /* Left panel: Operations palette */
+  .gate-palette-panel {
+    width: 280px;
+    background-color: #262626;
+    border-right: 1px solid #393939;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background-color: #161616;
+      border-bottom: 1px solid #393939;
+      
+      h2 {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 500;
+        color: #f4f4f4;
+      }
+      
+      .panel-controls {
+        display: flex;
+        gap: 8px;
+        
+        .icon-button {
+          width: 24px;
+          height: 24px;
+          border-radius: 4px;
+          border: none;
+          background-color: transparent;
+          color: #f4f4f4;
+          cursor: pointer;
+          
+          &:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+          }
+        }
+      }
+    }
+    
+    .search-bar {
+      display: flex;
+      padding: 12px 16px;
+      border-bottom: 1px solid #393939;
+      
+      input {
+        flex: 1;
+        background-color: #393939;
+        border: none;
+        border-radius: 4px;
+        padding: 6px 12px;
+        color: #f4f4f4;
+        
+        &::placeholder {
+          color: #8d8d8d;
+        }
+      }
+      
+      .view-options {
+        display: flex;
+        margin-left: 8px;
+        
+        .icon-button {
+          width: 28px;
+          height: 28px;
+          background-color: #393939;
+          border: none;
+          border-radius: 4px;
+          color: #f4f4f4;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          
+          &:hover {
+            background-color: #525252;
+          }
+          
+          &:not(:last-child) {
+            margin-right: 4px;
+          }
+        }
+      }
+    }
+    
+    .gate-categories {
+      padding: 12px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      border-bottom: 1px solid #393939;
+      
+      .category-button {
+        background-color: #393939;
+        border: none;
+        border-radius: 4px;
+        padding: 6px 12px;
+        color: #f4f4f4;
+        font-size: 0.75rem;
+        cursor: pointer;
+        
+        &:hover {
+          background-color: #525252;
+        }
+        
+        &.active {
+          background-color: #0F62FE;
+        }
+      }
+    }
+      .gate-grid {
+      padding: 16px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      
+      .gate-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 0;
+        font-weight: 500;
+        font-family: 'IBM Plex Sans', sans-serif;
+        cursor: move;
+        user-select: none;
+        color: white;
+        transition: opacity 0.15s ease;
+        
+        &:hover {
+          opacity: 0.9;
+          z-index: 10;
+        }
+      }
+    }
+    
+    .qubit-control {
+      margin-top: auto;
+      padding: 12px 16px;
+      border-top: 1px solid #393939;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      
+      label {
+        color: #f4f4f4;
+        font-size: 0.875rem;
+      }
+      
+      select {
+        background-color: #393939;
+        border: none;
+        border-radius: 4px;
+        padding: 4px 8px;
+        color: #f4f4f4;
+        min-width: 60px;
+        
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 2px #0F62FE;
+        }
+      }
+    }
+  }
+  
+  /* Main content area */
+  .main-content-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    
+    .tabs-container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      
+      .tabs {
+        display: flex;
+        background-color: #f4f4f4;
+        border-bottom: 1px solid #e0e0e0;
+        
+        .tab {
+          padding: 12px 20px;
+          cursor: pointer;
+          font-size: 0.875rem;
+          color: #525252;
+          background: none;
+          border: none;
+          font-weight: 500;
+          position: relative;
+          
+          &.active {
+            color: #0F62FE;
+            
+            &::after {
+              content: '';
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              width: 100%;
+              height: 2px;
+              background-color: #0F62FE;
+            }
+          }
+          
+          &:hover:not(.active) {
+            background-color: rgba(0,0,0,0.05);
+          }
+        }
+      }
+      
+      .tab-content {
+        flex: 1;
+        overflow: hidden;
+      }
+    }
+  }
+  
+  /* Right panel: OpenQASM code */
+  .qasm-panel {
+    width: 300px;
+    background-color: #ffffff;
+    border-left: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background-color: #f4f4f4;
+      border-bottom: 1px solid #e0e0e0;
+      
+      h2 {
+        margin: 0;
+        font-size: 1rem;
+        color: #161616;
+        font-weight: 500;
+      }
+      
+      .panel-controls {
+        display: flex;
+        gap: 8px;
+        
+        .icon-button {
+          width: 24px;
+          height: 24px;
+          border-radius: 4px;
+          border: none;
+          background-color: transparent;
+          cursor: pointer;
+          
+          &:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+          }
+        }
+      }
+    }
+    
+    .code-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      
+      .code-editor {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 0.875rem;
+        margin: 0;
+        
+        .code-line {
+          display: flex;
+          margin-bottom: 4px;
+          
+          .line-number {
+            display: inline-block;
+            width: 24px;
+            color: #8d8d8d;
+            text-align: right;
+            padding-right: 8px;
+            user-select: none;
+          }
+          
+          code {
+            flex: 1;
+          }
+          
+          .code-keyword {
+            color: #0F62FE;
+            font-weight: 500;
+          }
+          
+          .code-include {
+            color: #8a3ffc;
+          }
+          
+          .code-register {
+            color: #42BE65;
+          }
+        }
+      }
+    }
+  }
+}
+
+.composer-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: #ffffff;
+  border-top: 1px solid #e0e0e0;
+  
+  .run-button {
+    background-color: #0F62FE;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    
+    &:hover {
+      background-color: #0353E9;
+    }
+  }
+  
+  .footer-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    
+    .save-button, .export-button {
+      background-color: transparent;
+      color: #0F62FE;
+      border: 1px solid #0F62FE;
+      border-radius: 4px;
+      padding: 8px 12px;
+      font-size: 0.875rem;
+      cursor: pointer;
+      
+      &:hover {
+        background-color: rgba(15, 98, 254, 0.1);
+      }
+    }
+    
+    .tips {
+      margin-left: 16px;
+      
+      .tip-text {
+        font-size: 0.75rem;
+        color: #525252;
+      }
+    }
+  }
+}
+
+/* Circuit editor */
+.circuit-editor {
+  position: relative;
+  display: flex;
+  height: 100%;
+  overflow: auto;
+}
+
+/* Visualization panel */
+.visualization-panel {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  
+  .visualization-tabs {
+    display: flex;
+    background-color: #f4f4f4;
+    border-bottom: 1px solid #e0e0e0;
+    
+    .viz-tab {
+      padding: 10px 16px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      color: #525252;
+      background: none;
+      border: none;
+      
+      &.active {
+        color: #0F62FE;
+        border-bottom: 2px solid #0F62FE;
+      }
+      
+      &:hover:not(.active) {
+        background-color: rgba(0,0,0,0.05);
+      }
+    }
+  }
+  
+  .visualization-content {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+  }
+}
+
+/* Gate dialog */
+.gate-dialog-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.gate-dialog {
+  background-color: white;
+  border-radius: 8px;
+  padding: 24px;
+  width: 400px;
+  max-width: 90vw;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  
+  h2 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 1.25rem;
+    color: #161616;
+  }
+  
+  .gate-dialog-content {
+    margin-bottom: 24px;
+    
+    .form-group {
+      margin-bottom: 16px;
+      
+      label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 0.875rem;
+        color: #525252;
+      }
+      
+      select, input {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #8d8d8d;
+        border-radius: 4px;
+        
+        &:focus {
+          outline: none;
+          border-color: #0F62FE;
+          box-shadow: 0 0 0 2px rgba(15, 98, 254, 0.2);
+        }
+      }
+      
+      .angle-slider {
+        width: 100%;
+        margin-top: 8px;
+      }
+    }
+  }
+  
+  .gate-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    
+    button {
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      cursor: pointer;
+      
+      &.cancel-button {
+        background-color: transparent;
+        color: #161616;
+        border: 1px solid #8d8d8d;
+        
+        &:hover {
+          background-color: #f4f4f4;
+        }
+      }
+      
+      &.confirm-button {
+        background-color: #0F62FE;
+        color: white;
+        border: none;
+        
+        &:hover {
+          background-color: #0353E9;
+        }
+      }
+    }
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .qasm-panel {
+    width: 250px;
+  }
+}
+
+@media (max-width: 992px) {
+  .composer-layout {
+    flex-direction: column;
+    
+    .gate-palette-panel {
+      width: 100%;
+      height: auto;
+      max-height: 200px;
+    }
+    
+    .qasm-panel {
+      width: 100%;
+      height: 200px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .composer-header {
+    flex-direction: column;
+    height: auto;
+    padding: 12px;
+    
+    h1 {
+      margin-bottom: 12px;
+    }
+  }
+  
+  .composer-footer {
+    flex-direction: column;
+    
+    .run-button {
+      width: 100%;
+      margin-bottom: 12px;
+    }
+    
+    .footer-controls {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+}

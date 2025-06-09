@@ -1,33 +1,34 @@
 /* Quirk-inspired gate styling */
 
 :root {
-  /* Basic gate colors - Using Quirk's color scheme */
+  /* Basic gate colors - IBM Quantum Composer style */
   --gate-i-color: #EEEEEE;
-  --gate-h-color: #E67C73;  /* Red for Hadamard */
-  --gate-x-color: #4285F4;  /* Blue for X */
-  --gate-y-color: #9C27B0;  /* Purple for Y */
-  --gate-z-color: #00BCD4;  /* Cyan for Z */
-  --gate-barrier-color: #CCCCCC;
+  --gate-h-color: #33B1FF;  /* Blue for Hadamard (IBM uses blue) */
+  --gate-x-color: #0F62FE;  /* Darker Blue for X */
+  --gate-y-color: #6929C4;  /* Purple for Y */
+  --gate-z-color: #1192E8;  /* Light blue for Z */
+  --gate-barrier-color: #E0E0E0;
   
   /* Phase gate colors */
-  --gate-t-color: #26C6DA;  /* Light Cyan for T */
-  --gate-tdg-color: #80DEEA; /* Lighter Cyan for Tdg */
-  --gate-u-color: #009688;   /* Teal for U gate */
+  --gate-t-color: #1192E8;  /* Light blue for T */
+  --gate-tdg-color: #0072C3;  /* Blue for Tdg */
+  --gate-u-color: #4589FF;   /* Blue for U gate */
   
   /* Sqrt gate colors */
-  --gate-sqrt-x-color: #7986CB; /* Blueish */
-  --gate-sqrt-y-color: #BA68C8; /* Purpleish */
-  --gate-sqrt-z-color: #4DD0E1; /* Light Cyan */
+  --gate-sqrt-x-color: #0F62FE; /* Blue for sqrtX */
+  --gate-sqrt-y-color: #6929C4; /* Purple for sqrtY */
+  --gate-sqrt-z-color: #1192E8; /* Light blue for sqrtZ */
   
   /* Rotation gate colors */
-  --gate-rx-color: #FF7043;  /* Orange-red for Rx */
-  --gate-ry-color: #9CCC65;  /* Green for Ry */
-  --gate-rz-color: #42A5F5;  /* Blue for Rz */
-    /* Multi-qubit gate colors */
-  --gate-cnot-color: #4285F4;  /* Blue for CNOT */
-  --gate-cz-color: #00BCD4;    /* Cyan for CZ */
-  --gate-ccnot-color: #3949AB; /* Deep blue for CCNOT */
-  --gate-ccz-color: #0097A7;   /* Deep cyan for CCZ */
+  --gate-rx-color: #0F62FE;  /* Blue for Rx */
+  --gate-ry-color: #6929C4;  /* Purple for Ry */
+  --gate-rz-color: #1192E8;  /* Light blue for Rz */
+  
+  /* Multi-qubit gate colors */
+  --gate-cnot-color: #0F62FE;  /* Blue for CNOT */
+  --gate-cz-color: #1192E8;    /* Light blue for CZ */
+  --gate-ccnot-color: #0353E9; /* Deep blue for CCNOT */
+  --gate-ccz-color: #0072C3;   /* Blue for CCZ */
   
   /* Route gate colors */
   --gate-route-x-color: #FF9800; /* Orange for Route X */
@@ -35,44 +36,56 @@
   --gate-route-z-color: #9C27B0; /* Purple for Route Z */
 }
 
-/* Base gate styling inspired by Quirk */
+/* Base gate styling inspired by IBM Quantum Composer */
 .quirk-gate {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 4px;
-  font-weight: bold;
-  font-family: 'Arial', sans-serif;
+  width: 80px;
+  height: 80px;
+  border-radius: 0;
+  font-weight: 500;
+  font-family: 'IBM Plex Sans', 'Arial', sans-serif;
   cursor: pointer;
   user-select: none;
-  transition: all 0.2s ease;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: all 0.15s ease;
+  box-shadow: none; /* IBM style is flatter */
   color: white;
   position: relative;
+  margin: 4px;
   
   &:hover {
-    transform: scale(1.05);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    transform: scale(1.02);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
     z-index: 10;
   }
-  
   &.quirk-param-gate {
     display: flex;
     flex-direction: column;
-    padding: 2px;
+    padding: 0;
+    width: 80px;
+    height: 80px;
+    box-sizing: border-box;
+    margin: 0;
     
     .gate-symbol {
-      font-weight: bold;
+      font-weight: 500;
       font-size: 14px;
       line-height: 1;
     }
     
     .gate-param {
-      font-size: 9px;
+      font-size: 10px;
       line-height: 1;
-      margin-top: -1px;
+      margin-top: 2px;
+      font-family: 'IBM Plex Mono', monospace;
+      opacity: 0.9;
     }
   }
 }

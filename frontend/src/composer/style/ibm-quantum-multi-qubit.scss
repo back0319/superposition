@@ -1,0 +1,262 @@
+/* IBM Quantum Composer-style multi-qubit gate styling */
+
+/* Multi-qubit gate connection lines */
+.gate-connection {
+  position: absolute;
+  background-color: #000000;
+  width: 2px;
+  z-index: 1;
+}
+
+/* Control points */
+.control-point {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #000000;
+  position: absolute;
+  z-index: 5;
+}
+
+/* Target points */
+.target-point {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #000000;
+  background-color: transparent;
+  position: absolute;
+  z-index: 5;
+  
+  /* X inside target for CNOT gates */
+  &.cnot::before, &.cnot::after {
+    content: '';
+    position: absolute;
+    background-color: #000000;
+    width: 16px;
+    height: 2px;
+    top: 9px;
+    left: 2px;
+  }
+  
+  &.cnot::after {
+    transform: rotate(90deg);
+  }
+}
+
+/* Swap gate crosshair */
+.swap-crosshair {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  z-index: 5;
+  
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    background-color: #000000;
+    width: 14px;
+    height: 2px;
+    top: 6px;
+    left: 0;
+  }
+  
+  &::after {
+    transform: rotate(90deg);
+  }
+}
+
+/* Multi-qubit gate selection state */
+.multi-qubit-selecting {
+  cursor: pointer;
+  
+  .circuit-cell {
+    &:hover {
+      background-color: rgba(15, 98, 254, 0.1);
+    }
+    
+    &.selected-control {
+      background-color: rgba(15, 98, 254, 0.15);
+      
+      &::before {
+        content: '';
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #0F62FE;
+      }
+    }
+    
+    &.selected-target {
+      background-color: rgba(66, 190, 101, 0.15);
+      
+      &::before {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 2px solid #0F62FE;
+      }
+    }
+  }
+}
+
+/* Multi-control gate styling */
+.ccnot-gate, .ccz-gate {
+  .control-point {
+    &.secondary {
+      background-color: #0F62FE; /* IBM blue for the secondary control */
+    }
+  }
+}
+
+/* Selection indicator */
+.selection-indicator {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #0F62FE;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  z-index: 20;
+  white-space: nowrap;
+  
+  &.select-control {
+    background-color: #0F62FE;
+  }
+  
+  &.select-target {
+    background-color: #42BE65;
+  }
+}
+
+/* Gate connection styles based on IBM Quantum Composer */
+/* Vertical connector */
+.connector-vertical {
+  width: 2px;
+  background-color: #000000;
+  position: absolute;
+  z-index: 4;
+}
+
+/* Horizontal connector */
+.connector-horizontal {
+  height: 2px;
+  background-color: #000000;
+  position: absolute;
+  z-index: 4;
+}
+
+/* CNOT gate styling */
+.cnot-gate {
+  .gate-connector {
+    z-index: 3;
+  }
+  
+  .control-point {
+    z-index: 5;
+  }
+  
+  .target-x {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    z-index: 5;
+    
+    &::before, &::after {
+      content: '';
+      position: absolute;
+      background-color: #000000;
+      width: 16px;
+      height: 2px;
+      top: 7px;
+      left: 0;
+    }
+    
+    &::after {
+      transform: rotate(90deg);
+    }
+  }
+}
+
+/* SWAP gate styling */
+.swap-gate {
+  .swap-x {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    z-index: 5;
+    
+    &::before, &::after {
+      content: '';
+      position: absolute;
+      background-color: #000000;
+    }
+    
+    &::before {
+      width: 14px;
+      height: 2px;
+      top: 6px;
+      left: 0;
+      transform: rotate(45deg);
+    }
+    
+    &::after {
+      width: 14px;
+      height: 2px;
+      top: 6px;
+      left: 0;
+      transform: rotate(-45deg);
+    }
+  }
+}
+
+/* Controlled-Hadamard (CH) gate */
+.ch-gate {
+  .target-h {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    font-weight: 500;
+    color: #0F62FE;
+    font-family: 'IBM Plex Sans', sans-serif;
+  }
+}
+
+/* Controlled-Phase (CP) gate */
+.cp-gate {
+  .target-p {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    font-weight: 500;
+    color: #0F62FE;
+    font-family: 'IBM Plex Sans', sans-serif;
+  }
+}
+
+/* IBM Quantum Composer cell highlighting during multi-qubit gate placement */
+.cell-highlight-control {
+  background-color: rgba(15, 98, 254, 0.15) !important;
+}
+
+.cell-highlight-target {
+  background-color: rgba(66, 190, 101, 0.15) !important;
+}
+
+.cell-highlight-invalid {
+  background-color: rgba(218, 30, 40, 0.15) !important;
+}

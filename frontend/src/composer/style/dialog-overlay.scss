@@ -1,0 +1,33 @@
+/* Dialog overlay styling for quantum gates */
+
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+  perspective: 1000px;
+  
+  .dialog-content {
+    transform-style: preserve-3d;
+    transform-origin: center top;
+  }
+}
+
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    backdrop-filter: blur(0px);
+  }
+  to { 
+    opacity: 1; 
+    backdrop-filter: blur(2px);
+  }
+}

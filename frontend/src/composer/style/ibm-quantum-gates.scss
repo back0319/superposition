@@ -1,0 +1,379 @@
+/* IBM Quantum Composer-inspired gate styling */
+
+:root {
+  /* IBM Quantum Color Palette */
+  --ibm-blue: #0F62FE;
+  --ibm-dark-blue: #0353E9;
+  --ibm-light-blue: #33B1FF;
+  --ibm-purple: #6929C4;
+  --ibm-magenta: #8A3FFC;
+  --ibm-cyan: #1192E8;
+  --ibm-teal: #009D9A;
+  --ibm-green: #42BE65;
+  --ibm-gray-10: #F4F4F4;
+  --ibm-gray-20: #E0E0E0;
+  --ibm-gray-70: #525252;
+  --ibm-gray-80: #393939;
+  --ibm-gray-90: #262626;
+  --ibm-gray-100: #161616;
+  
+  /* Basic gate colors - IBM Quantum Composer style */
+  --gate-i-color: var(--ibm-gray-10);
+  --gate-h-color: var(--ibm-light-blue);   /* Blue for Hadamard */
+  --gate-x-color: var(--ibm-blue);         /* Blue for X */
+  --gate-y-color: var(--ibm-purple);       /* Purple for Y */
+  --gate-z-color: var(--ibm-cyan);         /* Light blue for Z */
+  --gate-barrier-color: var(--ibm-gray-10);
+  
+  /* Phase gate colors */
+  --gate-t-color: var(--ibm-cyan);        /* Light blue for T */
+  --gate-tdg-color: var(--ibm-cyan);      /* Blue for Tdg */
+  --gate-s-color: var(--ibm-cyan);        /* Light blue for S */
+  --gate-sdg-color: var(--ibm-cyan);      /* Blue for Sdg */
+  --gate-u-color: var(--ibm-blue);        /* Blue for U gate */
+  
+  /* Rotation gate colors */
+  --gate-rx-color: var(--ibm-blue);       /* Blue for Rx */
+  --gate-ry-color: var(--ibm-purple);     /* Purple for Ry */
+  --gate-rz-color: var(--ibm-cyan);       /* Light blue for Rz */
+  
+  /* Multi-qubit gate colors */
+  --gate-cnot-color: var(--ibm-blue);     /* Blue for CNOT */
+  --gate-cz-color: var(--ibm-cyan);       /* Light blue for CZ */
+  --gate-ccnot-color: var(--ibm-dark-blue); /* Deep blue for CCNOT */
+  --gate-ccz-color: var(--ibm-cyan);      /* Blue for CCZ */
+  
+  /* Special gate colors */
+  --gate-swap-color: var(--ibm-magenta);  /* Magenta for SWAP */
+  --gate-measure-color: var(--ibm-gray-80); /* Dark gray for Measurement */
+}
+
+/* Base gate styling inspired by IBM Quantum Composer */
+.quirk-gate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 0; /* IBM uses flat design for gates in matrix */
+  font-weight: 500;
+  font-family: 'IBM Plex Sans', 'Arial', sans-serif;
+  cursor: move; /* Show it's draggable */
+  user-select: none;
+  transition: all 0.15s ease;
+  box-shadow: none; /* IBM style is flatter */
+  color: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  
+  &:hover {
+    transform: none;
+    opacity: 0.9;
+    z-index: 10;
+  }
+  &.quirk-param-gate {
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+    width: 80px;
+    height: 80px;
+    box-sizing: border-box;
+    margin: 0;
+    
+    .gate-symbol {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 1;
+    }
+    
+    .gate-param {
+      font-size: 10px;
+      line-height: 1;
+      margin-top: 2px;
+      font-family: 'IBM Plex Mono', monospace;
+      opacity: 0.9;
+    }
+  }
+}
+
+/* Gate-specific styling - IBM Quantum Composer style */
+.gate-h {
+  background-color: var(--gate-h-color);
+}
+
+.gate-i {
+  background-color: var(--gate-i-color);
+  color: #333;
+  border: 1px solid var(--ibm-gray-20);
+}
+
+.gate-x {
+  background-color: var(--gate-x-color);
+}
+
+.gate-y {
+  background-color: var(--gate-y-color);
+}
+
+.gate-z {
+  background-color: var(--gate-z-color);
+}
+
+.gate-s, .gate-sdg {
+  background-color: var(--gate-s-color);
+}
+
+.gate-t, .gate-tdg {
+  background-color: var(--gate-t-color);
+}
+
+/* Parameterized gates */
+.gate-u {
+  background-color: var(--gate-u-color);
+  
+  .gate-param {
+    font-size: 8px;
+  }
+}
+
+.gate-rx {
+  background-color: var(--gate-rx-color);
+}
+
+.gate-ry {
+  background-color: var(--gate-ry-color);
+}
+
+.gate-rz {
+  background-color: var(--gate-rz-color);
+}
+
+/* Multi-qubit gates */
+.gate-cnot, .gate-cx {
+  background-color: var(--gate-cnot-color);
+}
+
+.gate-cz {
+  background-color: var(--gate-cz-color);
+}
+
+.gate-ch {
+  background-color: var(--gate-h-color);
+}
+
+.gate-ccnot, .gate-toffoli {
+  background-color: var(--gate-ccnot-color);
+}
+
+.gate-ccz {
+  background-color: var(--gate-ccz-color);
+}
+
+.gate-swap {
+  background-color: var(--gate-swap-color);
+}
+
+.gate-barrier {
+  background-color: transparent;
+  border: 1px dashed var(--ibm-gray-70);
+  color: var(--ibm-gray-70);
+}
+
+/* Control points and targets for multi-qubit gates */
+.control-point {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #000000;
+  position: absolute;
+  z-index: 5;
+}
+
+.target-point {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #000000;
+  background-color: transparent;
+  position: absolute;
+  z-index: 5;
+}
+
+.gate-connector {
+  position: absolute;
+  background-color: #000000;
+  width: 2px;
+  z-index: 2;
+}
+
+/* IBM-style gate categorization in palette */
+.gate-category {
+  margin-bottom: 10px;
+  
+  .category-header {
+    font-size: 0.75rem;
+    color: var(--ibm-gray-70);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    padding-left: 4px;
+    font-weight: 500;
+  }
+  
+  .category-gates {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(38px, 1fr));
+    gap: 8px;
+  }
+}
+
+/* Gate palette styling */
+.gate-palette {
+  background-color: var(--ibm-gray-90);
+  color: white;
+  height: 100%;
+  overflow-y: auto;
+  padding: 16px;
+  
+  .gate-search {
+    margin-bottom: 16px;
+    
+    .search-input {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 4px;
+      border: none;
+      background-color: var(--ibm-gray-80);
+      color: white;
+      
+      &::placeholder {
+        color: var(--ibm-gray-70);
+      }
+    }
+  }
+  
+  .gate-categories {
+    margin-bottom: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    
+    .category-button {
+      padding: 6px 12px;
+      background-color: var(--ibm-gray-80);
+      border: none;
+      border-radius: 4px;
+      color: white;
+      font-size: 0.875rem;
+      cursor: pointer;
+      
+      &.active {
+        background-color: var(--ibm-blue);
+      }
+      
+      &:hover:not(.active) {
+        background-color: var(--ibm-gray-70);
+      }
+    }
+  }
+  
+  .gate-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    justify-items: center;
+  }
+  
+  .palette-footer {
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    
+    .palette-button {
+      padding: 8px 12px;
+      border-radius: 4px;
+      border: none;
+      background-color: var(--ibm-gray-80);
+      color: white;
+      cursor: pointer;
+      
+      &:hover {
+        background-color: var(--ibm-gray-70);
+      }
+      
+      &.save-button {
+        background-color: var(--ibm-blue);
+        
+        &:hover {
+          background-color: var(--ibm-dark-blue);
+        }
+      }
+    }
+  }
+}
+
+/* Dragging effect */
+.dragging {
+  opacity: 0.5;
+  transform: scale(1.1);
+}
+
+.palette-drop-zone {
+  border: 2px dashed var(--ibm-blue);
+  background-color: rgba(15, 98, 254, 0.1);
+}
+
+/* Gate context menu */
+.gate-context-menu {
+  position: absolute;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  z-index: 100;
+  
+  .menu-item {
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    color: var(--ibm-gray-100);
+    
+    &:hover {
+      background-color: var(--ibm-gray-10);
+    }
+    
+    &.delete {
+      color: #da1e28;
+    }
+  }
+}
+
+/* IBM style gate parameter visualizations */
+.rotation-angle-visualization {
+  margin: 0 auto;
+}
+
+/* Gate tooltip */
+.gate-tooltip {
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 20;
+  
+  .gate-button:hover & {
+    opacity: 1;
+  }
+}
