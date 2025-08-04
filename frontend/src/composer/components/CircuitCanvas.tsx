@@ -11,6 +11,7 @@ import "../style/quirk-gates.scss";                 // IBM Quantum Composer-insp
 import "../style/gate-parameter-dialog.scss";       // Parameter dialog styles
 import "../style/multi-qubit-gates.scss";           // Multi-qubit gate styles
 import "../style/rotation-gates.scss";              // Rotation gate styles
+import "../style/gate-visibility-fix.scss";         // 게이트 가시성 향상을 위한 스타일
 
 type DropItem = { type: string };
 type DragItem = { type: string, x: number, y: number };

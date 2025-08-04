@@ -10,6 +10,10 @@ export const API_ENDPOINTS = {
   QUBIT: '/qubit',
   QUBIT_INFO: '/qubit-info',
   SIMULATE: '/simulate',
+  CONVERT_QASM: '/convert-qasm',
+  ANALYZE_QASM: '/analyze-qasm',
+  QUANTUM_COMPUTER: '/quantum-computer',
+  GATE: '/gate',
 } as const;
 
 // 완전한 URL을 생성하는 헬퍼 함수

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import "./component/button.scss";
-import "./component/layout/home.scss";
+import "./component/common/button.scss";
+import "./component/home/home.scss";
 import { useNavigate, Link } from "react-router-dom";
 import "./Approutes";
 import { getApiUrl, API_ENDPOINTS } from "./config/api";
@@ -149,6 +149,16 @@ function Home() {
       console.error("서버 요청에 실패했습니다.", err);
     }
   };
+
+  const handleGateClick = async () => {
+    try {
+      await axios.get(getApiUrl(API_ENDPOINTS.GATE));
+      navigate("/gate");
+    } catch (err) {
+      console.error("서버 요청에 실패했습니다.", err);
+    }
+  };
+
   // 양자 버튼 클릭 → concept 페이지
   const handleConceptClick = async () => {
     try {
@@ -165,8 +175,7 @@ function Home() {
     } catch (err) {
       console.error("서버 요청에 실패했습니다.", err);
     }
-  };
-  const handleEtmClick = async () => {
+  };  const handleEtmClick = async () => {
     try {
       await axios.get(getApiUrl(API_ENDPOINTS.ENTANGLE));
       navigate("/entangle");
@@ -174,6 +183,21 @@ function Home() {
       console.error("서버 요청에 실패했습니다.", err);
       // 서버 요청이 실패해도 페이지로 이동
       navigate("/entangle");
+    }
+  };
+  
+  // 양자 컴퓨터 버튼 클릭 → quantum-computer 페이지
+  const handleQuantumComputerClick = async () => {
+    try {
+      // API 엔드포인트가 있다면 사용, 없으면 바로 페이지로 이동
+      if (API_ENDPOINTS.QUANTUM_COMPUTER) {
+        await axios.get(getApiUrl(API_ENDPOINTS.QUANTUM_COMPUTER));
+      }
+      navigate("/compute");
+    } catch (err) {
+      console.error("서버 요청에 실패했습니다.", err);
+      // 서버 요청이 실패해도 페이지로 이동
+      navigate("/compute");
     }
   };
   // 큐비트 버튼 클릭 → qubit 페이지
@@ -250,8 +274,8 @@ function Home() {
             }}
             onMouseLeave={hideConceptMenu}>
             <h3 className="expanded-title">개념</h3>
-            <p className="expanded-description">양자 컴퓨팅의 기본 개념을 배우는 과정</p>
-            <div className="expanded-buttons">
+            <p className="expanded-description">양자 컴퓨팅의 기본 개념을 배우는 과정</p>            <div className="expanded-buttons">
+              <button className="btn-category" onClick={handleQuantumComputerClick}>양자 컴퓨터란?</button>
               <button className="btn-category" onClick={handleQubitClick}>큐비트</button>
               <button className="btn-category" onClick={handleSpClick}>중첩</button>
               <button className="btn-category" onClick={handleEtmClick}>얽힘</button>
@@ -304,7 +328,7 @@ function Home() {
             <p className="expanded-description">양자 회로 설계와 시뮬레이션 학습</p>
             <div className="expanded-buttons">
               <button className="btn-category" onClick={handleCircuitClick}>기본 회로</button>
-              <button className="btn-category">양자 게이트</button>
+              <button className="btn-category" onClick={handleGateClick}>양자 게이트</button>
               <button className="btn-category">알고리즘 구현</button>
             </div>
           </div>

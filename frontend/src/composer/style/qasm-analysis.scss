@@ -1,0 +1,111 @@
+.qasm-analysis {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 15px;
+  overflow-y: auto;
+  height: calc(100% - 30px);
+  font-family: 'Arial', sans-serif;
+  
+  h3 {
+    margin-top: 0;
+    color: #2c3e50;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+  }
+  
+  h4 {
+    color: #3498db;
+    margin-top: 16px;
+    margin-bottom: 8px;
+  }
+  
+  .circuit-visualization {
+    text-align: center;
+    margin-bottom: 20px;
+    
+    .circuit-image {
+      max-width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+  }
+  
+  .circuit-info {
+    margin-bottom: 20px;
+    
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+      
+      td {
+        padding: 5px 8px;
+        border-bottom: 1px solid #e9ecef;
+        
+        &:first-child {
+          font-weight: bold;
+          width: 35%;
+        }
+      }
+    }
+  }
+  
+  .python-code {
+    margin-bottom: 20px;
+    
+    pre {
+      background-color: #282c34;
+      color: #abb2bf;
+      padding: 12px;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+  }
+  
+  .close-analysis-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 12px;
+    font-weight: 600;
+    transition: background-color 0.2s;
+    
+    &:hover {
+      background-color: #2980b9;
+    }
+  }
+}
+
+// 코드 에디터 내 구문 강조
+.code-editor {
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+  white-space: pre;
+  
+  .code-line {
+    display: flex;
+    
+    .line-number {
+      color: #888;
+      width: 30px;
+      text-align: right;
+      padding-right: 10px;
+      user-select: none;
+    }
+    
+    .code-keyword {
+      color: #0066cc;
+      font-weight: bold;
+    }
+  }
+}

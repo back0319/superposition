@@ -1,4 +1,5 @@
 import { FC, useEffect, useRef, useState } from "react";
+import "../style/qiskit-visualization.scss";
 
 interface StateVectorData {
   amplitudes: { r: number; i: number }[];
@@ -7,6 +8,7 @@ interface StateVectorData {
 
 interface QSphereProps {
   stateVector: StateVectorData | null;
+  qiskitBlochImage?: string; // Qiskit에서 생성된 블로흐 구면 이미지
 }
 
 interface Point3D {
@@ -23,11 +25,12 @@ interface StatePoint {
   color: string;
 }
 
-const QSphere: FC<QSphereProps> = ({ stateVector }) => {
+const QSphere: FC<QSphereProps> = ({ stateVector, qiskitBlochImage }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [lastPosition, setLastPosition] = useState({ x: 0, y: 0 });
+  const [useQiskitVisualization, setUseQiskitVisualization] = useState(!!qiskitBlochImage);
   
   // Handle mouse events for sphere rotation
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -83,10 +86,9 @@ const QSphere: FC<QSphereProps> = ({ stateVector }) => {
     ],
     states: ['|0⟩', '|1⟩']
   } : null;
+    const dataToDisplay = stateVector || demoStateVector;
   
-  const dataToDisplay = stateVector || demoStateVector;
-  
-  if (!dataToDisplay) {
+  if (!dataToDisplay && !qiskitBlochImage) {
     return (
       <div className="qsphere-container qsphere-empty">
         <p>Run simulation to see Q-sphere visualization</p>
@@ -94,9 +96,42 @@ const QSphere: FC<QSphereProps> = ({ stateVector }) => {
     );
   }
 
+  // Qiskit 시각화 이미지가 있고, 그것을 사용하기로 선택했다면 표시
+  if (qiskitBlochImage && useQiskitVisualization) {
+    return (
+      <div className="qsphere-container">
+        <div className="visualization-toggle">
+          <button 
+            onClick={() => setUseQiskitVisualization(false)}
+            className="vis-toggle-button"
+          >
+            커스텀 Q-sphere 보기
+          </button>
+        </div>
+        <div className="qiskit-visualization">
+          <img 
+            src={`data:image/png;base64,${qiskitBlochImage}`} 
+            alt="Qiskit Bloch Sphere" 
+            className="qiskit-bloch-image"
+          />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="qsphere-container">
-      <canvas 
+      {qiskitBlochImage && (
+        <div className="visualization-toggle">
+          <button 
+            onClick={() => setUseQiskitVisualization(true)}
+            className="vis-toggle-button"
+          >
+            Qiskit Q-sphere 보기
+          </button>
+        </div>
+      )}
+      <canvas
         ref={canvasRef} 
         width={400} 
         height={300} 
@@ -371,27 +406,65 @@ const calculateStatePoints = (stateVector: StateVectorData, radius: number): Sta
   const { amplitudes, states } = stateVector;
   const statePoints: StatePoint[] = [];
   
-  // Process each amplitude
+  // 정규화 검사 (확률 합이 1인지 확인)
+  let totalProbability = 0;
+  amplitudes.forEach(amp => {
+    totalProbability += amp.r * amp.r + amp.i * amp.i;
+  });
+  
+  // 정규화가 필요한 경우 스케일 계산
+  const normalizationFactor = Math.abs(totalProbability - 1.0) > 0.01 
+    ? Math.sqrt(1.0 / Math.max(0.0001, totalProbability))
+    : 1.0;// Process each amplitude
   for (let i = 0; i < amplitudes.length; i++) {
     const amp = amplitudes[i];
     const state = states[i] || `|${i.toString(2).padStart(Math.log2(amplitudes.length), '0')}⟩`;
     
     // Calculate probability and phase
-    const probability = amp.r * amp.r + amp.i * amp.i;
-    const phase = Math.atan2(amp.i, amp.r);
+    // 정규화 계수 적용
+    const normalizedR = amp.r * normalizationFactor;
+    const normalizedI = amp.i * normalizationFactor;
+    const probability = normalizedR * normalizedR + normalizedI * normalizedI;
     
-    // Skip states with near-zero probability
-    if (probability < 0.001) continue;
+    // 위상 계산 개선 - 정규화하여 -π ~ π 범위로
+    let phase = Math.atan2(amp.i, amp.r);
+    // 수치 안정성: 매우 작은 값이면 0으로
+    if (Math.abs(amp.r) < 1e-10 && Math.abs(amp.i) < 1e-10) {
+      phase = 0;
+    }
     
-    // Calculate point on Bloch sphere
-    // This is a simplified mapping - in reality you'd need to map to specific angles
-    // based on the quantum state representation
-    const theta = Math.acos(1 - 2 * i / amplitudes.length); // Latitude
-    const phi = (2 * Math.PI * i) / amplitudes.length;     // Longitude
+    // Skip states with near-zero probability (threshold 낮춤)
+    if (probability < 0.0001) continue;
+      // 상태 벡터에 따른 Bloch 구면 매핑 개선
+    // 각 기저 상태(|0>, |1>, |+>, |->, 등)에 따라 다른 위치에 표시
+      // 기저 상태의 비트 문자열을 얻습니다 (|00>, |01>, |10>, |11> 등)
+    const bitString = state.replace(/[|⟩]/g, '');
+    const numQubits = Math.log2(amplitudes.length);
+    
+    // 해당 상태의 비트 인덱스에 따라 각도 계산
+    const bitIndex = parseInt(bitString, 2);
+    
+    // 다중 큐비트 시스템에서 더 정교한 매핑 알고리즘 적용
+    // 비트 문자열의 패턴에 따라 구면에 고르게 분포되도록 함
+    
+    // 첫 번째 방법: 인덱스 기반 균일 분포
+    // const theta = Math.PI * (0.5 - bitIndex / amplitudes.length); // 위도(상하)
+    // const phi = (2 * Math.PI * bitIndex) / amplitudes.length;     // 경도(좌우)
+    
+    // 두 번째 방법: 그레이 코드 기반 매핑 (인접 상태들이 구면상에서도 인접하게)
+    const grayCode = bitIndex ^ (bitIndex >> 1); // 이진 -> 그레이 코드 변환
+    const normalizedGray = grayCode / amplitudes.length;
+    
+    // 개선된 각도 계산: 그레이 코드를 사용하여 더 균일한 구면 분포 생성
+    const theta = Math.acos(1 - 2 * normalizedGray); // 위도(상하): 0 ~ π
+    const phi = 2 * Math.PI * (bitIndex / (amplitudes.length / 2)); // 경도(좌우): 0 ~ 2π
+    
+    // 상태 벡터의 위상에 따라 경도 조정
+    const phaseAdjustedPhi = phi + phase;
     
     const point: Point3D = {
-      x: radius * Math.sin(theta) * Math.cos(phi),
-      y: radius * Math.sin(theta) * Math.sin(phi),
+      x: radius * Math.sin(theta) * Math.cos(phaseAdjustedPhi),
+      y: radius * Math.sin(theta) * Math.sin(phaseAdjustedPhi),
       z: radius * Math.cos(theta)
     };
     

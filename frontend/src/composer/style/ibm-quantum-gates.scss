@@ -1,21 +1,21 @@
 /* IBM Quantum Composer-inspired gate styling */
 
 :root {
-  /* IBM Quantum Color Palette */
-  --ibm-blue: #0F62FE;
-  --ibm-dark-blue: #0353E9;
-  --ibm-light-blue: #33B1FF;
-  --ibm-purple: #6929C4;
-  --ibm-magenta: #8A3FFC;
-  --ibm-cyan: #1192E8;
-  --ibm-teal: #009D9A;
-  --ibm-green: #42BE65;
-  --ibm-gray-10: #F4F4F4;
-  --ibm-gray-20: #E0E0E0;
-  --ibm-gray-70: #525252;
-  --ibm-gray-80: #393939;
-  --ibm-gray-90: #262626;
-  --ibm-gray-100: #161616;
+  /* IBM Quantum Color Palette - 더 어둡게 조정 */
+  --ibm-blue: #0D52D4;
+  --ibm-dark-blue: #0246C2;
+  --ibm-light-blue: #2190D8;
+  --ibm-purple: #5720A6;
+  --ibm-magenta: #7533D6;
+  --ibm-cyan: #0E7ABF;
+  --ibm-teal: #008382;
+  --ibm-green: #37A055;
+  --ibm-gray-10: #D8D8D8;
+  --ibm-gray-20: #BBBBBB;
+  --ibm-gray-70: #444444;
+  --ibm-gray-80: #333333;
+  --ibm-gray-90: #222222;
+  --ibm-gray-100: #111111;
   
   /* Basic gate colors - IBM Quantum Composer style */
   --gate-i-color: var(--ibm-gray-10);

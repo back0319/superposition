@@ -152,14 +152,6 @@ export const generateQASM = (circuit: GatePlacement[], qubitCount: number = 3): 
 
   // Add measurements if not already in circuit
   // Check if we have any measurement gates in the circuit
-  const hasMeasurements = circuit.some(gate => gate.type === "Measure");
-  
-  if (!hasMeasurements) {
-    qasm += `\n// Auto-added measurements\n`;
-    for (let i = 0; i < qubitCount; i++) {
-      qasm += `measure q[${i}] -> c[${i}];\n`;
-    }
-  }
 
   return qasm;
 };

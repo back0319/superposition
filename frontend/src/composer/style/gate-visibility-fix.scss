@@ -1,0 +1,41 @@
+/* 게이트 가시성 향상을 위한 추가 스타일 */
+
+.gate-box {  /* 텍스트 스타일 강화 */
+  font-weight: bold !important;
+  font-size: 24px !important;
+  color: #000 !important;
+  text-shadow: none !important;
+  /* 테두리 및 효과 제거 */
+  border: none !important;
+  box-shadow: none !important;
+  
+  /* 배경 그라데이션 제거 */
+  background-image: none !important;
+  
+  /* 크기와 위치 조정 */
+  transform: scale(0.95);
+  transition: transform 0.1s ease-in-out;
+}
+
+.gate-box:hover {
+  transform: scale(1);
+}
+
+/* 특정 게이트 타입에 대한 스타일 조정 */
+.gate-h, .gate-x, .gate-y, .gate-z {
+  text-shadow: none !important;
+}
+
+.gate-cnot, .gate-cz, .gate-swap {
+  font-size: 28px !important;
+}
+
+/* 다중 큐빗 게이트 연결선 */
+.gate-connection-line {
+  background-color: #000 !important;
+  border: none !important;
+}
+
+.circuit-cell {
+  position: relative;
+}

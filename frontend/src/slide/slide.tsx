@@ -1,8 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
-import "../component/slide.scss";
+import "./slide.scss";
+import "../component/slide-menu-transitions.scss";
+import { useSlideMenu, MenuItemType } from "../context/SlideMenuContext";
 
-// 대단원 및 소단원 구조 정의
-const menu = [
+// 기본 대단원 및 소단원 구조 정의
+const defaultMenu = [
+  {
+    title: "양자 컴퓨터", 
+    details: ["정의", "고전 컴퓨터와의 차이", "양자 컴퓨터의 역사", "양자 컴퓨터의 응용"]
+  },
   { 
     title: "큐비트", 
     details: ["정의", "상태벡터", "블로흐 구"] 
@@ -17,179 +23,169 @@ const menu = [
   }
 ];
 
-// 색상 정의
-const colors = {
-  primary: "#4f8cff",
-  secondary: "#34c759",
-  inactive: "#666",
-  background: "#222"
-};
+interface SlideMenuProps {
+  currentChapter?: number;
+  scrollProgress?: number;
+  onNavigate?: (chapterIndex: number, sectionIndex: number) => void;
+}
 
-type SlideMenuProps = {
-  current?: string;
-  detailIdx?: number;
-  onChange?: (title: string, detailIdx: number) => void;
-  sectionRefs?: React.MutableRefObject<Array<HTMLElement | null>>;
-  scrollProgress?: number; // 스크롤 진행도
-  sectionPositions?: number[]; // 섹션 위치 정보 추가
-};
-
-function SlideMenu({
-  current = "큐비트",
-  detailIdx = 0,
-  onChange,
-  sectionRefs,
-  scrollProgress = 0,
-  sectionPositions = []
+function SlideMenu({ 
+  currentChapter = 0, 
+  scrollProgress: externalScrollProgress = 0,
+  onNavigate = () => {} 
 }: SlideMenuProps) {
-  const wheelLock = useRef(false);
-  const activeIdx = menu.findIndex(m => m.title === current);
-  const progressRef = useRef<HTMLDivElement>(null);
-  
-  // 총 페이지 수 계산
-  const totalPages = menu.reduce((acc, chapter) => acc + chapter.details.length, 0);
-  
-  // 현재 페이지 계산
-  const currentPage = menu.slice(0, activeIdx).reduce((acc, chapter) => acc + chapter.details.length, 0) + detailIdx + 1;
-  
-  // 진행률 계산 (%)
-  const progress = (currentPage / totalPages) * 100;
+  const [selectedChapter, setSelectedChapter] = useState(currentChapter);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
+  const [showNextButton, setShowNextButton] = useState(false);
+  const progressBarRef = useRef<HTMLDivElement>(null);
 
-  // 프로그레스 바 포인트 생성
-  const [points, setPoints] = useState<{position: number, title: string, active: boolean, reached: boolean}[]>([]);
-  // 프로그레스 바 포인트 계산 - 현재 활성화된 대단원의 소단원만 표시
+  // props가 변경될 때 state 업데이트
   useEffect(() => {
-    const newPoints = [];
+    setSelectedChapter(currentChapter);
+  }, [currentChapter]);
+
+  // 외부에서 전달받은 스크롤 진행률 업데이트
+  useEffect(() => {
+    setScrollProgress(externalScrollProgress);
     
-    // 현재 선택된 대단원만 처리
-    const currentChapter = menu[activeIdx];
+    // 현재 챕터의 섹션 수
+    const currentChapterSections = defaultMenu[selectedChapter]?.details.length || 1;
     
-    // 현재 대단원의 소단원만 포인트로 생성
-    for (let j = 0; j < currentChapter.details.length; j++) {
-      const isActive = j === detailIdx;
-      // 현재 대단원의 소단원 수에 기반하여 포지션 계산
-      const position = (j / (currentChapter.details.length - 1)) * 100;
-      
-      newPoints.push({
-        position: position,
-        title: currentChapter.details[j],
-        active: isActive,
-        reached: false // 초기에는 도달하지 않음
-      });
+    // 각 섹션이 차지하는 비율 (100% / 섹션 수)
+    const sectionProgress = 100 / currentChapterSections;
+    
+    // 현재 섹션 인덱스 계산 (스크롤 진행률 기반)
+    const newSectionIndex = Math.min(
+      Math.floor(externalScrollProgress / sectionProgress),
+      currentChapterSections - 1
+    );
+    
+    setCurrentSectionIndex(newSectionIndex);
+    
+    // 현재 섹션 내에서의 스크롤 진행률 계산
+    const chapterSections = defaultMenu[selectedChapter]?.details.length || 1;
+    const sectionSize = 100 / chapterSections;
+    const currentSectionProgress = (externalScrollProgress % sectionSize) / sectionSize * 100;
+    
+    // 현재 섹션 내에서 95% 이상 스크롤했을 때 다음 버튼 표시
+    const isScrollComplete = currentSectionProgress >= 95;
+    setShowNextButton(isScrollComplete);
+  }, [externalScrollProgress, selectedChapter]);
+
+  // 현재 진행률 계산 - 섹션별 진행률 표시
+  const getCurrentProgress = () => {
+    const currentChapterSections = defaultMenu[selectedChapter]?.details.length || 1;
+    const sectionProgress = 100 / currentChapterSections;
+    
+    // 현재 섹션까지의 완료된 진행률 + 현재 섹션 내 진행률
+    const completedSectionsProgress = currentSectionIndex * sectionProgress;
+    const currentSectionProgress = (scrollProgress % sectionProgress);
+    
+    return Math.min(completedSectionsProgress + currentSectionProgress, 100);
+  };
+
+  // 다음 소단원으로 이동
+  const handleNextSection = () => {
+    const currentChapterSections = defaultMenu[selectedChapter]?.details.length || 1;
+    
+    // 현재 챕터 내에서 다음 섹션이 있는지 확인
+    if (currentSectionIndex < currentChapterSections - 1) {
+      // 같은 챕터의 다음 섹션으로 이동
+      handleNavigation(selectedChapter, currentSectionIndex + 1);
+    } else if (selectedChapter < defaultMenu.length - 1) {
+      // 다음 챕터의 첫 번째 섹션으로 이동
+      handleNavigation(selectedChapter + 1, 0);
     }
     
-    setPoints(newPoints);
-  }, [activeIdx, detailIdx]);
+    // 페이지 맨 위로 스크롤
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
-  // 마우스 휠로 슬라이드 이동
-  useEffect(() => {
-    const handleWheel = (e: WheelEvent) => {
-      if (wheelLock.current) return;
-      const details = menu[activeIdx].details;
-      
-      // 좌우 스크롤 대신 상하 스크롤을 감지하여 페이지 이동
-      if (e.deltaY > 0) {  // 아래 방향 (다음 페이지)
-        if (detailIdx < details.length - 1) {
-          wheelLock.current = true;
-          onChange?.(menu[activeIdx].title, detailIdx + 1);
-        } else if (activeIdx < menu.length - 1) {
-          wheelLock.current = true;
-          onChange?.(menu[activeIdx + 1].title, 0);
-        }
-      } else if (e.deltaY < 0) {  // 위 방향 (이전 페이지)
-        if (detailIdx > 0) {
-          wheelLock.current = true;
-          onChange?.(menu[activeIdx].title, detailIdx - 1);
-        } else if (activeIdx > 0) {
-          const prevDetails = menu[activeIdx - 1].details;
-          wheelLock.current = true;
-          onChange?.(menu[activeIdx - 1].title, prevDetails.length - 1);
-        }
-      }
-      setTimeout(() => { wheelLock.current = false; }, 700);
-    };
+  // 네비게이션 핸들러
+  const handleNavigation = (chapterIndex: number, sectionIndex: number) => {
+    setSelectedChapter(chapterIndex);
+    onNavigate(chapterIndex, sectionIndex); // 실제 섹션 인덱스 전달
+  };
 
-    window.addEventListener("wheel", handleWheel, { passive: false });
-    return () => window.removeEventListener("wheel", handleWheel);
-  }, [activeIdx, detailIdx, onChange]);
-  // 스크롤 진행도와 섹션 위치가 변할 때 포인트들의 도달 상태 업데이트
-  useEffect(() => {
-    // 현재 스크롤 진행도에 따라 포인트의 도달 상태 업데이트
-    setPoints(currentPoints => {
-      // 이미 모든 상태가 올바르게 설정되어 있다면 변경하지 않음
-      let needsUpdate = false;
-      
-      const newPoints = currentPoints.map((point, idx) => {
-        // 섹션 위치 정보가 있으면 그것을 사용
-        const actualPosition = sectionPositions[idx] !== undefined ? sectionPositions[idx] : point.position;
-        const shouldBeReached = scrollProgress >= actualPosition;
-        
-        if (point.reached !== shouldBeReached || point.position !== actualPosition) {
-          needsUpdate = true;
-        }
-        
-        return {
-          ...point,
-          position: actualPosition,
-          reached: shouldBeReached
-        };
-      });
-      
-      if (needsUpdate) {
-        return newPoints;
+  // 프로그레스 포인트 생성 (현재 챕터의 소단원들)
+  const generateProgressPoints = (): React.ReactElement[] => {
+    const points: React.ReactElement[] = [];
+    const currentChapterSections = defaultMenu[selectedChapter]?.details || [];
+    
+    currentChapterSections.forEach((section, sectionIndex) => {
+      // 포인트들을 정확한 비율로 배치
+      // 4개 섹션: 0%, 25%, 50%, 75%
+      // 3개 섹션: 0%, 33.33%, 66.67%
+      let position;
+      if (currentChapterSections.length === 4) {
+        position = sectionIndex * 25; // 0%, 25%, 50%, 75%
+      } else if (currentChapterSections.length === 3) {
+        position = sectionIndex * (100 / 3); // 0%, 33.33%, 66.67%
+      } else {
+        // 기본값: 균등 분할
+        position = (sectionIndex / Math.max(currentChapterSections.length - 1, 1)) * 100;
       }
-      return currentPoints;
+      
+      // 현재 섹션에 도달했는지 확인
+      const isReached = sectionIndex <= currentSectionIndex;
+      const isActive = sectionIndex === currentSectionIndex;
+      
+      points.push(
+        <div
+          key={`${selectedChapter}-${sectionIndex}`}
+          className={`progress-point ${isReached ? 'reached' : ''} ${isActive ? 'active' : ''}`}
+          style={{ top: `${position}%` }}
+          onClick={() => handleNavigation(selectedChapter, sectionIndex)}
+        >
+          <div className="point-label">
+            {section}
+          </div>
+        </div>
+      );
     });
-  }, [scrollProgress, sectionPositions]);
+    
+    return points;
+  };
 
   return (
-    <div
-      className="slide-menu-horizontal"
-    >
-      {/* 대단원 타이틀 표시 영역 */}
-      <div className="chapter-titles">
-        {menu.map((item, idx) => (
-          <div
-            key={item.title}
-            className={`chapter-title ${idx === activeIdx ? 'active' : ''}`}
-            onClick={() => onChange?.(item.title, 0)}
-          >
-            {item.title}
-          </div>
-        ))}      </div>
-        {/* 프로그레스 바 */}
-      <div className="progress-container" ref={progressRef}>
-        <div className="progress-bar">
-          <div 
-            className="progress-fill"
-            style={{ width: `${scrollProgress !== undefined ? scrollProgress : progress}%` }}
-          ></div>          {/* 프로그레스 포인트 */}
-          {points.map((point, idx) => (
-            <div 
-              key={idx}
-              className={`progress-point ${point.active ? 'active' : ''} ${point.reached ? 'reached' : ''}`}
-              style={{ left: `${point.position}%` }}
-              data-title={point.title}
-              onClick={() => {
-                // 현재 대단원의 소단원 인덱스 사용
-                onChange?.(current, idx);
-                
-                // 섹션 참조가 제공된 경우 해당 섹션으로 스크롤
-                if (sectionRefs?.current && idx < sectionRefs.current.length) {
-                  sectionRefs.current[idx]?.scrollIntoView({ behavior: 'smooth' });
-                }
-              }}
+    <>
+      <div className="slide-menu-horizontal">
+        {/* 챕터 제목들 */}
+        <div className="chapter-titles">
+          {defaultMenu.map((chapter, index) => (
+            <div
+              key={index}
+              className={`chapter-title ${index === selectedChapter ? 'active' : ''}`}
+              onClick={() => handleNavigation(index, 0)}
             >
-              <div className="point-label">{point.title}</div>
+              {chapter.title}
             </div>
-          ))}        </div>
+          ))}
+        </div>
+
+        {/* 프로그레스 바 */}
+        <div className="progress-container">
+          <div className="progress-bar" ref={progressBarRef}>
+            <div 
+              className="progress-fill"
+              style={{ height: `${getCurrentProgress()}%` }}
+            />
+            {generateProgressPoints()}
+          </div>
+        </div>
       </div>
-      
-      {/* 페이지 표시기 */}
-      <div className="page-indicator">
-        {currentPage} / {totalPages}
-      </div>
-    </div>
+
+      {/* 다음 소단원 버튼 */}
+      {showNextButton && (
+        <button 
+          className="next-section-button"
+          onClick={handleNextSection}
+        >
+          다음 소단원
+        </button>
+      )}
+    </>
   );
 }
 

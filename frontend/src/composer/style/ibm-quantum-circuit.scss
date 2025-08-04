@@ -18,35 +18,47 @@
   top: 0;
   left: 0;
   margin: 0;
-  padding: 0;
-  font-family: 'IBM Plex Sans', sans-serif;
-  color: white;
+  padding: 0;  font-family: 'IBM Plex Sans', sans-serif;
+  color: #000;
+  text-shadow: none;
   cursor: grab;
   box-sizing: border-box;
-  
-  /* Gate types based on IBM Quantum Composer */
+  border: none;
+  /* Gate types based on IBM Quantum Composer - 테두리 없이 조정 */
   &.gate-h {
     background-color: #33B1FF;
+    font-weight: bold;
+    font-size: 24px;
   }
   
   &.gate-x {
     background-color: #0F62FE;
+    font-weight: bold;
+    font-size: 24px;
   }
   
   &.gate-y {
     background-color: #6929C4;
+    font-weight: bold;
+    font-size: 24px;
   }
   
   &.gate-z {
     background-color: #1192E8;
+    font-weight: bold;
+    font-size: 24px;
   }
   
   &.gate-s, &.gate-sdg {
     background-color: #1192E8;
+    font-weight: bold;
+    font-size: 24px;
   }
   
   &.gate-t, &.gate-tdg {
     background-color: #1192E8;
+    font-weight: bold;
+    font-size: 24px;
   }
   
   &.gate-rotation {
