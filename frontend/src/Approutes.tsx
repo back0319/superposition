@@ -16,7 +16,7 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/entangle" element={<Etm1 />} /> {/* entangle 경로 추가 */}      
-      <Route path="/qubit" element={<Qubit />} /> {/* qubit1 경로 추가 */}      
+      <Route path="/qubit" element={<Qubit />} /> {/* qubit 경로 추가 */}     
       <Route path="/circuit" element={<Circuit />} /> {/* circuit 경로 추가 */}      
       <Route path="/sp1" element={<Sp1 />} /> {/* sp1 경로 추가 (중첩 원리) */}
       <Route path="/superposition" element={<Sp1 />} /> {/* superposition 경로도 추가 */}
