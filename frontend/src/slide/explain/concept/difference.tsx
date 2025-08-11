@@ -6,6 +6,78 @@ function Difference() {
   const navigate = useNavigate();
   const [scrollProgress, setScrollProgress] = useState(0);
   const [currentSection, setCurrentSection] = useState(0);
+  const [isMenuHidden, setIsMenuHidden] = useState(false);
+  const [contentSlideDown, setContentSlideDown] = useState(false);
+  const [clickedStrongElement, setClickedStrongElement] = useState<HTMLElement | null>(null);
+
+  // strong 태그 클릭 핸들러 - strong 태그가 중앙 상단으로 이동하며 콘텐츠 사라짐
+  const handleStrongClick = (event: React.MouseEvent<HTMLElement>) => {
+    const target = event.target as HTMLElement;
+    
+    if (!contentSlideDown) {
+      // 클릭된 strong 태그를 저장
+      setClickedStrongElement(target);
+      
+      // 요소의 현재 위치 저장
+      const rect = target.getBoundingClientRect();
+      
+      // 새로운 strong 태그 요소를 body에 직접 추가 (메인 컨테이너 밖에)
+      const fixedStrong = document.createElement('div');
+      fixedStrong.textContent = target.textContent;
+      fixedStrong.id = 'fixed-strong-element';
+      fixedStrong.style.position = 'fixed';
+      fixedStrong.style.top = `${rect.top}px`;
+      fixedStrong.style.left = `${rect.left}px`;
+      fixedStrong.style.zIndex = '10001';
+      fixedStrong.style.fontSize = '1em';
+      fixedStrong.style.fontWeight = 'bold';
+      fixedStrong.style.color = '#4f8cff';
+      fixedStrong.style.pointerEvents = 'none';
+      fixedStrong.style.background = 'transparent';
+      fixedStrong.style.transition = 'all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1)';
+      fixedStrong.style.whiteSpace = 'nowrap';
+      
+      // body에 추가
+      document.body.appendChild(fixedStrong);
+      
+      // 원본 strong 태그 숨기기
+      target.style.opacity = '0';
+      
+      // 네비게이션 바 숨기기와 동시에 strong 태그를 중앙 상단으로 이동
+      setIsMenuHidden(true);
+      
+      // strong 태그를 중앙 상단으로 이동 (애니메이션과 함께)
+      setTimeout(() => {
+        fixedStrong.style.top = '15%';
+        fixedStrong.style.left = '50%';
+        fixedStrong.style.transform = 'translateX(-50%)';
+        fixedStrong.style.fontSize = '2.5em';
+        fixedStrong.style.color = '#ffffff';
+        fixedStrong.style.textShadow = '0 0 30px rgba(79, 140, 255, 0.8), 0 0 60px rgba(79, 140, 255, 0.4)';
+      }, 50);
+      
+      // 콘텐츠 왼쪽으로 슬라이드
+      setTimeout(() => {
+        setContentSlideDown(true);
+      }, 300);
+    } else {
+      // 리셋 기능
+      // body에서 고정된 strong 태그 제거
+      const fixedElement = document.getElementById('fixed-strong-element');
+      if (fixedElement) {
+        document.body.removeChild(fixedElement);
+      }
+      
+      // 원본 strong 태그 복원
+      if (clickedStrongElement) {
+        clickedStrongElement.style.opacity = '';
+      }
+      
+      setContentSlideDown(false);
+      setIsMenuHidden(false);
+      setClickedStrongElement(null);
+    }
+  };
 
   // 스크롤 이벤트 핸들러 - 프로그레스 바 업데이트
   useEffect(() => {
@@ -79,9 +151,32 @@ function Difference() {
         currentChapter={0} 
         scrollProgress={scrollProgress}
         onNavigate={handleNavigate}
+        isHidden={isMenuHidden}
       />
       
-      <div className="slide-content">
+      {/* 리셋 버튼 (콘텐츠 슬라이드 중일 때만 표시) */}
+      {contentSlideDown && (
+        <div className="reset-button" onClick={() => {
+          // body에서 고정된 strong 태그 제거
+          const fixedElement = document.getElementById('fixed-strong-element');
+          if (fixedElement) {
+            document.body.removeChild(fixedElement);
+          }
+          
+          // 원본 strong 태그 복원
+          if (clickedStrongElement) {
+            clickedStrongElement.style.opacity = '';
+          }
+          
+          setContentSlideDown(false);
+          setIsMenuHidden(false);
+          setClickedStrongElement(null);
+        }}>
+          ✕
+        </div>
+      )}
+      
+      <div className={`slide-content ${isMenuHidden ? 'expansion-mode' : ''} ${contentSlideDown ? 'slide-down' : ''}`}>
         <div className="compute-container">
           <h1>양자 컴퓨터 - 고전 컴퓨터와의 차이</h1>
           
@@ -89,7 +184,7 @@ function Difference() {
             <h2>고전 컴퓨터의 정보 처리 방식</h2>
             <div className="section-content">
               <p>
-                고전 컴퓨터는 <strong>비트(bit)</strong>를 기본 정보 단위로 사용합니다. 
+                고전 컴퓨터는 <strong onClick={handleStrongClick}>비트(bit)</strong>를 기본 정보 단위로 사용합니다. 
                 각 비트는 0 또는 1의 확정된 값을 가지며, 이는 트랜지스터의 ON/OFF 상태로 구현됩니다. 
                 모든 연산은 이러한 이진 논리를 기반으로 순차적으로 처리됩니다.
               </p>
@@ -104,7 +199,7 @@ function Difference() {
             <h2>양자 컴퓨터의 혁신적 접근</h2>
             <div className="section-content">
               <p>
-                양자 컴퓨터는 <strong>큐비트(qubit)</strong>를 사용하여 정보를 처리합니다. 
+                양자 컴퓨터는 <strong onClick={handleStrongClick}>큐비트(qubit)</strong>를 사용하여 정보를 처리합니다. 
                 큐비트는 양자역학의 중첩 원리에 따라 0과 1 상태를 동시에 존재할 수 있어, 
                 고전 비트보다 훨씬 더 많은 정보를 저장하고 처리할 수 있습니다.
               </p>
@@ -112,9 +207,9 @@ function Difference() {
                 <strong>핵심 차이점:</strong>
               </p>
               <ul>
-                <li><strong>중첩(Superposition):</strong> 여러 상태를 동시에 탐색 가능</li>
-                <li><strong>얽힘(Entanglement):</strong> 큐비트 간의 강력한 상관관계</li>
-                <li><strong>간섭(Interference):</strong> 확률 진폭의 상쇄와 증폭을 통한 최적화</li>
+                <li><strong onClick={handleStrongClick}>중첩(Superposition):</strong> 여러 상태를 동시에 탐색 가능</li>
+                <li><strong onClick={handleStrongClick}>얽힘(Entanglement):</strong> 큐비트 간의 강력한 상관관계</li>
+                <li><strong onClick={handleStrongClick}>간섭(Interference):</strong> 확률 진폭의 상쇄와 증폭을 통한 최적화</li>
               </ul>
             </div>
           </div>
@@ -129,11 +224,11 @@ function Difference() {
               <p>
                 예를 들어, 300개의 큐비트는 우주의 모든 원자 수보다 많은 상태를 동시에 처리할 수 있습니다. 
                 이는 특정 문제(암호 해독, 최적화, 시뮬레이션 등)에서 
-                <strong>지수적인 속도 향상</strong>을 가능하게 합니다.
+                <strong onClick={handleStrongClick}>지수적인 속도 향상</strong>을 가능하게 합니다.
               </p>
               <p>
                 하지만 모든 문제에서 양자 컴퓨터가 우월한 것은 아닙니다. 
-                양자 컴퓨터는 특정 유형의 문제에서만 양자 우위(Quantum Advantage)를 보입니다.
+                양자 컴퓨터는 특정 유형의 문제에서만 <strong onClick={handleStrongClick}>양자 우위(Quantum Advantage)</strong>를 보입니다.
               </p>
             </div>
           </div>

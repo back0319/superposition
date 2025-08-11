@@ -6,6 +6,78 @@ function Qubit() {
   const navigate = useNavigate();
   const [scrollProgress, setScrollProgress] = useState(0);
   const [currentSection, setCurrentSection] = useState(0);
+  const [isMenuHidden, setIsMenuHidden] = useState(false);
+  const [contentSlideDown, setContentSlideDown] = useState(false);
+  const [clickedStrongElement, setClickedStrongElement] = useState<HTMLElement | null>(null);
+
+  // strong 태그 클릭 핸들러 - strong 태그가 중앙 상단으로 이동하며 콘텐츠 사라짐
+  const handleStrongClick = (event: React.MouseEvent<HTMLElement>) => {
+    const target = event.target as HTMLElement;
+    
+    if (!contentSlideDown) {
+      // 클릭된 strong 태그를 저장
+      setClickedStrongElement(target);
+      
+      // 요소의 현재 위치 저장
+      const rect = target.getBoundingClientRect();
+      
+      // 새로운 strong 태그 요소를 body에 직접 추가 (메인 컨테이너 밖에)
+      const fixedStrong = document.createElement('div');
+      fixedStrong.textContent = target.textContent;
+      fixedStrong.id = 'fixed-strong-element';
+      fixedStrong.style.position = 'fixed';
+      fixedStrong.style.top = `${rect.top}px`;
+      fixedStrong.style.left = `${rect.left}px`;
+      fixedStrong.style.zIndex = '10001';
+      fixedStrong.style.fontSize = '1em';
+      fixedStrong.style.fontWeight = 'bold';
+      fixedStrong.style.color = '#4f8cff';
+      fixedStrong.style.pointerEvents = 'none';
+      fixedStrong.style.background = 'transparent';
+      fixedStrong.style.transition = 'all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1)';
+      fixedStrong.style.whiteSpace = 'nowrap';
+      
+      // body에 추가
+      document.body.appendChild(fixedStrong);
+      
+      // 원본 strong 태그 숨기기
+      target.style.opacity = '0';
+      
+      // 네비게이션 바 숨기기와 동시에 strong 태그를 중앙 상단으로 이동
+      setIsMenuHidden(true);
+      
+      // strong 태그를 중앙 상단으로 이동 (애니메이션과 함께)
+      setTimeout(() => {
+        fixedStrong.style.top = '15%';
+        fixedStrong.style.left = '50%';
+        fixedStrong.style.transform = 'translateX(-50%)';
+        fixedStrong.style.fontSize = '2.5em';
+        fixedStrong.style.color = '#ffffff';
+        fixedStrong.style.textShadow = '0 0 30px rgba(79, 140, 255, 0.8), 0 0 60px rgba(79, 140, 255, 0.4)';
+      }, 50);
+      
+      // 콘텐츠 왼쪽으로 슬라이드
+      setTimeout(() => {
+        setContentSlideDown(true);
+      }, 300);
+    } else {
+      // 리셋 기능
+      // body에서 고정된 strong 태그 제거
+      const fixedElement = document.getElementById('fixed-strong-element');
+      if (fixedElement) {
+        document.body.removeChild(fixedElement);
+      }
+      
+      // 원본 strong 태그 복원
+      if (clickedStrongElement) {
+        clickedStrongElement.style.opacity = '';
+      }
+      
+      setContentSlideDown(false);
+      setIsMenuHidden(false);
+      setClickedStrongElement(null);
+    }
+  };
 
   // 스크롤 이벤트 핸들러 - 프로그레스 바 업데이트
   useEffect(() => {
@@ -79,9 +151,32 @@ function Qubit() {
         currentChapter={1} 
         scrollProgress={scrollProgress}
         onNavigate={handleNavigate}
+        isHidden={isMenuHidden}
       />
       
-      <div className="slide-content">
+      {/* 리셋 버튼 (콘텐츠 슬라이드 중일 때만 표시) */}
+      {contentSlideDown && (
+        <div className="reset-button" onClick={() => {
+          // body에서 고정된 strong 태그 제거
+          const fixedElement = document.getElementById('fixed-strong-element');
+          if (fixedElement) {
+            document.body.removeChild(fixedElement);
+          }
+          
+          // 원본 strong 태그 복원
+          if (clickedStrongElement) {
+            clickedStrongElement.style.opacity = '';
+          }
+          
+          setContentSlideDown(false);
+          setIsMenuHidden(false);
+          setClickedStrongElement(null);
+        }}>
+          ✕
+        </div>
+      )}
+      
+      <div className={`slide-content ${isMenuHidden ? 'expansion-mode' : ''} ${contentSlideDown ? 'slide-down' : ''}`}>
         <div className="qubit-container">
           <h1>큐비트 (Qubit) - 정의</h1>
           
