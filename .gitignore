@@ -6,3 +6,6 @@ venv/
 # Node
 node_modules/
 .env
+
+# Firebase
+backend/config/firebase-service-account.json

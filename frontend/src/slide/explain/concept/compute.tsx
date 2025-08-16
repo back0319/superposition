@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SlideMenu from '../../slide';
+import Qubit from '../../object/qubit';
 
 function Compute() {
   const navigate = useNavigate();
@@ -9,6 +10,7 @@ function Compute() {
   const [isMenuHidden, setIsMenuHidden] = useState(false);
   const [contentSlideDown, setContentSlideDown] = useState(false);
   const [clickedStrongElement, setClickedStrongElement] = useState<HTMLElement | null>(null);
+  const [showQubitVisualization, setShowQubitVisualization] = useState(false);
 
   // strong 태그 클릭 핸들러 - strong 태그가 중앙 상단으로 이동하며 콘텐츠 사라짐
   const handleStrongClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -48,7 +50,7 @@ function Compute() {
       
       // strong 태그를 중앙 상단으로 이동 (애니메이션과 함께)
       setTimeout(() => {
-        fixedStrong.style.top = '15%';
+        fixedStrong.style.top = '5%';
         fixedStrong.style.left = '50%';
         fixedStrong.style.transform = 'translateX(-50%)';
         fixedStrong.style.fontSize = '2.5em';
@@ -61,13 +63,20 @@ function Compute() {
       setTimeout(() => {
         setContentSlideDown(true);
         
+        // 큐비트 클릭인 경우 시각화 표시
+        if (target.textContent?.includes('큐비트')) {
+          setTimeout(() => {
+            setShowQubitVisualization(true);
+          }, 500);
+        }
+        
       }, 300);
     } else {
       // 리셋 기능
       
-      // body에서 고정된 strong 태그 제거
+      // body에서 고정된 strong 태그 제거 (안전 검사 포함)
       const fixedElement = document.getElementById('fixed-strong-element');
-      if (fixedElement) {
+      if (fixedElement && fixedElement.parentNode === document.body) {
         document.body.removeChild(fixedElement);
       }
       
@@ -79,6 +88,7 @@ function Compute() {
       setContentSlideDown(false);
       setIsMenuHidden(false);
       setClickedStrongElement(null);
+      setShowQubitVisualization(false);
     }
   };
 
@@ -159,9 +169,9 @@ function Compute() {
       {/* 리셋 버튼 (콘텐츠 슬라이드 중일 때만 표시) */}
       {contentSlideDown && (
         <div className="reset-button" onClick={() => {
-          // body에서 고정된 strong 태그 제거
+          // body에서 고정된 strong 태그 제거 (안전 검사 포함)
           const fixedElement = document.getElementById('fixed-strong-element');
-          if (fixedElement) {
+          if (fixedElement && fixedElement.parentNode === document.body) {
             document.body.removeChild(fixedElement);
           }
           
@@ -173,6 +183,7 @@ function Compute() {
           setContentSlideDown(false);
           setIsMenuHidden(false);
           setClickedStrongElement(null);
+          setShowQubitVisualization(false);
         }}>
           ✕
         </div>
@@ -261,6 +272,9 @@ function Compute() {
           </div>
         </div>
       </div>
+      
+      {/* 큐비트 시각화 컴포넌트 */}
+      <Qubit isVisible={showQubitVisualization} />
     </div>
   );
 }
