@@ -1,0 +1,60 @@
+[2025-08-16 09:02:33] Request: GET / | Data: 
+[2025-08-16 09:02:33] Response: 200 | Duration: 3.255714ms
+[2025-08-16 09:04:02] Request: GET / | Data: 
+[2025-08-16 09:04:02] Response: 200 | Duration: 4.696256ms
+[2025-08-16 09:13:14] Request: GET / | Data: 
+[2025-08-16 09:13:14] Response: 200 | Duration: 1.007975ms
+[2025-08-16 09:23:00] Request: POST /simulate | Data: {"circuit":"\nOPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[1];\nh q[0];\n"}
+[2025-08-16 09:23:00] Response: 200 | Duration: 65.961342ms
+[2025-08-16 09:34:11] Request: POST /simulate | Data: {"circuit":"\nOPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[1];\nh q[0];\n"}
+[2025-08-16 09:34:11] Response: 200 | Duration: 9.690827ms
+[2025-08-16 09:34:34] Request: GET /qubit-info | Data: 
+[2025-08-16 09:34:34] Response: 200 | Duration: 3.579829ms
+[2025-08-16 09:34:39] Request: POST /simulate | Data: {"circuit":"\nOPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[1];\nh q[0];\n"}
+[2025-08-16 09:34:39] Response: 200 | Duration: 842.552µs
+[2025-08-16 09:34:45] Request: GET /qubit-info | Data: 
+[2025-08-16 09:34:45] Response: 200 | Duration: 950.763µs
+[2025-08-16 09:35:44] Request: GET /qubit-info | Data: 
+[2025-08-16 09:35:44] Response: 200 | Duration: 707.28µs
+[2025-08-16 09:35:58] Request: POST /simulate | Data: {"circuit":"\nOPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[1];\nh q[0];\n"}
+[2025-08-16 09:35:58] Response: 200 | Duration: 659.878µs
+[2025-08-16 09:36:08] Request: GET / | Data: 
+[2025-08-16 09:36:08] Response: 200 | Duration: 1.38036ms
+[2025-08-16 09:36:14] Request: POST /simulate | Data: {"circuit":"\nOPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[1];\nh q[0];\n"}
+[2025-08-16 09:36:14] Response: 200 | Duration: 1.335184ms
+[2025-08-16 09:36:29] Request: POST /simulate | Data: {"circuit":"\nOPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[1];\nh q[0];\n"}
+[2025-08-16 09:36:29] Response: 200 | Duration: 1.123278ms
+[2025-08-16 09:36:37] Request: GET /qubit-info | Data: 
+[2025-08-16 09:36:37] Response: 200 | Duration: 1.319423ms
+[2025-08-16 09:36:44] Request: GET /qubit-info | Data: 
+[2025-08-16 09:36:44] Response: 200 | Duration: 1.324844ms
+[2025-08-16 09:37:50] Request: POST /simulate | Data: {"circuit":"\nOPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[1];\nh q[0];\n"}
+[2025-08-16 09:37:50] Response: 200 | Duration: 808.332µs
+[2025-08-16 10:01:49] Request: POST /simulate | Data: {"circuit":"\nOPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[1];\nh q[0];\n"}
+[2025-08-16 10:01:49] Response: 200 | Duration: 13.834125ms
+[2025-08-16 10:01:52] Request: GET /qubit-info | Data: 
+[2025-08-16 10:01:52] Response: 200 | Duration: 2.516513ms
+[2025-08-16 10:02:03] Request: GET /qubit-info | Data: 
+[2025-08-16 10:02:03] Response: 200 | Duration: 2.127209ms
+[2025-08-16 10:02:49] Request: POST /simulate | Data: {"circuit":"\nOPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[1];\nh q[0];\n"}
+[2025-08-16 10:02:49] Response: 200 | Duration: 780.12µs
+[2025-08-16 10:24:43] Request: GET /qubit-info | Data: 
+[2025-08-16 10:24:43] Response: 200 | Duration: 4.285339ms
+[2025-08-16 10:35:30] Request: POST /simulate | Data: {"circuit":"\nOPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[1];\nh q[0];\n","qubits":1,"gates":[{"type":"H","target":0}],"shots":1000}
+[2025-08-16 10:35:30] Response: 200 | Duration: 12.958945ms
+[2025-08-16 10:35:31] Request: GET /qubit-info | Data: 
+[2025-08-16 10:35:31] Response: 200 | Duration: 1.147178ms
+[2025-08-16 10:35:38] Request: GET /qubit-info | Data: 
+[2025-08-16 10:35:38] Response: 200 | Duration: 1.610829ms
+[2025-08-16 10:35:47] Request: GET /qubit-info | Data: 
+[2025-08-16 10:35:47] Response: 200 | Duration: 1.008038ms
+[2025-08-16 10:35:51] Request: POST /simulate | Data: {"circuit":"\nOPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[1];\nh q[0];\n","qubits":1,"gates":[{"type":"H","target":0}],"shots":1000}
+[2025-08-16 10:35:51] Response: 200 | Duration: 2.244104ms
+[2025-08-16 10:35:53] Request: GET /qubit-info | Data: 
+[2025-08-16 10:35:53] Response: 200 | Duration: 661.404µs
+[2025-08-16 10:38:59] Request: POST /simulate | Data: {"circuit":"\nOPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[1];\nh q[0];\n","qubits":1,"gates":[{"type":"H","target":0}],"shots":1000}
+[2025-08-16 10:38:59] Response: 200 | Duration: 31.839191ms
+[2025-08-16 10:39:00] Request: GET /qubit-info | Data: 
+[2025-08-16 10:39:00] Response: 200 | Duration: 7.45242ms
+[2025-08-16 10:39:18] Request: GET /qubit-info | Data: 
+[2025-08-16 10:39:18] Response: 200 | Duration: 3.29355ms

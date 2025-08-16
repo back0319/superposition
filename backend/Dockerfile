@@ -36,4 +36,10 @@ USER appuser
 # 실행 파일 직접 실행
 ENTRYPOINT ["/app/main"]
 
+# 개발용 스테이지 (소스 코드 직접 실행)
+FROM golang:1.23 AS development
+WORKDIR /app
+EXPOSE 8080
+CMD ["go", "run", "main.go"]
+
 # 개발용(소스 마운트) 사용 시 compose.dev.yml 에서 command: go run main.go 로 재정의

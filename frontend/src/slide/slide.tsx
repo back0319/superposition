@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import "../component/slide.scss";
 
 const menu = [
@@ -18,38 +18,53 @@ const menu = [
 
 function SlideMenu({ current = "큐비트", onChange }: { current?: string, onChange?: (title: string) => void }) {
   const [open, setOpen] = useState(true);
-  const [activeIdx, setActiveIdx] = useState(menu.findIndex(m => m.title === current));
+  const [activeIdx, setActiveIdx] = useState(() => menu.findIndex(m => m.title === current));
   const wheelLock = useRef(false);
+
+  const handleIndexChange = useCallback((newIdx: number) => {
+    // 상태 업데이트를 더 안전하게 처리
+    setActiveIdx(prev => {
+      if (prev === newIdx) return prev; // 같은 값이면 업데이트 안함
+      if (onChange) {
+        // onChange 호출을 다음 tick으로 지연
+        setTimeout(() => onChange(menu[newIdx].title), 0);
+      }
+      return newIdx;
+    });
+  }, [onChange]);
 
   // 마우스 휠로 슬라이드 이동
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
       if (wheelLock.current) return;
+      
+      let newIdx = activeIdx;
       if (e.deltaY > 0 && activeIdx < menu.length - 1) {
-        wheelLock.current = true;
-        setActiveIdx(idx => {
-          const next = Math.min(menu.length - 1, idx + 1);
-          onChange && onChange(menu[next].title);
-          return next;
-        });
+        newIdx = activeIdx + 1;
       } else if (e.deltaY < 0 && activeIdx > 0) {
-        wheelLock.current = true;
-        setActiveIdx(idx => {
-          const prev = Math.max(0, idx - 1);
-          onChange && onChange(menu[prev].title);
-          return prev;
-        });
+        newIdx = activeIdx - 1;
       }
-      setTimeout(() => { wheelLock.current = false; }, 700); // 중복 방지
+      
+      if (newIdx !== activeIdx) {
+        wheelLock.current = true;
+        handleIndexChange(newIdx);
+        setTimeout(() => { 
+          wheelLock.current = false; 
+        }, 700);
+      }
     };
+
     window.addEventListener("wheel", handleWheel, { passive: false });
     return () => window.removeEventListener("wheel", handleWheel);
-  }, [activeIdx, onChange]);
+  }, [activeIdx, handleIndexChange]);
 
   useEffect(() => {
-    // 외부에서 current가 바뀌면 activeIdx도 바꿔줌
-    setActiveIdx(menu.findIndex(m => m.title === current));
-  }, [current]);
+    // 외부에서 current가 바뀌면 activeIdx도 바꿔줌 (activeIdx 의존성 제거로 무한 루프 방지)
+    const newIdx = menu.findIndex(m => m.title === current);
+    if (newIdx !== -1) {
+      setActiveIdx(newIdx);
+    }
+  }, [current]); // activeIdx 의존성 제거
 
   return (
     <div

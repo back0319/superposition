@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../component/layout/content.scss";
 import "../component/button.scss";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import apiClient from "../utils/api";
 
 function Content() {
   const [showConceptButtons, setShowConceptButtons] = useState(false);
@@ -11,7 +11,7 @@ function Content() {
   // 큐비트 버튼 클릭 시 서버에 요청 후 이동
   const handleQubitClick = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/qubit-info");
+      await apiClient.get("/qubit-info");
       navigate("/qubit");
     } catch (error) {
       alert("서버 요청에 실패했습니다.");
