@@ -1,0 +1,24 @@
+# 빌드 산출물/캐시 무시
+main
+*.exe
+*.out
+
+# 모듈 캐시 불필요
+/pkg
+
+# VCS
+.git
+.gitignore
+
+# IDE/편집기
+.vscode
+.idea
+*.swp
+
+# 로그/임시
+*.log
+tmp/
+
+# OS
+.DS_Store
+Thumbs.db

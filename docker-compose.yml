@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"  # 나중에 Vite 개발 서버 포트
+    volumes:
+      - ./frontend:/app
+
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+  # production에서는 이미지에 포함된 바이너리를 사용 (볼륨 마운트 제거)
+  # 개발 시에는 docker-compose.dev.yml 사용

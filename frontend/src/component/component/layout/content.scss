@@ -1,0 +1,54 @@
+.content-container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+}
+
+.content-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #fff;
+  opacity: 0.4;
+  transition: opacity 0.3s, transform 0.3s;
+  /* 글자 이동 효과를 위해 자식 span에 스타일 적용 */
+}
+
+.content-section span {
+  transition: transform 0.3s;
+}
+
+.content-section:hover {
+  opacity: 1;
+}
+
+.content-section:hover span {
+  transform: translateX(-600%); // 이동 수치는 원하는 대로 조정
+}
+
+.concept-buttons {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  display: flex;
+  gap: 1rem;
+  z-index: 2;
+}
+
+.concept {
+  position: relative;
+  background: #4f8cff;
+}
+
+.circuit {
+  background: #34c759;
+}
+
+.practice {
+  background: #ff9500;
+}

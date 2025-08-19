@@ -1,0 +1,476 @@
+// Home 페이지 스타일
+// 전체 홈 페이지 컨테이너를 정의합니다.
+// 뷰포트 전체를 채우고, 다크 테마 색상을 사용하며, 내용이 넘칠 경우 숨깁니다.
+.home-container {
+  width: 100vw;           // 뷰포트 너비의 100%를 차지
+  height: 100vh;          // 뷰포트 높이의 100%를 차지
+  background-color: #1a1a2e; // 어두운 남색 배경 - 양자 컴퓨팅의 깊이감을 표현
+  color: #ffffff;         // 흰색 텍스트 - 어두운 배경에 대비되는 가독성 높은 색상
+  display: flex;          // 플렉스 컨테이너로 설정 - 내부 요소의 유연한 배치 가능
+  flex-direction: column; // 자식 요소를 세로로 배치 - 헤더, 콘텐츠, 메뉴의 수직 구조
+  overflow: hidden;       // 내용이 넘칠 경우 숨김 처리 - 스크롤 바 제거로 깔끔한 디자인 유지
+}
+
+// 홈 헤더 스타일 - 상단 영역 정의
+// 현재는 네비게이션 메뉴가 제거되었지만, 향후 다른 요소를 배치할 수 있는 공간으로 유지됨
+.home-header {
+  display: flex;          // 플렉스 레이아웃 사용
+  justify-content: space-between; // 양쪽 끝 정렬
+  align-items: center;    // 세로축 중앙 정렬
+  padding: 2rem 4rem;     // 상하좌우 여백 설정
+  height: 10vh;           // 뷰포트 높이의 10%를 차지
+}
+
+// 중앙에 위치한 로고 스타일 - 사이트의 메인 브랜드 요소
+.logo-center {
+  font-size: 5.5rem;      // 매우 큰 글꼴 크기로 시선 집중
+  font-weight: bold;      // 굵은 글씨체
+  color: #4f8cff;         // 파란색 기본 색상 (그라데이션이 적용되지 않을 경우 대체)
+  text-align: center;     // 가운데 정렬
+  text-shadow: 0 0 25px rgba(79, 140, 255, 0.6); // 글로우 효과로 양자의 빛나는 특성 표현
+  letter-spacing: 3px;    // 글자 간격 넓게 설정
+  margin-bottom: 2rem;    // 하단 여백
+  background: linear-gradient(135deg, #4f8cff, #34c759, #4f8cff); // 파란색-초록색 그라데이션 효과
+  -webkit-background-clip: text; // 텍스트에만 배경 적용 (WebKit 브라우저)
+  background-clip: text;  // 텍스트에만 배경 적용 (표준)
+  -webkit-text-fill-color: transparent; // 텍스트 색상을 투명하게 하여 그라데이션 표시
+  animation: gradientShift 8s ease infinite; // 그라데이션 이동 애니메이션 적용
+  transition: transform 0.5s ease; // 부드러운 변형 효과 전환
+  
+  &:hover {
+    transform: scale(1.02); // 호버 시 약간 확대되는 효과
+    text-shadow: 0 0 35px rgba(79, 140, 255, 0.8); // 호버 시 더 강한 글로우 효과
+  }
+}
+
+// 그라데이션 이동 애니메이션 정의
+// 배경 그라데이션을 좌우로 이동시켜 동적인 효과 생성
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;  // 시작 위치 - 왼쪽 중앙
+  }
+  50% {
+    background-position: 100% 50%; // 중간 위치 - 오른쪽 중앙
+  }
+  100% {
+    background-position: 0% 50%;  // 종료 위치 - 왼쪽 중앙 (처음 위치로 복귀)
+  }
+}
+
+// 메뉴가 위로 부드럽게 나타나는 애니메이션
+@keyframes fadeInUpMenu {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// 보조 로고 스타일 - 현재 사용되지 않지만 필요시 활성화 가능
+.logo {
+  font-size: 1.8rem;      // 적당한 크기의 글꼴
+  font-weight: bold;      // 굵은 글씨체
+  color: #4f8cff;         // 파란색 - 브랜드 색상
+}
+
+// 네비게이션 메뉴 스타일 - 현재는 제거되었지만 코드 유지
+.nav-menu {
+  margin: 0 auto;         // 가운데 정렬
+  display: flex;          // 항목들을 가로로 배치
+  gap: 2rem;              // 항목 간 간격
+
+  // 메뉴 링크 스타일
+  a {
+    color: #ffffff;       // 흰색 텍스트
+    text-decoration: none; // 밑줄 제거
+    font-size: 1.2rem;    // 적당한 글꼴 크기
+    transition: color 0.3s; // 색상 변경 애니메이션
+    
+    // 호버 효과
+    &:hover {
+      color: #4f8cff;     // 호버 시 파란색으로 변경
+    }
+  }
+}
+
+// 홈 메인 콘텐츠 영역 스타일 - 중앙에 위치한 소개 텍스트 영역
+.home-content {
+  display: flex;          // 플렉스 컨테이너
+  flex-direction: column; // 자식 요소 세로 배치
+  justify-content: center; // 세로 중앙 정렬
+  align-items: center;    // 가로 중앙 정렬
+  height: 100vh;          // 뷰포트 높이만큼 차지하여 전체 화면 활용
+  padding: 0 4rem;        // 좌우 여백
+  text-align: center;     // 텍스트 가운데 정렬
+  margin: 0 auto;         // 가로 중앙 정렬
+  position: relative;     // 상대적 위치 설정으로 z-index 활용 가능
+  z-index: 10;            // 레이어 순서 설정 (10은 다른 요소보다 위에 표시)
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); // 더 자연스러운 이징 함수로 변경
+  will-change: transform;  // 변환 애니메이션 최적화
+    // 메뉴 확장 시 콘텐츠가 위로 이동하는 효과
+  &.content-shifted {
+    transform: translateY(-180px); // 위로 180픽셀 이동 - 메뉴 확장 영역에 맞춤 (약간 줄임)
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); // 더 자연스러운 이징으로 변경
+  }
+}
+
+// 메인 제목 스타일 - "양자의 세계로의 첫걸음"
+.title {
+  font-size: 2.8rem;      // 큰 글꼴 크기로 주목성 강화
+  font-weight: bold;      // 굵은 글씨체
+  margin-bottom: 2rem;    // 하단 여백
+  background: linear-gradient(to right, #4f8cff, #34c759); // 파란색에서 초록색으로 그라데이션
+  -webkit-background-clip: text; // 텍스트에만 배경 적용 (WebKit 브라우저)
+  background-clip: text;  // 텍스트에만 배경 적용 (표준)
+  -webkit-text-fill-color: transparent; // 텍스트 색상을 투명하게 하여 그라데이션 표시
+  text-shadow: 0 2px 15px rgba(79, 140, 255, 0.3); // 미묘한 글로우 효과
+  transition: all 0.5s ease; // 부드러운 변형 효과 전환
+}
+
+// 부제목 스타일 - 소개 텍스트
+.subtitle {
+  font-size: 1.7rem;      // 중간 크기의 글꼴
+  color: #d8d8d8;         // 밝은 회색으로 제목과 대비
+  margin-bottom: 3rem;    // 하단 여백
+  max-width: 700px;       // 최대 너비 제한으로 가독성 향상
+  line-height: 1.6;       // 줄 간격 증가로 가독성 개선
+  transition: all 0.5s ease; // 부드러운 변형 효과 전환
+}
+
+// 액션 버튼 컨테이너 - 현재 페이지에서는 사용되지 않지만 필요시 활성화 가능
+.action-buttons {
+  display: flex;          // 플렉스 컨테이너
+  flex-direction: column; // 버튼들을 세로로 배치
+  gap: 1rem;              // 버튼 간 간격
+  width: 280px;           // 고정 너비
+}
+
+// 주요 액션 버튼 스타일 - CTA(Call to Action) 용도
+.btn-primary {
+  background: linear-gradient(135deg, #4f8cff, #0062ff); // 파란색 그라데이션
+  color: white;           // 흰색 텍스트
+  border: none;           // 테두리 없음
+  padding: 0.75rem 2rem;  // 내부 여백
+  border-radius: 0.5rem;  // 모서리 둥글게
+  font-size: 1.1rem;      // 글꼴 크기
+  cursor: pointer;        // 마우스 커서 변경
+  transition: transform 0.3s, box-shadow 0.3s; // 부드러운 변형 및 그림자 효과
+  
+  // 호버 효과
+  &:hover {
+    transform: translateY(-3px); // 위로 약간 떠오르는 효과
+    box-shadow: 0 10px 20px rgba(79, 140, 255, 0.3); // 그림자 효과 강화
+  }
+}
+
+// 보조 액션 버튼 스타일 - 보조적인 기능용
+.btn-secondary {
+  background: transparent; // 투명 배경
+  color: #4f8cff;         // 파란색 텍스트
+  border: 1px solid #4f8cff; // 파란색 테두리
+  padding: 0.75rem 2rem;  // 내부 여백
+  border-radius: 0.5rem;  // 모서리 둥글게
+  font-size: 1.1rem;      // 글꼴 크기
+  cursor: pointer;        // 마우스 커서 변경
+  transition: background-color 0.3s, transform 0.3s; // 배경색 및 변형 효과 전환
+  
+  // 호버 효과
+  &:hover {
+    background-color: rgba(79, 140, 255, 0.1); // 연한 파란색 배경
+    transform: translateY(-3px); // 위로 약간 떠오르는 효과
+  }
+}
+
+// 하단 카테고리 메뉴 컨테이너 - 개념, 회로, 실습 버튼이 있는 영역
+.category-menu {
+  display: flex;          // 플렉스 컨테이너로 설정하여 항목들을 가로로 배치
+  justify-content: center; // 가로 중앙 정렬
+  position: fixed;        // 고정 위치 설정 - 스크롤해도 항상 화면 하단에 유지
+  left: 0;                // 왼쪽 끝에 맞춤
+  right: 0;               // 오른쪽 끝에 맞춤
+  bottom: 0;              // 하단에 맞춤
+  background-color: rgba(30, 30, 60, 0.7); // 반투명 어두운 남색 배경
+  padding: 0;             // 내부 여백 없음
+  backdrop-filter: blur(8px); // 배경 흐림 효과로 모던한 UI
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.3); // 위쪽으로 그림자 효과
+  width: 100%;            // 전체 너비
+  height: 11%;           // 고정 높이
+  z-index: 100;           // 레이어 순서 - 대부분의 요소보다 위에 표시
+  border-top: 1px solid rgba(79, 140, 255, 0.2); // 미묘한 상단 테두리
+}
+
+// 카테고리 항목 스타일 - 각 카테고리 버튼(개념, 회로, 실습)
+.category-item {
+  flex: 1;                // 동일한 비율로 공간 차지
+  display: flex;          // 플렉스 컨테이너
+  flex-direction: column; // 내부 요소를 세로로 배치
+  align-items: center;    // 가로 중앙 정렬
+  padding: 0.5rem 0;      // 내부 여백
+  cursor: pointer;        // 마우스 커서 변경하여 클릭 가능함을 표시
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); // 부드러운 전환 효과
+  border-top: 3px solid transparent; // 투명한 상단 테두리
+  position: relative;     // 상대적 위치 설정
+  height: 100%;           // 카테고리 메뉴의 높이에 맞춤
+  
+  // 확장된 상태 (hover 시)
+  &.expanded {
+    background-color: rgba(79, 140, 255, 0.1); // 연한 파란색 배경
+    border-top: 3px solid #4f8cff; // 상단에 파란색 강조선
+    z-index: 101;         // 확장 시 다른 항목보다 위에 표시
+    will-change: transform, opacity; // 브라우저에 변화를 미리 알려 최적화
+    
+    // 확장 시 타이틀 색상 변경
+    .category-title {
+      color: #4f8cff;     // 파란색으로 강조
+    }
+      // 확장 시 확장 메뉴 표시
+    .category-expanded {
+      visibility: visible; // 보이게 설정
+      opacity: 1;         // 완전히 불투명하게
+      transform: translateY(0); // 원래 위치로 이동
+      pointer-events: auto; // 마우스 이벤트 활성화
+      transition: 
+        opacity 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), 
+        transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), 
+        visibility 0s; // visibility 지연 없이 즉시 표시하고 애니메이션 타이밍 개선
+      will-change: transform, opacity; // GPU 가속을 위한 최적화
+    }
+  }
+  
+  // 호버 효과
+  &:hover {
+    background-color: rgba(79, 140, 255, 0.1); // 연한 파란색 배경
+    border-top: 3px solid #4f8cff; // 상단에 파란색 강조선
+    
+    // 호버 시 타이틀 색상 변경
+    .category-title {
+      color: #4f8cff;     // 파란색으로 강조
+    }
+  }
+    // 확장된 카테고리 메뉴 - 각 카테고리 hover 시 위로 펼쳐지는 영역
+  .category-expanded {
+    position: absolute;    // 절대 위치 설정
+    bottom: 100%;          // 카테고리 메뉴 바로 위에 위치하도록 설정
+    left: 0;               // 왼쪽 끝에 맞춤
+    right: 0;              // 오른쪽 끝에 맞춤
+    width: 100%;           // 전체 너비
+    height: auto;          // 내용에 맞게 자동 높이 조정
+    min-height: 45vh;      // 최소 높이 설정 - 충분한 공간 확보
+    max-height: 60vh;      // 최대 높이 제한 - 뷰포트 높이의 60%로 제한
+    display: flex;         // 플렉스 컨테이너
+    flex-direction: column; // 내부 요소를 세로로 배치
+    align-items: center;   // 가로 중앙 정렬
+    justify-content: flex-start; // 세로 상단 정렬
+    background: linear-gradient(to bottom, rgba(30, 30, 60, 0.98), rgba(25, 25, 50, 0.97)); // 그라데이션 배경
+    backdrop-filter: blur(15px); // 강한 배경 흐림 효과
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5); // 위쪽으로 강한 그림자
+    visibility: hidden;    // 초기 상태는 숨김
+    opacity: 0;            // 초기 상태는 완전 투명
+    transform: translateY(10px); // 초기 상태는 아래로 약간 이동 (더 작게 조정)
+    transition: 
+      opacity 0.3s ease, 
+      transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), 
+      visibility 0s 0.3s; // 개선된 트랜지션 - 깜빡임 방지를 위한 명확한 타이밍
+    pointer-events: none;  // 숨겨진 상태에서는 마우스 이벤트 비활성화
+    z-index: 110;          // 카테고리 메뉴보다 높은 층위에 표시
+    padding: 2rem 0;       // 상하 여백
+    overflow-y: auto;      // 내용이 넘칠 경우 세로 스크롤 표시
+    border-top: 2px solid rgba(79, 140, 255, 0.4); // 상단에 파란색 테두리
+    will-change: transform, opacity; // GPU 가속을 위한 최적화
+  }
+  
+  // 확장 영역 제목 스타일 - 각 카테고리의 타이틀
+  .expanded-title {
+    color: #4f8cff;       // 파란색 텍스트
+    font-size: 2rem;      // 큰 글꼴 크기
+    font-weight: bold;    // 굵은 글씨체
+    margin-bottom: 0.5rem;  // 하단 여백 축소 - 설명 추가로 여백 조정
+    position: relative;   // 상대적 위치 설정
+    will-change: transform; // 변환 최적화
+    
+    // 제목 아래 장식 선
+    &:after {
+      content: '';        // 가상 요소 내용 없음
+      position: absolute; // 절대 위치 설정
+      bottom: -10px;      // 하단에서 10px 위치
+      left: 50%;          // 왼쪽에서 50% 위치
+      transform: translateX(-50%); // 중앙 정렬
+      width: 80px;        // 너비
+      height: 3px;        // 높이
+      background: linear-gradient(to right, #4f8cff, #34c759); // 파란색-초록색 그라데이션
+    }
+  }
+  
+  // 확장 영역 설명 스타일 - 카테고리 제목 아래 설명 텍스트
+  .expanded-description {
+    color: #d8d8d8;        // 밝은 회색 텍스트
+    font-size: 1.1rem;     // 중간 크기 글꼴
+    text-align: center;    // 가운데 정렬
+    margin-bottom: 1.5rem; // 하단 여백
+    margin-top: 1.5rem;    // 장식선 아래 여백
+    max-width: 85%;        // 최대 너비 제한
+    line-height: 1.4;      // 행간 조정
+    opacity: 0.9;          // 약간 투명하게
+    animation: fadeIn 0.6s ease-out forwards 0.3s; // 애니메이션 효과
+  }
+  
+  // 확장 영역 버튼 컨테이너 - 카테고리별 서브메뉴 버튼들
+  .expanded-buttons {
+    display: flex;       // 플렉스 컨테이너
+    flex-direction: column; // 세로 방향 배치
+    gap: 15px;          // 버튼 간 간격
+    width: 100%;        // 전체 너비
+    max-width: 300px;   // 최대 너비 제한
+  }
+      align-items: center; // 가로 중앙 정렬
+      
+      // 버튼 순차적 애니메이션 효과
+      .btn-category {
+        &:nth-child(1) { animation: fadeIn 0.4s ease-out forwards 0.1s; } // 첫 번째 버튼
+        &:nth-child(2) { animation: fadeIn 0.4s ease-out forwards 0.2s; } // 두 번째 버튼
+        &:nth-child(3) { animation: fadeIn 0.4s ease-out forwards 0.3s; } // 세 번째 버튼
+        &:nth-child(4) { animation: fadeIn 0.4s ease-out forwards 0.4s; } // 네 번째 버튼
+        opacity: 0;       // 초기 상태는 투명
+      }
+    }
+  
+
+
+// 페이드인 애니메이션 - 버튼이 아래에서 위로 서서히 나타나는 효과
+@keyframes fadeIn {
+  from {
+    opacity: 0;            // 시작 상태 - 완전 투명
+    transform: translateY(10px); // 시작 위치 - 10px 아래에서 시작
+  }
+  to {
+    opacity: 1;            // 종료 상태 - 완전 불투명
+    transform: translateY(0); // 종료 위치 - 원래 위치로 이동
+  }
+}
+
+// 메뉴 페이드인 애니메이션 - 확장된 메뉴가 아래에서 위로 서서히 나타나는 효과
+@keyframes fadeInUpMenu {
+  0% {
+    opacity: 0;            // 시작 상태 - 완전 투명
+    transform: translateY(12px); // 시작 위치 - 12px 아래에서 시작 (더 미묘하게)
+  }
+  60% {
+    opacity: 0.8;          // 중간 상태 - 80% 불투명
+    transform: translateY(-3px); // 중간 위치 - 약간 위로 튀어오르는 효과
+  }
+  100% {
+    opacity: 1;            // 종료 상태 - 완전 불투명
+    transform: translateY(0); // 종료 위치 - 원래 위치로 이동
+  }
+}
+
+// 카테고리 타이틀 스타일 - 하단 메뉴의 각 카테고리 제목
+.category-title {
+  font-size: 1.4rem;      // 크기가 큰 글꼴
+  font-weight: bold;      // 굵은 글씨체
+  margin-bottom: 0.3rem;  // 하단 여백 줄임
+  margin-top: 0.8rem;     // 상단 여백 추가로 수직 중앙 정렬 조정
+  transition: color 0.3s; // 색상 변경 애니메이션
+  display: flex;          // 플렉스 컨테이너
+  align-items: center;    // 세로 중앙 정렬
+  
+  // 타이틀 앞에 표시되는 작은 원형 아이콘
+  &::before {
+    content: '';          // 가상 요소 내용 없음
+    width: 8px;           // 너비
+    height: 8px;          // 높이
+    border-radius: 50%;   // 원형으로 만들기
+    background-color: #4f8cff; // 파란색 배경
+    margin-right: 0.6rem; // 오른쪽 여백
+    display: inline-block; // 인라인 블록 요소
+    box-shadow: 0 0 10px rgba(79, 140, 255, 0.8); // 파란 글로우 효과
+  }
+}
+
+// 카테고리 설명 스타일 - 각 카테고리 아래에 표시되는 짧은 설명
+.category-description {
+  font-size: 0.85rem;     // 작은 글꼴 크기
+  color: #cccccc;         // 밝은 회색 텍스트
+  text-align: center;     // 가운데 정렬
+  max-width: 80%;         // 최대 너비 제한으로 가독성 향상
+}
+
+// 서브 카테고리 컨테이너 - 현재는 사용되지 않지만 향후 확장성을 위해 유지
+.subcategories {
+  position: absolute;     // 절대 위치 설정
+  top: calc(100% + 1rem); // 부모 요소 아래 1rem 위치
+  background-color: rgba(30, 30, 60, 0.9); // 반투명 어두운 배경
+  border-radius: 0.5rem;  // 모서리 둥글게
+  padding: 1rem;          // 내부 여백
+  display: flex;          // 플렉스 컨테이너
+  gap: 1rem;              // 항목 간 간격
+  opacity: 0;             // 초기 상태는 투명
+  pointer-events: none;   // 초기 상태는 마우스 이벤트 비활성화
+  transform: translateY(10px); // 초기 상태는 아래로 약간 이동
+  transition: opacity 0.3s, transform 0.3s; // 부드러운 전환 효과
+}
+
+// 서브 카테고리 항목 - 현재는 사용되지 않음
+.subcategory {
+  padding: 0.5rem 1rem;   // 내부 여백
+  border-radius: 0.3rem;  // 모서리 둥글게
+  transition: background-color 0.3s; // 배경색 변경 애니메이션
+  
+  // 호버 효과
+  &:hover {
+    background-color: rgba(79, 140, 255, 0.3); // 연한 파란색 배경
+  }
+}
+
+// 카테고리 버튼 스타일 - 확장된 메뉴에 표시되는 각 버튼
+.btn-category {
+  padding: 1rem 1.8rem;   // 내부 여백
+  background-color: rgba(79, 140, 255, 0.2); // 연한 파란색 배경
+  color: white;           // 흰색 텍스트
+  border: 1px solid rgba(79, 140, 255, 0.5); // 연한 파란색 테두리
+  border-radius: 8px;     // 모서리 둥글게
+  font-size: 1.15rem;     // 글꼴 크기
+  font-weight: 500;       // 중간 정도 굵기
+  cursor: pointer;        // 마우스 커서 변경
+  transition: all 0.25s ease; // 부드러운 변형 효과
+  min-width: 220px;       // 최소 너비
+  text-align: center;     // 텍스트 가운데 정렬
+  letter-spacing: 0.5px;  // 글자 간격
+  position: relative;     // 상대적 위치 설정
+  overflow: hidden;       // 넘치는 내용 숨김 (애니메이션 효과용)
+  margin-bottom: 5px;     // 하단 여백
+  backdrop-filter: blur(5px); // 배경 흐림 효과
+  
+  // 버튼 위로 스와이프되는 빛 효과를 위한 가상 요소
+  &::before {
+    content: '';          // 가상 요소 내용 없음
+    position: absolute;   // 절대 위치 설정
+    top: 0;               // 상단에 맞춤
+    left: -100%;          // 초기 위치는 화면 밖
+    width: 100%;          // 전체 너비
+    height: 100%;         // 전체 높이
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent); // 빛 효과 그라데이션
+    transition: 0.5s;     // 부드러운 이동 효과
+  }
+  
+  // 호버 효과
+  &:hover {
+    background-color: rgba(79, 140, 255, 0.6); // 더 진한 파란색 배경
+    transform: translateY(-3px); // 위로 약간 떠오르는 효과
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); // 그림자 효과
+    
+    // 호버 시 빛 효과 이동
+    &::before {
+      left: 100%;         // 오른쪽으로 이동하여 스와이프 효과
+    }
+  }
+  
+  // 클릭 효과
+  &:active {
+    transform: translateY(-1px); // 덜 떠오르게 하여 클릭 느낌
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); // 더 작은 그림자
+  }
+}

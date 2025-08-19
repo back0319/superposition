@@ -1,0 +1,171 @@
+.quantum-composer {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  font-family: Arial, sans-serif;
+}
+
+/* ─── 좌측 사이드바 ─── */
+.composer-sidebar {
+  width: 200px;
+  background: #f7f7f7;
+  border-right: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+}
+.files-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+}
+.btn-new {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.files-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  overflow-y: auto;
+}
+.files-list li {
+  padding: 0.75rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.files-list li.active {
+  background: #e3f2fd;
+}
+.created {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+/* ─── 우측 메인 ─── */
+.composer-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.composer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: #fafafa;
+  border-bottom: 1px solid #ddd;
+}
+.tabs button {
+  background: none;
+  border: none;
+  margin-right: 0.5rem;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+.tabs button.active {
+  border-bottom: 2px solid #1976d2;
+  font-weight: bold;
+}
+.btn-run {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* 작업 영역 그리드 */
+.composer-workspace {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 200px 1fr 240px;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "ops  ops    ops"
+    "ops  canvas code";
+  overflow: hidden;
+}
+
+.operations-panel {
+  grid-area: ops;
+  background: #e3e6f0;
+  padding: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  overflow-y: auto;
+}
+.op-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.canvas-panel {
+  grid-area: canvas;
+  display: flex;
+  position: relative;
+  background: #fff;
+}
+.circuit-area {
+  flex: 1;
+  padding: 1rem;
+  /* 여기에 Circut 컴포넌트 스타일 적용 */
+}
+.measure-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+}
+.measure-btn {
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: #eee;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.code-panel {
+  grid-area: code;
+  background: #f4f4f4;
+  border-left: 1px solid #ddd;
+  padding: 1rem;
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+.code-header {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+.code-body {
+  max-height: calc(100% - 1.2rem);
+  overflow-y: auto;
+}
+
+/* ─── 하단 차트 ─── */
+.composer-footer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid #ddd;
+}
+.chart {
+  padding: 1rem;
+  border-right: 1px solid #ddd;
+}
+.chart:last-child {
+  border-right: none;
+}
