@@ -1,27 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import Home from './Home';
 import reportWebVitals from './reportWebVitals';
 import App from './App';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
-
-// StrictMode는 개발 모드에서만 사용하되, Concurrent 렌더링 이슈 최소화
-const AppWithOptionalStrictMode = () => {
-  // 개발 환경에서 StrictMode 비활성화로 Concurrent 렌더링 문제 회피
-  if (process.env.NODE_ENV === 'development') {
-    return <App />;
-  }
-  return (
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  );
-};
-
-root.render(<AppWithOptionalStrictMode />);
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

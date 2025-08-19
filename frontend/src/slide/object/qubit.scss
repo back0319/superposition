@@ -1,0 +1,423 @@
+.qubit-visualization {
+  position: fixed;
+  top: 18%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 95vw;
+  max-width: 1400px;
+  height: 80vh;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95));
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(79, 140, 255, 0.2);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow-y: auto;
+  z-index: 10000;
+
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .qubit-container {
+    color: white;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .comparison-header {
+      text-align: center;
+      margin-bottom: 30px;
+
+      h2 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        background: linear-gradient(45deg, #4f8cff, #ff6b6b);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      p {
+        font-size: 1.2em;
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+
+    .comparison-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 30px;
+      flex: 1;
+
+      .bit-section, .qubit-section {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        padding: 25px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+
+        h3 {
+          font-size: 1.5em;
+          margin-bottom: 10px;
+          text-align: center;
+          color: #4f8cff;
+        }
+      }
+
+      .bit-section {
+        .bit-display {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-bottom: 20px;
+
+          .led-indicator {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            position: relative;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+
+            .led-light {
+              width: 100%;
+              height: 100%;
+              border-radius: 50%;
+              background: #333;
+              border: 3px solid #555;
+              transition: all 0.3s ease;
+            }
+
+            .led-glow {
+              position: absolute;
+              top: -10px;
+              left: -10px;
+              right: -10px;
+              bottom: -10px;
+              border-radius: 50%;
+              background: radial-gradient(circle, transparent 60%, rgba(255, 107, 107, 0.3) 70%, transparent 80%);
+              opacity: 0;
+              transition: all 0.3s ease;
+            }
+
+            &.on {
+              .led-light {
+                background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+                border-color: #ff6b6b;
+                box-shadow: 0 0 20px #ff6b6b;
+              }
+
+              .led-glow {
+                opacity: 1;
+              }
+            }
+
+            &.off {
+              .led-light {
+                background: #2a2a2a;
+                border-color: #444;
+              }
+            }
+
+            &.animating {
+              transform: scale(1.1);
+            }
+          }
+
+          .bit-state {
+            font-size: 1.2em;
+            
+            .state-value {
+              font-weight: bold;
+              color: #4f8cff;
+              font-size: 1.5em;
+            }
+          }
+        }
+
+        .toggle-button {
+          width: 100%;
+          padding: 12px;
+          background: linear-gradient(45deg, #4f8cff, #6fa8ff);
+          border: none;
+          border-radius: 8px;
+          color: white;
+          font-size: 1.1em;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          margin-bottom: 20px;
+
+          &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 140, 255, 0.4);
+          }
+        }
+      }
+
+      .qubit-section {
+        .bloch-sphere-container {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+         
+          gap: 15px;
+          margin-left: 50px;
+
+          .bloch-sphere-3d {
+            width: 550px;
+            height: 550px;
+            cursor: grab;
+
+            &:active {
+              cursor: grabbing;
+            }
+          }
+
+          .probability-display {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: flex-start;
+
+            .prob-item {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              padding: 8px 12px;
+             
+              border-radius: 8px;
+              border: 1px solid rgba(79, 140, 255, 0.3);
+
+              .prob-label {
+                font-size: 0.8em;
+                color: rgba(255, 255, 255, 0.7);
+                margin-bottom: 4px;
+              }
+
+              .prob-value {
+                font-size: 1.1em;
+                font-weight: bold;
+                color: #4f8cff;
+              }
+            }
+          }
+        }
+
+        .qubit-controls {
+          margin-bottom: 20px;
+
+          .slider-group {
+            margin-bottom: 15px;
+
+            label {
+              display: block;
+              margin-bottom: 5px;
+              font-size: 0.9em;
+              color: rgba(255, 255, 255, 0.8);
+            }
+
+            input[type="range"] {
+              width: 100%;
+              height: 6px;
+              border-radius: 3px;
+              background: rgba(255, 255, 255, 0.2);
+              outline: none;
+              cursor: pointer;
+
+              &::-webkit-slider-thumb {
+                appearance: none;
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                background: #4f8cff;
+                cursor: pointer;
+                box-shadow: 0 0 10px rgba(79, 140, 255, 0.5);
+              }
+
+              &:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+              }
+            }
+          }
+        }
+
+        .qubit-buttons {
+          display: flex;
+          gap: 10px;
+          margin-bottom: 20px;
+
+          button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+
+            &.measure-button {
+              background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+
+              &:hover:not(:disabled) {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+              }
+
+              &:disabled {
+                background: #666;
+                cursor: not-allowed;
+              }
+            }
+
+            &.reset-button {
+              background: linear-gradient(45deg, #6b73ff, #8e95ff);
+
+              &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(107, 115, 255, 0.4);
+              }
+            }
+          }
+        }
+      }
+
+      .explanation {
+        p {
+          margin: 8px 0;
+          font-size: 0.9em;
+          line-height: 1.4;
+          color: rgba(255, 255, 255, 0.9);
+
+          strong {
+            color: #4f8cff;
+          }
+        }
+      }
+    }
+
+    .interactive-guide {
+      background: rgba(79, 140, 255, 0.1);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(79, 140, 255, 0.2);
+
+      h4 {
+        font-size: 1.3em;
+        margin-bottom: 15px;
+        color: #4f8cff;
+      }
+
+      .guide-steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+
+        .step {
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+
+          .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            background: #4f8cff;
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 0.9em;
+            flex-shrink: 0;
+          }
+
+          p {
+            margin: 0;
+            font-size: 0.9em;
+            line-height: 1.4;
+            color: rgba(255, 255, 255, 0.9);
+          }
+        }
+      }
+    }
+
+    .key-differences {
+      background: rgba(255, 107, 107, 0.1);
+      border-radius: 15px;
+      padding: 20px;
+      border: 1px solid rgba(255, 107, 107, 0.2);
+
+      h4 {
+        font-size: 1.3em;
+        margin-bottom: 15px;
+        color: #ff6b6b;
+      }
+
+      .differences-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+
+        .difference-item {
+          text-align: center;
+
+          h5 {
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            color: #4f8cff;
+          }
+
+          p {
+            margin: 4px 0;
+            font-size: 0.9em;
+            line-height: 1.3;
+
+            strong {
+              color: rgba(255, 255, 255, 0.9);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// 반응형 디자인
+@media (max-width: 768px) {
+  .qubit-visualization {
+    width: 95vw;
+    height: 85vh;
+    padding: 20px;
+    top: 10%;
+
+    .qubit-container {
+      .comparison-header {
+        h2 {
+          font-size: 2em;
+        }
+      }
+
+      .comparison-content {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .interactive-guide .guide-steps {
+        grid-template-columns: 1fr;
+      }
+
+      .key-differences .differences-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+}

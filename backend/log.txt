@@ -58,3 +58,33 @@
 [2025-08-16 10:39:00] Response: 200 | Duration: 7.45242ms
 [2025-08-16 10:39:18] Request: GET /qubit-info | Data: 
 [2025-08-16 10:39:18] Response: 200 | Duration: 3.29355ms
+[2025-08-19 14:39:21] Request: GET / | Data: 
+[2025-08-19 14:39:21] Response: 200 | Duration: 1.476865ms
+[2025-08-19 14:44:55] Request: POST /simulate | Data: {"circuit":"\nOPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[1];\nh q[0];\n","qubits":1,"gates":[{"type":"H","target":0}],"shots":1000}
+[2025-08-19 14:44:55] Response: 200 | Duration: 5.31286ms
+[2025-08-19 14:44:58] Request: GET /qubit-info | Data: 
+[2025-08-19 14:44:58] Response: 200 | Duration: 4.115805ms
+[2025-08-19 15:31:42] Request: POST /simulate | Data: {"circuit":"\nOPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[1];\nh q[0];\n","qubits":1,"gates":[{"type":"H","target":0}],"shots":1000}
+[2025-08-19 15:31:42] Response: 200 | Duration: 896.046µs
+[2025-08-19 15:31:54] Request: GET /ping | Data: 
+[2025-08-19 15:31:54] Response: 200 | Duration: 901.349µs
+[2025-08-19 15:31:58] Request: GET /qubit-info | Data: 
+[2025-08-19 15:31:58] Response: 200 | Duration: 4.596671ms
+[2025-08-19 15:32:04] Request: POST /simulate | Data: {"circuit":"\nOPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[1];\nh q[0];\n","qubits":1,"gates":[{"type":"H","target":0}],"shots":1000}
+[2025-08-19 15:32:04] Response: 200 | Duration: 1.147567ms
+[2025-08-19 15:36:21] Request: GET / | Data: 
+[2025-08-19 15:36:21] Response: 200 | Duration: 1.287281ms
+[2025-08-19 15:36:22] Request: GET / | Data: 
+[2025-08-19 15:36:22] Response: 200 | Duration: 5.711161ms
+[2025-08-19 15:36:22] Request: GET / | Data: 
+[2025-08-19 15:36:22] Response: 200 | Duration: 5.751063ms
+[2025-08-19 15:36:22] Request: GET / | Data: 
+[2025-08-19 15:36:22] Response: 200 | Duration: 1.514896ms
+[2025-08-19 15:36:22] Request: GET / | Data: 
+[2025-08-19 15:36:22] Response: 200 | Duration: 1.285482ms
+[2025-08-19 15:46:19] Request: GET / | Data: 
+[2025-08-19 15:46:19] Response: 200 | Duration: 12.490439ms
+[2025-08-19 15:46:20] Request: GET / | Data: 
+[2025-08-19 15:46:20] Response: 200 | Duration: 1.147024ms
+[2025-08-19 15:50:09] Request: GET /quantum-computer | Data: 
+[2025-08-19 15:50:09] Response: 404 | Duration: 11.55212ms
