@@ -40,6 +40,15 @@ func SetupRouter() *gin.Engine {
 		c.JSON(200, gin.H{"message": "pong"})
 	})
 
+	// AWS App Runner용 헬스체크 엔드포인트
+	r.GET("/health", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"status":    "healthy",
+			"service":   "superposition-backend",
+			"timestamp": c.Request.Header.Get("Date"),
+		})
+	})
+
 	// 양자 시뮬레이션 엔드포인트 (Python Flask 대체)
 	r.POST("/simulate", simulationHandler.Simulate)
 	r.GET("/qubit-info", quantumHandler.GetQubitInfo)

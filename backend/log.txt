@@ -88,3 +88,13 @@
 [2025-08-19 15:46:20] Response: 200 | Duration: 1.147024ms
 [2025-08-19 15:50:09] Request: GET /quantum-computer | Data: 
 [2025-08-19 15:50:09] Response: 404 | Duration: 11.55212ms
+[2025-08-22 10:14:02] Request: GET / | Data: 
+[2025-08-22 10:14:02] Response: 200 | Duration: 1.10151ms
+[2025-08-22 10:14:02] Request: GET /favicon.ico | Data: 
+[2025-08-22 10:14:02] Response: 404 | Duration: 532.795µs
+[2025-08-22 10:16:24] Request: GET /quantum-computer | Data: 
+[2025-08-22 10:16:24] Response: 404 | Duration: 1.340376ms
+[2025-08-22 10:17:00] Request: GET /circuit | Data: 
+[2025-08-22 10:17:00] Response: 404 | Duration: 1.695152ms
+[2025-08-22 10:27:18] Request: GET /health | Data: 
+[2025-08-22 10:27:18] Response: 404 | Duration: 2.997192ms
