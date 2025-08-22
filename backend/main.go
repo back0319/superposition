@@ -6,8 +6,14 @@ import (
 	"my-project-backend/router"
 )
 
+// 빌드 시 주입되는 변수들
+var (
+	BuildTime string = "development"
+	GitHash   string = "local"
+)
+
 func main() {
-	log.Println("Starting Go backend server...")
+	log.Printf("Starting Go backend server... (Build: %s, Git: %s)", BuildTime, GitHash)
 
 	// Firebase 초기화
 	log.Println("Initializing Firebase...")
@@ -15,7 +21,7 @@ func main() {
 
 	// 라우터 설정
 	log.Println("Setting up routes...")
-	r := router.SetupRouter()
+	r := router.SetupRouter(BuildTime, GitHash)
 
 	// 서버 시작
 	log.Println("Server starting on port 8080...")

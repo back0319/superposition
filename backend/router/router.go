@@ -7,12 +7,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SetupRouter() *gin.Engine {
+func SetupRouter(buildTime, gitHash string) *gin.Engine {
 	r := gin.Default()
 
-	// 미들웨어 설정
-	r.Use(middleware.CORSMiddleware())
-	r.Use(middleware.LoggingMiddleware())
+	// 미들웨어 설정 (순서 중요)
+	r.Use(middleware.RequestIDMiddleware()) // 요청 ID 생성
+	r.Use(middleware.RecoveryMiddleware())  // Panic 복구
+	r.Use(middleware.CORSMiddleware())      // CORS 설정
+	r.Use(middleware.LoggingMiddleware())   // 로깅 (가장 마지막)
 
 	// 핸들러 초기화
 	userHandler := handlers.NewUserHandler()
@@ -38,6 +40,29 @@ func SetupRouter() *gin.Engine {
 
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{"message": "pong"})
+	})
+
+	// 헬스체크 엔드포인트들
+	r.GET("/healthz", func(c *gin.Context) {
+		c.JSON(200, gin.H{"status": "ok"})
+	})
+
+	r.GET("/readyz", func(c *gin.Context) {
+		// Firebase 연결 확인 (실제로는 Firestore ping 등)
+		c.JSON(200, gin.H{
+			"status":    "ready",
+			"firebase":  "connected",
+			"timestamp": c.Request.Header.Get("Date"),
+		})
+	})
+
+	r.GET("/version", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"service":   "superposition-backend",
+			"version":   "1.0.0",
+			"buildTime": buildTime,
+			"gitHash":   gitHash,
+		})
 	})
 
 	// AWS App Runner용 헬스체크 엔드포인트

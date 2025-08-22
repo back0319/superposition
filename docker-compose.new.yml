@@ -1,0 +1,15 @@
+services:
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.simple
+      args:
+        VERSION: dev
+        COMMIT: dev
+        BUILDTIME: "local"
+    environment:
+      - PORT=8080
+      - CORS_ALLOW_ORIGIN=http://localhost:3000
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/config/quantumbe-21866-firebase-adminsdk-fbsvc-ae3a530754.json
+    ports:
+      - "8080:8080"

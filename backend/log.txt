@@ -98,3 +98,7 @@
 [2025-08-22 10:17:00] Response: 404 | Duration: 1.695152ms
 [2025-08-22 10:27:18] Request: GET /health | Data: 
 [2025-08-22 10:27:18] Response: 404 | Duration: 2.997192ms
+[2025-08-22 10:28:27] Request: GET /health | Data: 
+[2025-08-22 10:28:27] Response: 200 | Duration: 1.715001ms
+[2025-08-22 10:28:36] Request: GET /ping | Data: 
+[2025-08-22 10:28:36] Response: 200 | Duration: 1.03675ms
