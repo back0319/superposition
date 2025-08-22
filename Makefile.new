@@ -1,0 +1,35 @@
+GIT_SHA := $(shell git rev-parse --short HEAD 2>/dev/null || echo dev)
+BUILD_TIME := $(shell date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+.PHONY: up down logs rebuild test ver clean
+
+up:
+	docker compose -f docker-compose.new.yml up --build -d
+
+down:
+	docker compose -f docker-compose.new.yml down
+
+logs:
+	docker compose -f docker-compose.new.yml logs -f api
+
+rebuild:
+	GIT_SHA=$(GIT_SHA) BUILD_TIME=$(BUILD_TIME) docker compose -f docker-compose.new.yml build
+
+test:
+	cd backend && go test ./...
+
+ver:
+	curl -s localhost:8080/version | jq .
+
+clean:
+	docker compose -f docker-compose.new.yml down -v
+	docker system prune -f
+
+status:
+	docker compose -f docker-compose.new.yml ps
+
+health:
+	@echo "=== Health Checks ==="
+	@curl -s http://localhost:8080/healthz | jq . || echo "healthz failed"
+	@curl -s http://localhost:8080/readyz | jq . || echo "readyz failed"  
+	@curl -s http://localhost:8080/version | jq . || echo "version failed"

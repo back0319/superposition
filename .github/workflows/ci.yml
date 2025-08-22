@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+      - name: Download deps
+        run: cd backend && go mod download
+      - name: Test
+        run: cd backend && go test ./...
+      - name: Docker build (no push)
+        run: |
+          docker build \
+            --build-arg VERSION=ci \
+            --build-arg COMMIT=${{ github.sha }} \
+            --build-arg BUILDTIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
+            -f backend/Dockerfile.new \
+            -t superposition-api:ci \
+            ./backend
