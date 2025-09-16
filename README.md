@@ -1,13 +1,52 @@
-# Superposition - 양자 컴퓨팅 시뮬레이션 플랫폼
+# 🚀 Superposition - Quantum Computing Visualization
 
-## 📋 프로젝트 개요
+Superposition은 양자 컴퓨팅의 기본 개념을 시각적으로 학습할 수 있는 웹 애플리케이션입니다. React 기반 프론트엔드와 Go 기반 백엔드로 구성되어 있으며, Docker를 통해 쉽게 배포할 수 있습니다.
 
-Superposition은 양자 컴퓨팅 개념을 학습하고 시뮬레이션할 수 있는 웹 기반 플랫폼입니다. Go 기반의 백엔드와 React 기반의 프론트엔드로 구성되어 있으며, Docker를 통한 컨테이너화된 개발 환경을 제공합니다.
+## ✨ 주요 기능
+
+- 🎯 **양자 상태 시뮬레이션**: Bloch Sphere를 통한 양자 상태 시각화
+- 📚 **인터랙티브 학습**: 단계별 양자 컴퓨팅 개념 학습
+- 🔬 **실시간 계산**: 양자 게이트 연산 및 상태 변화 시뮬레이션
+- 📱 **반응형 디자인**: 데스크톱 및 모바일 환경 지원
 
 ## 🏗️ 아키텍처
 
 ```
-superposition/
+Frontend (React) ← → Backend (Go/Gin) ← → Firebase (인증)
+     ↓                    ↓
+   Port 80              Port 8080
+```
+
+## 🚀 빠른 시작
+
+### 로컬 개발 환경
+
+```bash
+# 프로젝트 클론
+git clone https://github.com/back0319/superposition.git
+cd superposition
+
+# Docker로 실행
+docker-compose up --build -d
+
+# 접속
+# Frontend: http://localhost
+# Backend:  http://localhost:8080
+```
+
+### EC2 배포 (1분 설치)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/back0319/superposition/main/install-ec2.sh | bash
+```
+
+## 📚 문서
+
+| 문서 | 설명 |
+|------|------|
+| [QUICK_START.md](QUICK_START.md) | 빠른 시작 가이드 |
+| [EC2_DEPLOYMENT_GUIDE.md](EC2_DEPLOYMENT_GUIDE.md) | 상세 EC2 배포 가이드 |
+| [TROUBLESHOOTING.md](TROUBLESHOOTING.md) | 문제 해결 가이드 |
 ├── backend/           # Go + Gin 백엔드 서버
 ├── frontend/          # React + TypeScript 프론트엔드
 ├── backend_flask_backup/  # 기존 Python Flask 백엔드 (백업)
