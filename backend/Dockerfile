@@ -16,9 +16,7 @@ ENV CGO_ENABLED=0
 # 빌드 시 버전 정보 주입
 ARG BUILD_TIME
 ARG GIT_HASH
-RUN --mount=type=cache,target=/root/.cache/go-build \
-	--mount=type=cache,target=/go/pkg/mod \
-	go mod tidy && \
+RUN go mod tidy && \
 	go build -trimpath \
 	-ldflags="-s -w -X main.BuildTime=${BUILD_TIME:-unknown} -X main.GitHash=${GIT_HASH:-unknown}" \
 	-o /out/main ./main.go
