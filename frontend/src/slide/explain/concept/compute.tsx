@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SlideMenu from '../../slide';
-import Qubit from '../../object/qubit';
+import Qubit from '../../object/qubit/qubit';
+import Superposition from '../../object/superposition/superposition';
+import EntanglementVisualization from '../../object/entanglement/entanglement';
+import { QuizComponent, getQuizData } from '../quiz';
 
 function Compute() {
   const navigate = useNavigate();
@@ -11,6 +14,10 @@ function Compute() {
   const [contentSlideDown, setContentSlideDown] = useState(false);
   const [clickedStrongElement, setClickedStrongElement] = useState<HTMLElement | null>(null);
   const [showQubitVisualization, setShowQubitVisualization] = useState(false);
+  const [showSuperpositionVisualization, setShowSuperpositionVisualization] = useState(false);
+  const [showEntanglementVisualization, setShowEntanglementVisualization] = useState(false);
+  const [showQuiz, setShowQuiz] = useState(false);
+  const [quizCompleted, setQuizCompleted] = useState(false);
 
   // strong 태그 클릭 핸들러 - strong 태그가 중앙 상단으로 이동하며 콘텐츠 사라짐
   const handleStrongClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -69,6 +76,18 @@ function Compute() {
             setShowQubitVisualization(true);
           }, 500);
         }
+
+        if (target.textContent?.includes('중첩')) {
+          setTimeout(() => {
+            setShowSuperpositionVisualization(true);
+          }, 500);
+        }
+
+        if (target.textContent?.includes('얽힘')) {
+          setTimeout(() => {
+            setShowEntanglementVisualization(true);
+          }, 500);
+        }
         
       }, 300);
     } else {
@@ -89,6 +108,10 @@ function Compute() {
       setIsMenuHidden(false);
       setClickedStrongElement(null);
       setShowQubitVisualization(false);
+      setShowSuperpositionVisualization(false);
+      setShowEntanglementVisualization(false);
+      setShowQuiz(false);
+      setQuizCompleted(false);
     }
   };
 
@@ -112,6 +135,12 @@ function Compute() {
           
           // 현재 섹션은 항상 0으로 설정 (첫 번째 소단원)
           setCurrentSection(0);
+          
+          // 스크롤이 끝에 도달했을 때 퀴즈 표시 (95% 이상 스크롤)
+          const scrollPercentage = (scrollTop / maxScrollTop) * 100;
+          if (scrollPercentage >= 95 && !showQuiz && !contentSlideDown) {
+            setShowQuiz(true);
+          }
         }
         
       }
@@ -157,6 +186,16 @@ function Compute() {
     }
   };
 
+  // 퀴즈 완료 핸들러
+  const handleQuizComplete = () => {
+    setQuizCompleted(true);
+  };
+
+  // 다음 섹션으로 이동 핸들러
+  const handleNextSection = () => {
+    navigate('/compute/difference'); // 다음 소단원으로 이동
+  };
+
   return (
     <div className="slide-container">
       <SlideMenu 
@@ -184,6 +223,10 @@ function Compute() {
           setIsMenuHidden(false);
           setClickedStrongElement(null);
           setShowQubitVisualization(false);
+          setShowSuperpositionVisualization(false);
+          setShowEntanglementVisualization(false);
+          setShowQuiz(false);
+          setQuizCompleted(false);
         }}>
           ✕
         </div>
@@ -275,6 +318,26 @@ function Compute() {
       
       {/* 큐비트 시각화 컴포넌트 */}
       <Qubit isVisible={showQubitVisualization} />
+      <Superposition isVisible={showSuperpositionVisualization} />
+      <EntanglementVisualization 
+        isVisible={showEntanglementVisualization} 
+        onClose={() => setShowEntanglementVisualization(false)}
+      />
+      
+      {/* 퀴즈 컴포넌트 */}
+      {showQuiz && (
+        <QuizComponent
+          selectedChapter={0}
+          currentSectionIndex={0}
+          currentQuizData={getQuizData(0, 0)}
+          currentChapterData={{
+            title: "양자 컴퓨터 - 정의",
+            details: ["큐비트의 개념", "중첩과 얽힘", "양자역학의 기본 원리"]
+          }}
+          onQuizComplete={handleQuizComplete}
+          onNextSection={handleNextSection}
+        />
+      )}
     </div>
   );
 }
